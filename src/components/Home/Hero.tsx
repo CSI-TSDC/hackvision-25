@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
     <>
-    <section className="h-full w-full relative">
+    <section className="min-h-dvh w-full relative">
       <img
         src="/hero/frame.png"
         alt=""
