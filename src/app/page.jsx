@@ -11,7 +11,7 @@ export default function Home() {
       <Hero></Hero>
       <About className="z-5"></About>
       <Prizes className="z-4"></Prizes>
-      <Tracks></Tracks>
+      {/* <Tracks></Tracks> */}
     </main>
   );
 }
