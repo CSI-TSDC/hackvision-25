@@ -83,3 +83,86 @@ body {
   50%  { border-left-color: #9fb2ff; }
   100% { border-left-color: #3b5cff; }
 }
+
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(#7aa2ff 1px, transparent 1.5px) 10% 20% / 80px 80px,
+    radial-gradient(#7aa2ff 1.5px, transparent 2px) 40% 60% / 120px 120px,
+    radial-gradient(#7aa2ff 1px, transparent 1.5px) 70% 30% / 100px 100px,
+    radial-gradient(#7aa2ff 2px, transparent 2.5px) 85% 75% / 140px 140px;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.tab-clip {
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+}
+
+.metal-bg {
+  background: linear-gradient(
+    to right, 
+    #959595 0%, 
+    #d7d7d7 25%, 
+    #e2e2e2 50%, 
+    #d7d7d7 75%, 
+    #959595 100%
+  );
+  
+}
+
+.daybg {
+  background: url('/assets/home/newbg.png') no-repeat center center; 
+  -webkit-background-size: cover; 
+  -moz-background-size: cover; 
+  -o-background-size: cover; 
+  background-size: cover;
+}
+
+.grassbg {
+  background: url('/assets/home/tracks.png') no-repeat center center; 
+  -webkit-background-size: cover; 
+  -moz-background-size: cover; 
+  -o-background-size: cover; 
+  background-size: cover;
+}
+
+.bstroke {
+  text-shadow: 
+    -1.5px -1.5px 0 black,
+     1.5px -1.5px 0 black,
+    -1.5px  1.5px 0 black,
+     1.5px  1.5px 0 black;
+}
+
+.bstrokeds {
+  text-shadow: 
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black,
+     4px 1px 0 rgb(0, 0, 0, .75);
+}
+
+.bstroke3t {
+  position: relative;
+  text-shadow: 
+    -3px -3px 0 black,
+     3px -3px 0 black,
+    -3px  3px 0 black,
+     3px  3px 0 black,
+     6px 6px 0 rgba(75,0,30,0.75);
+}
+
+.nav-cut {
+  clip-path: polygon(0 0, 100% 0, 88% 50%, 12% 50%);
+}
