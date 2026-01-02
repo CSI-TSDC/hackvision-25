@@ -7,7 +7,7 @@ export default function Hero() {
       <img
         src="/hero/frame.png"
         alt="Frame"
-        className="w-full h-full absolute top-0 z-2"
+        className="w-full h-full absolute top-0 z-2 "
       />
       <StarCanvas />
       <img src="/hero/pixel_layer.png" alt="Pixel Layer" className="w-full h-[52.5vh] absolute bottom-0 z-3" />

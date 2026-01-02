@@ -1,5 +1,8 @@
 import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
 export default function About({ className = "" }) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -50,7 +53,7 @@ export default function About({ className = "" }) {
       
           const onEnter = () => {
             hovered = true;
-            target.fill(1);
+            target.fill(1); // force rebuild
           };
       
           const onLeave = () => {
@@ -64,11 +67,15 @@ export default function About({ className = "" }) {
             ctx.clearRect(0, 0, rect.width, rect.height);
       
             for (let i = 0; i < alpha.length; i++) {
+              // ONLY dissolve when not hovered
               if (!hovered && Math.random() < 0.0005) {
                 target[i] = target[i] === 1 ? 0 : 1;
               }
       
-              alpha[i] += (target[i] - alpha[i]) * 0.05;
+              // FAST ease on hover, slow otherwise
+              const ease = hovered ? 0.25 : 0.05;
+              alpha[i] += (target[i] - alpha[i]) * ease;
+      
               if (alpha[i] < 0.01) continue;
       
               const bx = (i % cols) * block;
@@ -100,15 +107,66 @@ export default function About({ className = "" }) {
           };
         };
       }, []);
+      
+      useEffect(() => {
+        const lines = document.querySelectorAll<HTMLSpanElement>(
+          ".anim_text > span > span"
+        );
+      
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      
+        lines.forEach((line, lineIndex) => {
+          const original = line.innerText;
+          line.innerText = "";
+      
+          ScrollTrigger.create({
+            trigger: line,
+            start: "top 80%",
+            once: true,
+            onEnter: () => {
+              let charIndex = 0;
+      
+              gsap.delayedCall(lineIndex * 0.25, () => {
+                const revealNext = () => {
+                  if (charIndex >= original.length) return;
+      
+                  let scrambleCount = 0;
+      
+                  const scramble = setInterval(() => {
+                    line.innerText =
+                      original.slice(0, charIndex) +
+                      (scrambleCount < 1
+                        ? chars[Math.floor(Math.random() * chars.length)]
+                        : original[charIndex]);
+      
+                    scrambleCount++;
+      
+                    if (scrambleCount > 1) {
+                      clearInterval(scramble);
+                      charIndex++;
+                      revealNext();
+                    }
+                  }, 25);
+                };
+      
+                revealNext();
+              });
+            },
+          });
+        });
+      
+        return () => ScrollTrigger.getAll().forEach(t => t.kill());
+      }, []);
+
     return(
         <section id="about" className={`relative w-full h-max min-h-screen px-[8vw] py-20 bg-[#3054e5] font-quinque text-[#f8f8f8] ${className}`}>
             <div className="relative w-full h-max flex flex-col">
-                <div className="w-full flex justify-center text-[1.6vh] mb-8">
+                <div className="anim_text w-full flex justify-center text-[1.6vh] mb-8">
                     <span>
                         <span>hosted by</span>
                     </span>
                 </div>
-                <div className="flex flex-col items-center justify-center font-pixel-emulator text-[3.1vw] leading-snug mb-16">
+                <div className="anim_text flex flex-col items-center justify-center font-pixel-emulator text-[3.1vw] leading-snug mb-16">
                     <span>
                         <span className="float-left">CSI Committee of</span>
                     </span>
@@ -116,7 +174,7 @@ export default function About({ className = "" }) {
                         <span className="float-left">Thakur Shyamnarayan Degree College</span>
                     </span>
                 </div>
-                <div className="flex text-center flex-col w-full justify-center items-center text-[2.6vh] font-nikea tracking-wide mb-20">
+                <div id="anim_text" className="anim_text flex text-center flex-col w-full justify-center items-center text-[2.6vh] font-nikea tracking-wide mb-20">
                     <span>
                         <span>We invite fellow hackers from around the </span>
                     </span>
