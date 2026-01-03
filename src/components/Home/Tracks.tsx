@@ -6,11 +6,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const IMAGES = [
+  '/assets/home/Tracks/webdev.png',
   '/assets/home/Tracks/aiml.png',
+  '/assets/home/Tracks/cybersec.png',
   '/assets/home/Tracks/blockchain.png',
   '/assets/home/Tracks/campus.png',
-  '/assets/home/Tracks/cybersec.png',
-  '/assets/home/Tracks/webdev.png',
 ];
 
 export default function Tracks() {
@@ -26,20 +26,27 @@ export default function Tracks() {
     const list = listRef.current;
     const canvasWrap = canvasWrapRef.current;
     if (!canvas || !section || !list || !canvasWrap) return;
-
+  
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    const SIZE = 512;
+  
+    const getCanvasSize = () => {
+      const vw = window.innerWidth;
+      if (vw < 640) return 256;
+      if (vw < 1024) return 384;
+      return 512;
+    };
+  
+    let SIZE = getCanvasSize();
     canvas.width = SIZE;
     canvas.height = SIZE;
-
+  
     imagesRef.current = IMAGES.map(src => {
       const img = new Image();
       img.src = src;
       return img;
     });
-
+  
     let loaded = 0;
     imagesRef.current.forEach(img => {
       img.onload = () => {
@@ -47,7 +54,7 @@ export default function Tracks() {
         if (loaded === IMAGES.length) setup();
       };
     });
-
+  
     const drawImageContain = (
       img: HTMLImageElement,
       x: number,
@@ -60,84 +67,140 @@ export default function Tracks() {
       const nh = img.height * r;
       ctx.drawImage(img, x + (w - nw) / 2, y + (h - nh) / 2, nw, nh);
     };
-
-    const draw = (progress: number) => {
-      const imgSize = SIZE * 0.8;
-      const total = (IMAGES.length - 1) * imgSize;
-
-      const scrolled = progress * total;
-      const index = Math.floor(scrolled / imgSize);
-      const local = (scrolled % imgSize) / imgSize;
-
-      const imgA = imagesRef.current[index];
-      const imgB = imagesRef.current[index + 1] || imgA;
-
-      const offset = (SIZE - imgSize) / 2;
-      const revealY = offset + imgSize * (1 - local);
-
+  
+    const draw = (progress: number, listItems: HTMLLIElement[]) => {
       ctx.clearRect(0, 0, SIZE, SIZE);
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(offset, offset, imgSize, revealY - offset);
-      ctx.clip();
-      drawImageContain(imgA, offset, offset, imgSize, imgSize);
-      ctx.restore();
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(offset, revealY, imgSize, offset + imgSize - revealY);
-      ctx.clip();
-      drawImageContain(imgB, offset, offset, imgSize, imgSize);
-      ctx.restore();
-    };
-
-    const setup = () => {
+      if (progress <= 0) return;
+    
       const imgSize = SIZE * 0.8;
-      const scrollLength = imgSize * (IMAGES.length - 1);
-
-      gsap.set(section, {
-        height: window.innerHeight + scrollLength,
+      const offset = (SIZE - imgSize) / 2;
+    
+      const segmentDuration = 1 / listItems.length;
+      const raw = progress / segmentDuration;
+    
+      const liIndex = Math.min(Math.floor(raw), listItems.length - 1);
+      const t = raw - liIndex;
+    
+      // First segment starts blank
+      if (liIndex === 0 && t <= 0) return;
+    
+      const newImg = imagesRef.current[Math.min(liIndex, IMAGES.length - 1)];
+      const prevImg =
+        liIndex > 0
+          ? imagesRef.current[Math.min(liIndex - 1, IMAGES.length - 1)]
+          : null;
+    
+      // wipe line moves bottom -> top
+      const wipeY = offset + imgSize * (1 - t);
+    
+      // TOP = previous image
+      if (prevImg?.complete) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(offset, offset, imgSize, wipeY - offset);
+        ctx.clip();
+        drawImageContain(prevImg, offset, offset, imgSize, imgSize);
+        ctx.restore();
+      }
+    
+      // BOTTOM = new image
+      if (newImg?.complete) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(offset, wipeY, imgSize, offset + imgSize - wipeY);
+        ctx.clip();
+        drawImageContain(newImg, offset, offset, imgSize, imgSize);
+        ctx.restore();
+      }
+    };
+  
+    let scrollTriggerInstance: ScrollTrigger | null = null;
+    let animationTimeline: gsap.core.Timeline | null = null;
+  
+    const setup = () => {
+      SIZE = getCanvasSize();
+      canvas.width = SIZE;
+      canvas.height = SIZE;
+  
+      scrollTriggerInstance?.kill();
+      animationTimeline?.kill();
+  
+      const listItems = Array.from(
+        list.querySelectorAll('li')
+      ) as HTMLLIElement[];
+  
+      const vh = window.innerHeight;
+      const transforms: number[] = [];
+      let totalHeight = 0;
+  
+      listItems.forEach((li, i) => {
+        const h = li.getBoundingClientRect().height;
+        const y = vh - h * (i + 1);
+        transforms.push(y);
+        totalHeight += y;
       });
-
-      // Calculate where the list will be when trigger starts (at viewport top)
-      // Position canvas at viewport center relative to that point
-      const listRect = list.getBoundingClientRect();
-      const sectionRect = section.getBoundingClientRect();
-      const listTopOffset = listRect.top - sectionRect.top;
-      
-      // Position canvas absolutely so it's at viewport center when list reaches top
+  
+      listItems.forEach((li, i) => {
+        gsap.set(li, { y: transforms[i] });
+      });
+  
+      animationTimeline = gsap.timeline();
+      const seg = 1 / listItems.length;
+  
+      listItems.forEach((li, i) => {
+        animationTimeline!.to(
+          li,
+          { y: 0, duration: seg, ease: 'none' },
+          i * seg
+        );
+      });
+  
       gsap.set(canvasWrap, {
-        position: 'absolute',
+        position: 'fixed',
         left: '50%',
-        top: listTopOffset + window.innerHeight / 2,
+        top: '50%',
         xPercent: -50,
         yPercent: -50,
+        zIndex: 10,
       });
-
-      ScrollTrigger.create({
+  
+      scrollTriggerInstance = ScrollTrigger.create({
         trigger: list,
         start: 'top top',
-        end: `+=${scrollLength}`,
-        pin: canvasWrap,
-        pinSpacing: false,
+        end: `+=${totalHeight}`,
+        pin: list,
         scrub: true,
-        onUpdate: self => draw(self.progress),
+        animation: animationTimeline,
+        onUpdate: self => draw(self.progress, listItems),
       });
-
-      draw(0);
+  
+      draw(0, listItems);
     };
-
-    return () => ScrollTrigger.killAll();
+  
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+        setup();
+      }, 150);
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      ScrollTrigger.killAll();
+    };
   }, []);
 
   return (
     <section
       id="tracks"
-      className="relative w-full bg-[#5B2EFF] text-white pt-30 px-[5vw]"
+      className="relative w-full bg-[#5B2EFF] text-white pt-30 pb-50 px-[5vw]"
     >
       <div className="w-full flex justify-center mb-[4vh]">
-        <h2 className="text-[8vw] font-pixalic tracking-wider font-bold select-none">
+        <h2 className="text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none">
           Tracks
         </h2>
       </div>
@@ -153,7 +216,7 @@ export default function Tracks() {
             ref={canvasWrapRef}
             className="pointer-events-none z-10"
           >
-            <div className="w-[20vw] aspect-square">
+            <div className="w-[30vw] sm:w-[25vw] md:w-[20vw] aspect-square">
               <canvas ref={canvasRef} className="w-full h-full block" />
             </div>
           </div>
@@ -166,7 +229,7 @@ export default function Tracks() {
           ].map((label, i) => (
             <li
               key={label}
-              className={`w-full flex text-[4vw] font-pixalic tracking-widest border-b-3 font-bold ${
+              className={`w-full flex text-[5vw] sm:text-[4vw] font-pixalic tracking-widest border-b-3 font-bold ${
                 i % 2 === 0 ? 'justify-start' : 'justify-end'
               }`}
             >
