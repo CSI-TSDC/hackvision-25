@@ -118,7 +118,7 @@ export default function StarCanvas() {
       for (const s of stars) {
         const x = centerX + (s.x / s.z) * canvas.width;
         const y = centerY + (s.y / s.z) * canvas.height;
-        const size = s.r * (1.3 - s.z / canvas.width);
+        const size = Math.max(0.1, s.r * (1.3 - s.z / canvas.width));
 
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);

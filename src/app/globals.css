@@ -146,3 +146,48 @@ body {
 .header-top.scrolled {
   opacity: 1;
 }
+
+.grid-bg {
+  box-sizing: border-box;
+  position: absolute;
+  margin: 0px;
+  inset: 0px;
+  min-width: 0px;
+  height: 100%;
+  background-size: 65px 65px;
+  background-image: linear-gradient(to right, #595959 1px, transparent 1px), linear-gradient(#000000 1px, transparent 1px);
+  background-position: center top;
+  mask-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.5) 20%, white 100%);
+  opacity: 0.18;
+  z-index: 0;
+}
+
+.pixel-box-border {
+  position: relative;
+  background: #4a4a4a;
+  border: 2px solid white;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.pixel-box-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid white;
+  background-image: 
+    /* Top border pattern */
+    repeating-linear-gradient(90deg, white 0px, white 4px, transparent 4px, transparent 8px),
+    /* Bottom border pattern */
+    repeating-linear-gradient(90deg, white 0px, white 4px, transparent 4px, transparent 8px),
+    /* Left border pattern */
+    repeating-linear-gradient(0deg, white 0px, white 4px, transparent 4px, transparent 8px),
+    /* Right border pattern */
+    repeating-linear-gradient(0deg, white 0px, white 4px, transparent 4px, transparent 8px);
+  background-size: 100% 2px, 100% 2px, 2px 100%, 2px 100%;
+  background-position: top, bottom, left, right;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  pointer-events: none;
+  z-index: 1;
+}

@@ -46,7 +46,7 @@ export default function Navbar({ className="" }) {
           
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden flex items-center justify-center w-10 h-10 text-white z-[101] relative"
+            className="md:hidden flex items-center justify-center w-10 h-10 text-white z-[101] relative mr-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -62,7 +62,7 @@ export default function Navbar({ className="" }) {
         
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className={`md:hidden ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[calc(3.5vh+9vh+15px)]' : 'top-full'} left-0 w-full shadow-lg z-[99]`} style={{ backgroundColor: 'rgba(71, 85, 105, 0.95)' }}>
+          <div className={`md:hidden ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[calc(3.5vh+9vh+15px)]' : 'top-full'} left-0 right-0 w-full shadow-lg z-[99]`} style={{ backgroundColor: 'rgba(71, 85, 105, 0.95)' }}>
             <div className="flex flex-col px-[4vw] py-4 space-y-4">
               <a href="" className="hover:text-[#FF8C00] transition-colors duration-200 cursor-pointer text-white" onClick={() => setIsMobileMenuOpen(false)}>
                 <span>About</span>

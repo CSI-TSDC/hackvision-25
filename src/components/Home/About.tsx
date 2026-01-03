@@ -1,10 +1,23 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 export default function About({ className = "" }) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const [iconIndices, setIconIndices] = useState<[number, number, number]>([0, 1, 2]);
+    
+    // Array of 5 images
+    const iconImages = [
+        '/assets/home/About/icons/img1.png',
+        '/assets/home/About/icons/img2.png',
+        '/assets/home/About/icons/img3.png',
+        '/assets/home/About/icons/img4.png',
+        '/assets/home/About/icons/img5.png',
+        '/assets/home/About/icons/img6.png',
+        '/assets/home/About/icons/img7.png',
+        '/assets/home/About/icons/img8.png',
+    ];
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -158,6 +171,44 @@ export default function About({ className = "" }) {
         return () => ScrollTrigger.getAll().forEach(t => t.kill());
       }, []);
 
+    // Cycle through icons every 1 second, ensuring all 3 show different images
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIconIndices((prev) => {
+                // Get available indices (0-4)
+                const available = [0, 1, 2, 3, 4, 5, 6, 7];
+                
+                // Function to get next unique indices
+                const getNextIndices = (): [number, number, number] => {
+                    const indices: number[] = [];
+                    const used = new Set<number>();
+                    
+                    // First index: random from available
+                    let first = available[Math.floor(Math.random() * available.length)];
+                    indices.push(first);
+                    used.add(first);
+                    
+                    // Second index: random from remaining
+                    const remaining1 = available.filter(i => !used.has(i));
+                    let second = remaining1[Math.floor(Math.random() * remaining1.length)];
+                    indices.push(second);
+                    used.add(second);
+                    
+                    // Third index: random from remaining
+                    const remaining2 = available.filter(i => !used.has(i));
+                    let third = remaining2[Math.floor(Math.random() * remaining2.length)];
+                    indices.push(third);
+                    
+                    return [indices[0], indices[1], indices[2]];
+                };
+                
+                return getNextIndices();
+            });
+        }, 800); // Change every 1 second
+
+        return () => clearInterval(interval);
+    }, []);
+
     return(
         <section id="about" className={`relative w-full h-max min-h-screen px-[8vw] py-20 bg-[#3054e5] font-quinque text-[#f8f8f8] ${className}`}>
             <div className="relative w-full h-max flex flex-col">
@@ -194,7 +245,7 @@ export default function About({ className = "" }) {
                             <span className="text-[1.9vh] font-pixel-emulator leading-tight mb-4 bg-[#8ac926] text-black w-max p-3 rounded-3xl">
                                 <span>Location:</span>
                             </span>
-                            <span className="text-[1.3vh] md:text-[1.2vw]">
+                            <span className="text-[1.6vh] md:text-[1.2vw]">
                                 <span>Thakur Shyamnarayan Degree College, 90 Feet Rd, Kandivali, Thakur Complex, Kandivali East, Mumbai, Maharashtra 400101</span>
                             </span>
                         </div>
@@ -202,32 +253,32 @@ export default function About({ className = "" }) {
                             <span className="text-[1.9vh] font-pixel-emulator leading-tight mb-4 bg-[#8ac926] text-black w-max p-3 rounded-3xl">
                                 <span>Date & Time:</span>
                             </span>
-                            <span className="text-[1.3vh] md:text-[1.2vw]">
+                            <span className="text-[1.6vh] md:text-[1.2vw]">
                                 <span>21st January, 2025</span>
                             </span>
-                            <span className="text-[1.3vh] md:text-[1.2vw]">
+                            <span className="text-[1.6vh] md:text-[1.2vw]">
                                 <span>11:00 AM Onwards</span>
                             </span>
                         </div>
                     </div>
                     <div className="relative h-auto hidden md:flex flex-col justify-around space-y-3">
-                        <span className="block relative w-18 h-auto">
-                            <img className="w-full h-full" src="/assets/home/About/asterisk.png" alt="Pixelated asterisk" />
+                        <span className="block relative w-14 h-auto">
+                            <img className="w-full h-full" src={iconImages[iconIndices[0]]} alt="Icon" />
                         </span>
-                        <span className="block relative w-18 h-auto">
-                            <img className="w-full h-full" src="/assets/home/About/asterisk.png" alt="Pixelated asterisk" />
+                        <span className="block relative w-14 h-auto">
+                            <img className="w-full h-full" src={iconImages[iconIndices[1]]} alt="Icon" />
                         </span>
-                        <span className="block relative w-18 h-auto">
-                            <img className="w-full h-full" src="/assets/home/About/asterisk.png" alt="Pixelated asterisk" />
+                        <span className="block relative w-14 h-auto">
+                            <img className="w-full h-full" src={iconImages[iconIndices[2]]} alt="Icon" />
                         </span>
                     </div>
-                    <div className="w-full md:w-1/3 min-w-[350px] text-white bg-[#FF8C00] px-5 py-6 rounded-3xl h-auto flex flex-col justify-between">
+                    <div className="w-full md:w-1/3 min-w-[350px] text-white bg-[#FF8C00] px-5 py-6 rounded-3xl h-auto md:h-auto max-h-[60vh] md:max-h-none flex flex-col justify-between">
                         <div className="w-full h-max flex">
                             <span className="block h-max text-[1.9vh] font-pixel-emulator leading-tight mb-4 text-white bg-black w-max p-3 rounded-3xl">
                                 <span>PRIZE POOL</span>
                             </span>
                         </div>
-                        <div className="flex-1 flex justify-center items-center">
+                        <div className="flex-1 flex justify-center items-center max-h-[40vh] md:max-h-none">
                             <canvas
                                 ref={canvasRef}
                                 className="w-full h-full"
