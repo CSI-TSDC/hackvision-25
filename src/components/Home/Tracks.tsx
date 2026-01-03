@@ -112,6 +112,16 @@ export default function Tracks() {
         drawImageContain(newImg, offset, offset, imgSize, imgSize);
         ctx.restore();
       }
+      if (t > 0 && t < 1) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(0, wipeY);
+        ctx.lineTo(SIZE, wipeY);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#fff';
+        ctx.stroke();
+        ctx.restore();
+      }
     };
   
     let scrollTriggerInstance: ScrollTrigger | null = null;

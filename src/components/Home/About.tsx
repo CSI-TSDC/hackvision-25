@@ -155,7 +155,7 @@ export default function About({ className = "" }) {
                 
                 return getNextIndices();
             });
-        }, 800); // Change every 1 second
+        }, 800);
 
         return () => clearInterval(interval);
     }, []);
