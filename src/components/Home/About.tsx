@@ -121,55 +121,6 @@ export default function About({ className = "" }) {
         };
       }, []);
       
-      useEffect(() => {
-        const lines = document.querySelectorAll<HTMLSpanElement>(
-          ".anim_text > span > span"
-        );
-      
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      
-        lines.forEach((line, lineIndex) => {
-          const original = line.innerText;
-          line.innerText = "";
-      
-          ScrollTrigger.create({
-            trigger: line,
-            start: "top 80%",
-            once: true,
-            onEnter: () => {
-              let charIndex = 0;
-      
-              gsap.delayedCall(lineIndex * 0.25, () => {
-                const revealNext = () => {
-                  if (charIndex >= original.length) return;
-      
-                  let scrambleCount = 0;
-      
-                  const scramble = setInterval(() => {
-                    line.innerText =
-                      original.slice(0, charIndex) +
-                      (scrambleCount < 1
-                        ? chars[Math.floor(Math.random() * chars.length)]
-                        : original[charIndex]);
-      
-                    scrambleCount++;
-      
-                    if (scrambleCount > 1) {
-                      clearInterval(scramble);
-                      charIndex++;
-                      revealNext();
-                    }
-                  }, 25);
-                };
-      
-                revealNext();
-              });
-            },
-          });
-        });
-      
-        return () => ScrollTrigger.getAll().forEach(t => t.kill());
-      }, []);
 
     // Cycle through icons every 1 second, ensuring all 3 show different images
     useEffect(() => {
