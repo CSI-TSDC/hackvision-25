@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import Dither from '@/components/ui/Dither';
 gsap.registerPlugin(ScrollTrigger);
 
 const IMAGES = [
@@ -19,7 +19,8 @@ export default function Tracks() {
   const canvasWrapRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
-
+  const ditherRef = useRef<HTMLDivElement | null>(null);
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     const section = sectionRef.current;
@@ -209,11 +210,18 @@ export default function Tracks() {
       id="tracks"
       className="relative w-full bg-[#5B2EFF] text-white pt-30 pb-50 px-[5vw]"
     >
-      <div className="w-full flex justify-center mb-[4vh]">
+      <div ref={ditherRef} className='absolute top-0 left-0 w-full h-screen opacity-60'>
+        <Dither
+          waveColor={[0.5,0.5,0.8]}
+          mouseRadius={0.1}
+        />
+      </div>
+      <div className="relative w-full flex justify-center mb-[4vh]">
         <h2 className="text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none">
           Tracks
         </h2>
       </div>
+      
 
       <div ref={sectionRef} className="relative w-full">
         {/* TRACK LIST */}

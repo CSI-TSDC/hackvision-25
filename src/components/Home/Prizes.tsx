@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Trophy3D from './Trophy3D';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const Prizes = ({ className = "" }) => {
@@ -11,6 +10,8 @@ const Prizes = ({ className = "" }) => {
   const whiteTextRef = useRef<HTMLHeadingElement>(null);
   const blueTextRef = useRef<HTMLHeadingElement>(null);
   const blackTextRef = useRef<HTMLHeadingElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
   useEffect(() => {
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
@@ -49,9 +50,8 @@ const Prizes = ({ className = "" }) => {
     <section
       id="prizes"
       className={`w-full relative 
-         ${className} flex flex-col bg-[#8ac926]`}
+         ${className} flex flex-col bg-[#8ac926] min-h-screen`}
     >
-      <div className="grid-bg"></div>
       <div id='prizes_wrap' className='py-40' ref={prizesWrapRef}>
         <div className="relative z-10 px-[5vw] mb-15">
           <div className="relative inline-block font-quinque font-bold">

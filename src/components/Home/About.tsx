@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import NextImage from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 export default function About({ className = "" }) {
@@ -161,8 +162,8 @@ export default function About({ className = "" }) {
     }, []);
 
     return(
-        <section id="about" className={`relative w-full h-max min-h-screen px-[8vw] py-20 bg-[#3054e5] font-quinque text-[#f8f8f8] ${className}`}>
-            <div className="relative w-full h-max flex flex-col">
+        <section id="about" className={`relative w-full h-max min-h-screen bg-[#3054e5] font-quinque text-[#f8f8f8] ${className}`}>
+            <div className="relative px-[8vw] py-20 w-full h-max flex flex-col">
                 <div className="anim_text w-full flex justify-center text-[1.6vh] mb-8">
                     <span>
                         <span>hosted by</span>
@@ -241,6 +242,7 @@ export default function About({ className = "" }) {
                     </div>
                 </div>
             </div>
+            <NextImage src="/assets/home/About/transition1.png" className="w-full h-full object-cover" alt="Transition" width={1000} height={1000} />
         </section>
     )
 }
