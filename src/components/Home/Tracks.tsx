@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Dither from '@/components/ui/Dither';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const IMAGES = [
@@ -147,7 +147,6 @@ export default function Tracks() {
   
     let scrollTriggerInstance: ScrollTrigger | null = null;
     let animationTimeline: gsap.core.Timeline | null = null;
-    let ditherPinTrigger: ScrollTrigger | null = null;
   
     const setup = () => {
       SIZE = getCanvasSize();
