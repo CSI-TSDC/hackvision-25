@@ -266,9 +266,9 @@ export default function Tracks() {
     let tiles: Tile[] = [];
     let rafId: number | null = null;
     const TILE_SIZE = 40;
-    const ACTIVE_FRACTION = 0.1; // fraction of tiles that may try to toggle each frame
-    const MAX_INVISIBLE_FRACTION = 0.1; // hard cap on how many tiles can be invisible at once
-    const TOGGLE_SPEED = 1.5; // speed multiplier: lower = faster, higher = slower (1.0 = normal)
+    const ACTIVE_FRACTION = 0.1; 
+    const MAX_INVISIBLE_FRACTION = 0.1; 
+    const TOGGLE_SPEED = 1.5;
 
     const createOffscreenAndTiles = () => {
       if (!img.complete || img.width === 0 || img.height === 0) return;

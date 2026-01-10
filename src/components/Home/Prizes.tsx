@@ -23,11 +23,12 @@ const Prizes = ({ className = "" }) => {
 
     // Set initial styles
     gsap.set(ufoOnly, { opacity: 0, scale: 0.7 });
-    gsap.set(ufoLight, { clipPath: 'inset(100% 0px 0px)' });
-    gsap.set(prizesWrap, { opacity: 0 });
+    gsap.set(ufoLight, { clipPath: 'inset(0px 0px 100% 0px)' });
+    gsap.set(prizesWrap, { opacity: 0 }); // Ensure opacity is 0 initially
 
     let triggers: ScrollTrigger[] = [];
     let ufoFadeInTimeline: gsap.core.Timeline | null = null;
+    let prizesFadeTimeout: NodeJS.Timeout | null = null;
 
     // Wait for layout to be ready
     requestAnimationFrame(() => {
@@ -60,51 +61,77 @@ const Prizes = ({ className = "" }) => {
       const ufoPinTrigger = ScrollTrigger.create({
         trigger: ufoContainer,
         start: 'top top',
-        end: () => `+=${window.innerHeight * 3}`, // 300vh = 3 * viewport height in pixels
+        endTrigger: section,
+        end: 'bottom bottom',
         pin: ufoContainer,
         pinSpacing: true,
         invalidateOnRefresh: true, // Recalculate on resize
       });
       triggers.push(ufoPinTrigger);
 
-      // Animation 3: When ufo container reaches top top (gets pinned)
-      // Animate ufo light clip-path from bottom smoothly over +=30vh
-      // Use direct progress interpolation for smoother lerp
+      // UFO light clip-path animation when ufo hits top top
+      // Animate clip-path from 100% to 0% over 1.3s when ufo container reaches top top
+      // Reverse when scrolling back up
       const ufoLightTrigger = ScrollTrigger.create({
         trigger: ufoContainer,
         start: 'top top',
-        end: () => `+=${window.innerHeight * 0.3}`, // 30vh in pixels
-        scrub: 0.3, // Smooth scrubbing with lag for smoother interpolation
-        onUpdate: (self) => {
-          // Smooth interpolation function for better lerp
-          const progress = self.progress;
-          // Apply smooth easing function for better interpolation
-          const smoothProgress = progress < 0.5 
-            ? 2 * progress * progress 
-            : 1 - Math.pow(-2 * progress + 2, 2) / 2; // Smooth ease-in-out
-          
-          const insetValue = 100 - (smoothProgress * 100); // 100% → 0%
-          gsap.set(ufoLight, {
-            clipPath: `inset(0px 0px ${insetValue}% 0px)`,
+        onEnter: () => {
+          // Animate clip-path from inset(0px 0px 100% 0px) to inset(0px 0px 0% 0px) over 1.3s
+          gsap.to(ufoLight, {
+            clipPath: 'inset(0px 0px 0% 0px)',
+            duration: 1.3,
+            ease: 'power3.in', // Smooth interpolation
+          });
+        },
+        onLeaveBack: () => {
+          // Reverse: animate back to original state when scrolling back up
+          gsap.to(ufoLight, {
+            clipPath: 'inset(0px 0px 100% 0px)',
+            duration: 0.6,
+            ease: 'power3.out', // Smooth interpolation
           });
         },
       });
 
       triggers.push(ufoLightTrigger);
 
-      // Show prizes wrap when section enters viewport smoothly
-      const prizesFadeIn = ScrollTrigger.create({
-        trigger: section,
-        start: 'top bottom',
+      // Prizes wrap opacity animation: starts 1.2s after ufo hits top top
+      // Animate opacity from 0 to 1 with smooth interpolation
+      // Reverse immediately when scrolling back up (no delay)
+      const prizesFadeInTrigger = ScrollTrigger.create({
+        trigger: ufoContainer,
+        start: 'top top',
         onEnter: () => {
+          // Clear any existing timeout before setting a new one
+          if (prizesFadeTimeout) {
+            clearTimeout(prizesFadeTimeout);
+          }
+          // Wait 1.2s after ufo hits top top, then animate opacity to 1
+          prizesFadeTimeout = setTimeout(() => {
+            gsap.to(prizesWrap, {
+              opacity: 1,
+              duration: 0.7, // Smooth interpolation over 1.3s
+              ease: 'power3.in',
+            });
+          }, 600);
+        },
+        onLeaveBack: () => {
+          // Clear timeout immediately if scrolling back up (no delay)
+          if (prizesFadeTimeout) {
+            clearTimeout(prizesFadeTimeout);
+            prizesFadeTimeout = null;
+          }
+          // Reverse immediately: animate back to opacity 0 when scrolling back up
           gsap.to(prizesWrap, {
-            opacity: 1,
-            duration: 0.6,
-            ease: 'power2.out',
+            opacity: 0,
+            duration: 0.5, // Smooth interpolation over 1.3s
+            ease: 'power3.out',
+            immediateRender: false, // Don't render immediately, let animation play
           });
         },
       });
-      triggers.push(prizesFadeIn);
+
+      triggers.push(prizesFadeInTrigger);
 
       // Pin section (which includes prizesWrap) when section bottom reaches viewport bottom
       // End when tracks section bottom reaches viewport bottom
@@ -135,6 +162,9 @@ const Prizes = ({ className = "" }) => {
     return () => {
       triggers.forEach(trigger => trigger?.kill());
       ufoFadeInTimeline?.kill();
+      if (prizesFadeTimeout) {
+        clearTimeout(prizesFadeTimeout);
+      }
       // Kill any remaining triggers for these elements
       ScrollTrigger.getAll().forEach(st => {
         if (st.trigger === section || st.trigger === ufoContainer || st.trigger === ufoOnly) {
@@ -149,7 +179,7 @@ const Prizes = ({ className = "" }) => {
       ref={sectionRef}
       id="prizes"
       className={`w-full relative 
-         ${className} flex flex-col bg-black min-h-screen z-4`}
+         ${className} flex flex-col bg-black min-h-screen overflow-hidden z-4`}
     >
       <div className='w-full h-screen'>
           <img src="/assets/home/Prizes/prizesbg.png" className='w-full h-full object-cover' alt="" />
@@ -158,7 +188,7 @@ const Prizes = ({ className = "" }) => {
         <div ref={ufoOnlyRef} className='relative w-[50vw] h-auto opacity-0' style={{ transform: 'scale(0.7)' }}>
           <img src="/assets/home/Prizes/onlyufo.png" className='w-full h-full object-contain' alt="" />
         </div>
-        <div ref={ufoLightRef} className='relative flex-1 -mt-0.5 ' style={{ clipPath: 'inset(100% 0px 0px)' }}>
+        <div ref={ufoLightRef} className='relative flex-1 -mt-0.5 ' style={{ clipPath: 'inset(0px 0px 100% 0px)' }}>
           <img src="/assets/home/Prizes/ufolight.png" className='w-full h-full object-contain' alt="" />
         </div>
       </div>
