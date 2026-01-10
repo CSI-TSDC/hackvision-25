@@ -242,7 +242,7 @@ export default function About({ className = "" }) {
                     </div>
                 </div>
             </div>
-            <NextImage src="/assets/home/About/transition1.png" className="w-full h-full object-cover" alt="Transition" width={1000} height={1000} />
+            <img src="/assets/home/About/transition1.png" className="w-full h-full object-cover" alt="Transition" width={1000} height={1000} />
         </section>
     )
 }

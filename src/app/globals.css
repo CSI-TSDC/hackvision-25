@@ -218,3 +218,7 @@ body {
      1px  1px 0 black,
      4px 1px 0 rgb(0, 0, 0, .75);
 }
+
+#nav>div:first-child {
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%, 0 44%);
+}

@@ -6,86 +6,28 @@ import Trophy3D from './Trophy3D';
 gsap.registerPlugin(ScrollTrigger);
 
 const Prizes = ({ className = "" }) => {
-  const prizesWrapRef = useRef<HTMLDivElement>(null);
-  const whiteTextRef = useRef<HTMLHeadingElement>(null);
-  const blueTextRef = useRef<HTMLHeadingElement>(null);
-  const blackTextRef = useRef<HTMLHeadingElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: prizesWrapRef.current,
-        start: 'top top',
-        end: '+=300vh',
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        onEnter: () => {
-          gsap.to(blueTextRef.current, {
-            y: -10,
-            duration: 0.6,
-            ease: 'power3.out',
-          });
-  
-          gsap.to(whiteTextRef.current, {
-            y: -20,
-            duration: 0.6,
-            ease: 'power3.out',
-          });
-        },
-        onLeaveBack: () => {
-          gsap.to([whiteTextRef.current, blueTextRef.current], {
-            y: 0,
-            duration: 0.5,
-            ease: 'power3.inOut',
-          });
-        },
-      });
-    });
-  
-    return () => ctx.revert();
-  }, []);
   return (
     <section
       id="prizes"
       className={`w-full relative 
-         ${className} flex flex-col bg-[#8ac926] min-h-screen`}
+         ${className} flex flex-col bg-black min-h-screen z-4`}
     >
-      <div id='prizes_wrap' className='py-40' ref={prizesWrapRef}>
-        <div className="relative z-10 px-[5vw] mb-15">
-          <div className="relative inline-block font-quinque font-bold">
-            {/* White layer - stays on top initially */}
-            <h1 ref={whiteTextRef} className="absolute text-white text-6xl md:text-8xl left-0 z-10">
-              Prizes
-            </h1>
-            {/* Blue layer - initially stacked below white */}
-            <h1 ref={blueTextRef} className="absolute text-blue-500 text-6xl md:text-8xl left-0 top-0 z-[5]">
-              Prizes
-            </h1>
-            {/* Black layer - initially stacked below blue */}
-            <h1 ref={blackTextRef} className="relative text-black text-6xl md:text-8xl left-0 top-0 z-[1]">
-              Prizes
-            </h1>
-          </div>
+      <div className='w-full h-max'>
+          <img src="/assets/home/Prizes/prizesbg.png" alt="" />
         </div>
-        {/* Two column layout */}
-        <div className="relative z-10 w-full flex flex-row gap-4 px-[8vw] pb-10">
-          <div className="w-1/2 flex flex-col items-center justify-center">
-            <div className='flex flex-col justify-center items-center font-quinque'>
-              <span className='text-[3.2vh] font-pixel-emulator'>
-                <span>1st Place</span>
-              </span>
-              <span className='text-[2.4vw] bstroke text-[#D4AF37]'>
-                <span>50,000 RS</span>
-              </span>
-            </div>
-            <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' />
-          </div>
-          
-          <div className="w-1/2 flex flex-col items-center justify-between pb-15 gap-6">
+      <div className='absolute top-0 left-1/2 -translate-x-1/2 w-full h-max flex flex-col py-30 justify-center items-center'>
+        <div className='w-[60vw] h-auto'>
+          <img src="/assets/home/Prizes/onlyufo.png" className='w-full h-full object-contain' alt="" />
+        </div>
+        <div className='flex-1 -mt-0.5'>
+          <img src="/assets/home/Prizes/ufolight.png" alt="" />
+        </div>
+      </div>
+      <div id='prizes_wrap' className='absolute bottom-0 pb-15 w-full items-center justify-center'>
+        <div className="relative z-10 w-full flex flex-row gap-10 px-[8vw] pb-10">
             <div className='flex flex-col w-full h-auto justify-center items-center'>
-              <div className='w-24 h-auto'>
+              <div className='w-28 h-auto mb-8'>
                 <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
               </div>
               <div className='flex flex-col justify-center items-center'>
@@ -97,8 +39,19 @@ const Prizes = ({ className = "" }) => {
                 </span>
               </div>
             </div>
+            <div className="flex flex-col w-full items-center justify-center">
+              <div className='flex flex-col justify-center items-center font-quinque'>
+                <span className='text-[3.2vh] font-pixel-emulator'>
+                  <span>1st Place</span>
+                </span>
+                <span className='text-[2vw] bstroke text-[#D4AF37]'>
+                  <span>50,000 RS</span>
+                </span>
+              </div>
+              <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' />
+            </div>
             <div className='flex flex-col w-full h-auto justify-center items-center'>
-              <div className='w-24 h-auto'>
+              <div className='w-28 h-auto mb-8'>
                 <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
               </div>
               <div className='flex flex-col justify-center items-center'>
@@ -110,7 +63,6 @@ const Prizes = ({ className = "" }) => {
                 </span>
               </div>
             </div>
-          </div>
         </div>
       </div>
       
