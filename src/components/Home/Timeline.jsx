@@ -1,62 +1,69 @@
-'use client';
-import { useEffect, useRef, useState } from 'react'
+'use client'
+import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
-gsap.registerPlugin(ScrollTrigger); 
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Timeline() {
-    const strips = useRef([])
+  const sectionRef = useRef(null)
 
-    useEffect(() => {
-        strips.current.forEach((el, i) => {
-          gsap.fromTo(
-            el,
-            { x: i % 2 === 0 ? -200 : 200 },
-            {
-              x: i % 2 === 0 ? 200 : -200,
-              scrollTrigger: {
-                trigger: el.parentElement,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: true,
-              },
-            }
-          )
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.strip').forEach((el, i) => {
+        let targetX = gsap.quickTo(el, 'xPercent', {
+          duration: 0.6,
+          ease: 'power3.out',
         })
-      }, [])
-    
-      const repeatHTML = (html) =>
-        Array.from({ length: 20 }).map((_, i) => (
-          <span
-            key={i}
-            className="mx-8 whitespace-nowrap font-bold"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        ))
+  
+        ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: 'bottom bottom',
+            onUpdate: self => {
+              const dir = i % 2 === 0 ? 1 : -1
+              targetX(gsap.utils.interpolate(-60, 60, self.progress) * dir)
+            },
+          })
+      })
+    })
+  
+    return () => ctx.revert()
+  }, [])
+
+  const repeat = (text) =>
+    Array.from({ length: 50 }).map((_, i) => (
+      <span key={i} className="mx-8 whitespace-nowrap font-bold">
+        {text}
+      </span>
+    ))
+
   return (
-    <section id="timeline" className="relative overflow-hidden w-full min-h-screen bg-[#5B2EFF] text-white py-40">
-        <div className="relative w-full h-[380px] overflow-hidden">
-      
-            <div className="w-[150vw] h-[60px] bg-white border-y-4 border-black origin-top-left rotate-3">
-                <div ref={el => strips.current[0] = el} className="w-max h-full py-4 flex">
-                {repeatHTML('HACKVISION 🔥')}
-                </div>
-            </div>
-
-            <div className="absolute top-[25%] w-[150vw] h-[60px] bg-[#d2ff52] border-y-4 border-black origin-top-right -rotate-1">
-                <div ref={el => strips.current[1] = el} className="w-max h-full py-4 flex">
-                {repeatHTML('CODE <span>•</span> CREATE <span>•</span> DEPLOY')}
-                </div>
-            </div>
-
-            <div className="absolute bottom-[20%] w-[150vw] h-[60px] bg-black border-y-4 border-black">
-                <div ref={el => strips.current[2] = el} className="w-max h-full py-4 flex text-[#d2ff52]">
-                {repeatHTML('CSI COMMITTEE')}
-                </div>
-            </div>
-
+    <section
+      ref={sectionRef}
+      id="timeline"
+      className="relative overflow-hidden w-full min-h-screen bg-[#5B2EFF] py-40"
+    >
+      <div className="relative w-full h-[380px] overflow-hidden">
+            <div className="w-[150vw] h-[70px] bg-white text-black border-y-4 border-black origin-top-left rotate-3 relative">
+        <div className="strip absolute left-0 top-0 w-max h-full py-4 flex items-center">
+            {repeat('HACKVISION 🔥')}
         </div>
-        <div className="w-full h-max flex flex-col items-start font-pixel-emulator text-[6vw] pb-20 px-[5vw]">
+        </div>
+
+        <div className="absolute top-[25%] w-[150vw] h-[70px] bg-[#d2ff52] text-black border-y-4 border-black origin-top-right -rotate-1 relative">
+        <div className="strip absolute right-0 top-0 w-max h-full py-4 flex items-center">
+            {repeat('CODE • CREATE • DEPLOY')}
+        </div>
+        </div>
+
+        <div className="absolute bottom-[20%] w-[150vw] h-[70px] bg-black border-y-4 border-black relative">
+        <div className="strip absolute left-0 top-0 w-max h-full py-4 flex items-center text-[#d2ff52]">
+            {repeat('CSI COMMITTEE')}
+        </div>
+        </div>
+      </div>
+      <div className="w-full h-max flex flex-col items-start font-pixel-emulator text-[6vw] pb-20 px-[5vw]">
             <span>
                 <span>Timeline</span>
             </span>
@@ -138,5 +145,5 @@ export default function Timeline() {
             </div>
         </div>
     </section>
-  );
+  )
 }
