@@ -1,8 +1,118 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Tetris block shapes for decoration
+const TetrisBlocks = () => {
+    const blocks = [
+        // L-piece
+        { type: 'L', left: 3, top: 15, color: '#FF8C00', rotation: 0 },
+        // T-piece  
+        { type: 'T', left: 88, top: 25, color: '#d2ff52', rotation: 90 },
+        // Square
+        { type: 'O', left: 5, top: 55, color: '#4ecdc4', rotation: 0 },
+        // Line
+        { type: 'I', left: 92, top: 65, color: '#ff6b6b', rotation: 0 },
+        // S-piece
+        { type: 'S', left: 8, top: 85, color: '#9b59b6', rotation: 45 },
+    ];
+
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+            {blocks.map((block, i) => (
+                <div
+                    key={i}
+                    className="absolute animate-pulse"
+                    style={{
+                        left: `${block.left}%`,
+                        top: `${block.top}%`,
+                        transform: `rotate(${block.rotation}deg)`,
+                        animationDelay: `${i * 0.3}s`,
+                        animationDuration: '3s',
+                    }}
+                >
+                    {block.type === 'L' && (
+                        <div className="flex flex-col">
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="flex">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                        </div>
+                    )}
+                    {block.type === 'T' && (
+                        <div className="flex flex-col items-center">
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="flex">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                        </div>
+                    )}
+                    {block.type === 'O' && (
+                        <div className="grid grid-cols-2">
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                        </div>
+                    )}
+                    {block.type === 'I' && (
+                        <div className="flex flex-col">
+                            {[0, 1, 2, 3].map(j => (
+                                <div key={j} className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            ))}
+                        </div>
+                    )}
+                    {block.type === 'S' && (
+                        <div className="flex flex-col">
+                            <div className="flex ml-8">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                            <div className="flex">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                        </div>
+                    )}
+                    {block.type === 'Z' && (
+                        <div className="flex flex-col">
+                            <div className="flex">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                            <div className="flex ml-8">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                        </div>
+                    )}
+                    {block.type === 'J' && (
+                        <div className="flex flex-col">
+                            <div className="flex">
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                                <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            </div>
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                            <div className="w-8 h-8 border-3" style={{ borderColor: block.color, backgroundColor: `${block.color}50`, boxShadow: `0 0 10px ${block.color}40` }} />
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+};
 
 export default function FAQs({ className = "" }) {
     const [openIndex, setOpenIndex] = useState(null);
+    const sectionRef = useRef(null);
+    const faqItemsRef = useRef([]);
 
     const faqs = [
         {
@@ -23,67 +133,155 @@ export default function FAQs({ className = "" }) {
         }
     ];
 
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // Animate FAQ items on scroll
+            faqItemsRef.current.forEach((item, i) => {
+                if (!item) return;
+                gsap.fromTo(item,
+                    { opacity: 0, x: i % 2 === 0 ? -50 : 50 },
+                    {
+                        opacity: 1, x: 0,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse',
+                        }
+                    }
+                );
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     const toggleFAQ = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
     return (
-        <section 
-            id="faqs" 
-            className={`relative w-full min-h-screen bg-[#f6ebd8] text-[#2f2f2f] overflow-hidden -mt-2 pb-20 ${className}`}
+        <section
+            ref={sectionRef}
+            id="faqs"
+            className={`relative w-full bg-[#212529] pt-20 pb-35 text-white overflow-hidden ${className}`}
         >
-            {/* Title */}
-            <div className="relative w-full h-max flex justify-center items-center pt-14 mb-12">
-                <h1 className="font-pixel-emulator text-[14vw] md:text-[12vw] font-bold uppercase bstroke select-none">
-                    FAQs
-                </h1>
-            </div>
+            {/* Tetris blocks decoration */}
+            <TetrisBlocks />
 
-            {/* FAQ Container */}
-            <div className="relative max-w-5xl mx-auto px-6 md:px-12 font-nikea tracking-tight">
-                <div className="space-y-8 max-w-[80vw]">
-                    {faqs.map((faq, index) => (
-                        <div 
-                            key={index}
-                            className="bg-[#7ea0db] border-4 border-[#2f2f2f] rounded-lg overflow-hidden hover:shadow-[8px_8px_0px_var(--yellow)] cursor-pointer transition-all duration-200"
-                        >
-                            {/* Question Button */}
-                            <button
-                                onClick={() => toggleFAQ(index)}
-                                className="w-full px-6 py-5 flex justify-between items-center text-left hover:bg-[var(--yellow)] transition-colors duration-200 group"
-                            >
-                                <span className="bn text-2xl md:text-2xl text-[var(--green)] group-hover:text-[var(--f2)] transition-colors duration-200 pr-4">
-                                    {faq.question}
-                                </span>
-                                <span className={`bn text-4xl text-[var(--green)] group-hover:text-[var(--f2)] transition-all duration-300 flex-shrink-0 ${openIndex === index ? 'rotate-45' : ''}`}>
-                                    +
-                                </span>
-                            </button>
+            {/* Grid background */}
+            <div
+                className="absolute inset-0 pointer-events-none opacity-5"
+                style={{
+                    backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                    backgroundSize: '40px 40px',
+                }}
+            />
 
-                            {/* Answer */}
-                            <div 
-                                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                                    openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                                }`}
-                            >
-                                <div className="px-6 pb-6 border-t-4 border-dotted border-[var(--green)] pt-4">
-                                    <p className="p2p text-lg md:text-xl text-[var(--f1)] leading-relaxed">
-                                        {faq.answer}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+            {/* Main content */}
+            <div className="relative z-10 py-20 px-6 md:px-12">
+                {/* Title */}
+                <div className="relative w-full flex flex-col items-center mb-16">
+                    <div className="relative mb-10">
+                        {/* Pixel border effect */}
+                        <div className="absolute -inset-4 border-4 border-[#d2ff52] opacity-30"
+                            style={{ clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))' }}
+                        />
+                        <h1 className="font-pixel-emulator text-5xl md:text-7xl font-bold text-[#d2ff52] tracking-wider"
+                            style={{ textShadow: '4px 4px 0px #000, 6px 6px 0px rgba(0,0,0,0.3)' }}>
+                            FAQ
+                        </h1>
+                    </div>
+                    <p className="font-nikea text-white/50 text-lg mt-4">
+                        Got questions? We got answers.
+                    </p>
                 </div>
 
-                {/* Bottom decoration */}
-                <div className="mt-16 text-center font-quinque">
-                    <p className="text-2xl md:text-xl text-[var(--f2)]">
-                        STILL HAVE QUESTIONS?
-                    </p>
-                    <p className="text-lg md:text-lg text-[var(--f2)] mt-4">
-                        Reach out to us on Discord or Email!
-                    </p>
+                {/* FAQ Container */}
+                <div className="relative max-w-4xl mx-auto">
+                    <div className="space-y-4">
+                        {faqs.map((faq, index) => (
+                            <div
+                                key={index}
+                                ref={el => faqItemsRef.current[index] = el}
+                                className="relative group"
+                            >
+                                {/* Tetris-style card */}
+                                <div
+                                    className={`
+                                        relative bg-[#16213e] border-2 overflow-hidden cursor-pointer
+                                        transition-all duration-300
+                                        ${openIndex === index
+                                            ? 'border-[#d2ff52] shadow-[0_0_20px_rgba(210,255,82,0.2)]'
+                                            : 'border-white/10 hover:border-white/30'
+                                        }
+                                    `}
+                                    style={{
+                                        clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
+                                    }}
+                                >
+                                    {/* Corner pixel */}
+                                    <div className={`absolute top-0 right-0 w-3 h-3 transition-colors duration-300 ${openIndex === index ? 'bg-[#d2ff52]' : 'bg-white/20'}`} />
+                                    <div className={`absolute bottom-0 left-0 w-3 h-3 transition-colors duration-300 ${openIndex === index ? 'bg-[#d2ff52]' : 'bg-white/20'}`} />
+
+                                    {/* Question Button */}
+                                    <button
+                                        onClick={() => toggleFAQ(index)}
+                                        className="w-full px-6 py-5 flex justify-between items-center text-left"
+                                    >
+                                        <span className="font-quinque text-lg md:text-xl text-white pr-4">
+                                            <span className="text-[#d2ff52] mr-3 font-pixel-emulator text-sm">0{index + 1}</span>
+                                            {faq.question}
+                                        </span>
+                                        <span className={`
+                                            font-pixel-emulator text-2xl flex-shrink-0 transition-all duration-300
+                                            ${openIndex === index ? 'text-[#d2ff52] rotate-45' : 'text-white/50'}
+                                        `}>
+                                            +
+                                        </span>
+                                    </button>
+
+                                    {/* Answer */}
+                                    <div
+                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                                            }`}
+                                    >
+                                        <div className="px-6 pb-6 border-t border-white/10 pt-4 ml-8">
+                                            <p className="font-nikea text-base md:text-lg text-white/70 leading-relaxed">
+                                                {faq.answer}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Bottom text */}
+                    <div className="mt-12 text-center">
+                        <p className="font-pixel-emulator text-sm text-white/40 tracking-wider">
+                            STILL HAVE QUESTIONS?
+                        </p>
+                        <p className="font-nikea text-white/60 text-base mt-2">
+                            Reach out to us on Discord or Email!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Divider - Tetris line clear effect */}
+            <div className="relative h-16 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#d2ff52] to-transparent" />
+                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#d2ff52] to-transparent animate-pulse" style={{ top: '40%' }} />
+                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#d2ff52] to-transparent" style={{ top: '60%' }} />
+
+                {/* Center decoration */}
+                <div className="relative z-10 flex items-center gap-2 bg-[#1a1a2e] px-4">
+                    <div className="w-3 h-3 bg-[#d2ff52]" />
+                    <div className="w-3 h-3 bg-[#FF8C00]" />
+                    <div className="w-3 h-3 bg-[#4ecdc4]" />
+                    <div className="w-3 h-3 bg-[#ff6b6b]" />
                 </div>
             </div>
         </section>
