@@ -23,16 +23,14 @@ const Prizes = ({ className = "" }) => {
 
     if (!section || !ufoContainer || !ufoOnly || !ufoLight || !prizesWrap) return;
 
-    // Set initial styles
     gsap.set(ufoOnly, { opacity: 0, scale: 0.7 });
     gsap.set(ufoLight, { clipPath: 'inset(0px 0px 100% 0px)' });
-    gsap.set(prizesWrap, { opacity: 0 }); // Ensure opacity is 0 initially
+    gsap.set(prizesWrap, { opacity: 0 });
 
     let triggers: ScrollTrigger[] = [];
     let ufoFadeInTimeline: gsap.core.Timeline | null = null;
     let prizesFadeTimeout: NodeJS.Timeout | null = null;
 
-    // Wait for layout to be ready
     requestAnimationFrame(() => {
       ScrollTrigger.refresh();
 
@@ -103,7 +101,7 @@ const Prizes = ({ className = "" }) => {
           prizesFadeTimeout = setTimeout(() => {
             gsap.to(prizesWrap, {
               opacity: 1,
-              duration: 0.7, // Smooth interpolation over 1.3s
+              duration: 0.7,
               ease: 'power3.in',
             });
           }, 600);
@@ -169,18 +167,45 @@ const Prizes = ({ className = "" }) => {
       ref={sectionRef}
       id="prizes"
       className={`w-full relative 
-         ${className} flex flex-col bg-black min-h-screen overflow-hidden z-4`}
+         ${className} flex flex-col bg-black h-screen overflow-hidden z-4`}
     >
       <div className='w-full h-screen'>
         <img src="/assets/home/Prizes/prizesbg.png" className='w-full h-full object-cover' alt="" />
       </div>
-      <div ref={ufoContainerRef} className='absolute top-0 w-full h-max flex flex-col justify-center items-center'>
-        <div ref={ufoOnlyRef} className='relative w-[50vw] h-auto opacity-0' style={{ transform: 'scale(0.7)' }}>
-          <img ref={ufoOnRef} src="/assets/home/Prizes/onlyufo.png" className='absolute top-0 left-0 w-full h-full object-contain z-2 opacity-0' alt="" />
-          <img src="/assets/home/Prizes/ufo_off.png" className='w-full h-full object-contain' alt="" />
+      <div
+        ref={ufoContainerRef}
+        className="absolute top-0 left-0 w-full h-screen flex flex-col items-center pb-5"
+      >
+        {/* UFO (natural height, stays at top) */}
+        <div
+          ref={ufoOnlyRef}
+          className="relative w-[50vw] h-auto shrink-0 opacity-0"
+          style={{ transform: 'scale(0.7)' }}
+        >
+          <img
+            ref={ufoOnRef}
+            src="/assets/home/Prizes/onlyufo.png"
+            className="absolute top-0 left-0 w-full h-full object-contain z-2 opacity-0"
+            alt=""
+          />
+          <img
+            src="/assets/home/Prizes/ufo_off.png"
+            className="w-full h-full object-contain"
+            alt=""
+          />
         </div>
-        <div ref={ufoLightRef} className='relative flex-1 -mt-0.5 ' style={{ clipPath: 'inset(0px 0px 100% 0px)' }}>
-          <img src="/assets/home/Prizes/ufolight.png" className='w-full h-full object-contain' alt="" />
+
+        {/* Light takes remaining height */}
+        <div
+          ref={ufoLightRef}
+          className="relative flex-1 w-full -mt-0.5 overflow-hidden"
+          style={{ clipPath: 'inset(0px 0px 100% 0px)' }}
+        >
+          <img
+            src="/assets/home/Prizes/ufolight2.png"
+            className="w-full h-full object-contain"
+            alt=""
+          />
         </div>
       </div>
       <div ref={prizesWrapRef} id='prizes_wrap' className='absolute bottom-0 w-full items-center justify-center opacity-0'>
@@ -200,10 +225,10 @@ const Prizes = ({ className = "" }) => {
           </div>
           <div className="flex flex-col w-full items-center justify-center">
             <div className='flex flex-col justify-center items-center font-quinque'>
-              <span className='text-[3.2vh] font-pixel-emulator'>
+              <span className='text-[3.6vh] font-pixel-emulator bstrokeds'>
                 <span>1st Place</span>
               </span>
-              <span className='text-[2vw] bstroke text-[#D4AF37]'>
+              <span className='text-[2.9vh] md:text-[2.2vw] bstroke text-[#D4AF37]'>
                 <span>50,000 RS</span>
               </span>
             </div>

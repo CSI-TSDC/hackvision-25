@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function About({ className = "" }) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [iconIndices, setIconIndices] = useState<[number, number, number]>([0, 1, 2]);
-    
+
     // Array of 5 images
     const iconImages = [
         '/assets/home/About/icons/img1.png',
@@ -23,105 +23,121 @@ export default function About({ className = "" }) {
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-      
+
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
-      
+
         const img = new Image();
         img.src = "/assets/home/About/trophy.png";
-      
+
         img.onload = () => {
-          const rect = canvas.getBoundingClientRect();
-          const dpr = window.devicePixelRatio || 1;
-      
-          canvas.width = rect.width * dpr;
-          canvas.height = rect.height * dpr;
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          ctx.imageSmoothingEnabled = false;
-      
-          const scale = Math.min(rect.width / img.width, rect.height / img.height) * 0.8;
-          const w = Math.floor(img.width * scale);
-          const h = Math.floor(img.height * scale);
-          const x = Math.floor((rect.width - w) / 2);
-          const y = Math.floor((rect.height - h) / 2);
-      
-          // offscreen canvas
-          const off = document.createElement("canvas");
-          off.width = w;
-          off.height = h;
-      
-          const offCtx = off.getContext("2d");
-          if (!offCtx) return;
-      
-          offCtx.imageSmoothingEnabled = false;
-          offCtx.drawImage(img, 0, 0, w, h);
-      
-          const block = 14;
-          const cols = Math.floor(w / block);
-          const rows = Math.floor(h / block);
-      
-          const alpha: number[] = new Array(cols * rows).fill(1);
-          const target: number[] = new Array(cols * rows).fill(1);
-      
-          let hovered = false;
-      
-          const onEnter = () => {
-            hovered = true;
-            target.fill(1); // force rebuild
-          };
-      
-          const onLeave = () => {
-            hovered = false;
-          };
-      
-          canvas.addEventListener("mouseenter", onEnter);
-          canvas.addEventListener("mouseleave", onLeave);
-      
-          const animate = () => {
-            ctx.clearRect(0, 0, rect.width, rect.height);
-      
-            for (let i = 0; i < alpha.length; i++) {
-              // ONLY dissolve when not hovered
-              if (!hovered && Math.random() < 0.0005) {
-                target[i] = target[i] === 1 ? 0 : 1;
-              }
-      
-              // FAST ease on hover, slow otherwise
-              const ease = hovered ? 0.25 : 0.05;
-              alpha[i] += (target[i] - alpha[i]) * ease;
-      
-              if (alpha[i] < 0.01) continue;
-      
-              const bx = (i % cols) * block;
-              const by = Math.floor(i / cols) * block;
-      
-              ctx.globalAlpha = alpha[i];
-              ctx.drawImage(
-                off,
-                bx,
-                by,
-                block,
-                block,
-                x + bx,
-                y + by,
-                block,
-                block
-              );
-            }
-      
-            ctx.globalAlpha = 1;
-            requestAnimationFrame(animate);
-          };
-      
-          animate();
-      
-          return () => {
-            canvas.removeEventListener("mouseenter", onEnter);
-            canvas.removeEventListener("mouseleave", onLeave);
-          };
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.imageSmoothingEnabled = false;
+
+            const scale = Math.min(rect.width / img.width, rect.height / img.height) * 0.8;
+            const w = Math.floor(img.width * scale);
+            const h = Math.floor(img.height * scale);
+            const x = Math.floor((rect.width - w) / 2);
+            const y = Math.floor((rect.height - h) / 2);
+
+            // offscreen canvas
+            const off = document.createElement("canvas");
+            off.width = w;
+            off.height = h;
+
+            const offCtx = off.getContext("2d");
+            if (!offCtx) return;
+
+            offCtx.imageSmoothingEnabled = false;
+            offCtx.drawImage(img, 0, 0, w, h);
+
+            const block = 14;
+            const cols = Math.floor(w / block);
+            const rows = Math.floor(h / block);
+
+            const alpha: number[] = new Array(cols * rows).fill(1);
+            const target: number[] = new Array(cols * rows).fill(1);
+
+            let hovered = false;
+
+            const onEnter = () => {
+                hovered = true;
+                target.fill(1);
+            };
+
+            const onLeave = () => {
+                hovered = false;
+            };
+
+            canvas.addEventListener("mouseenter", onEnter);
+            canvas.addEventListener("mouseleave", onLeave);
+
+            const animate = () => {
+                ctx.clearRect(0, 0, rect.width, rect.height);
+
+                for (let i = 0; i < alpha.length; i++) {
+                    const MAX_FLICKER = 15;
+
+                    if (!hovered && Math.random() < 0.002) {
+                        const offBlocks = [];
+                        const onBlocks = [];
+
+                        for (let i = 0; i < target.length; i++) {
+                            if (target[i] === 0) offBlocks.push(i);
+                            else onBlocks.push(i);
+                        }
+
+                        if (offBlocks.length < MAX_FLICKER) {
+                            const i = onBlocks[Math.floor(Math.random() * onBlocks.length)];
+                            target[i] = 0;
+                        } else {
+                            const off = offBlocks[Math.floor(Math.random() * offBlocks.length)];
+                            const on = onBlocks[Math.floor(Math.random() * onBlocks.length)];
+
+                            target[off] = 1;
+                            target[on] = 0;
+                        }
+                    }
+                    const ease = hovered ? 0.25 : 0.05;
+                    alpha[i] += (target[i] - alpha[i]) * ease;
+
+                    if (alpha[i] < 0.01) continue;
+
+                    const bx = (i % cols) * block;
+                    const by = Math.floor(i / cols) * block;
+
+                    ctx.globalAlpha = alpha[i];
+                    ctx.drawImage(
+                        off,
+                        bx,
+                        by,
+                        block,
+                        block,
+                        x + bx,
+                        y + by,
+                        block,
+                        block
+                    );
+                }
+
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(animate);
+            };
+
+            animate();
+
+            return () => {
+                canvas.removeEventListener("mouseenter", onEnter);
+                canvas.removeEventListener("mouseleave", onLeave);
+            };
         };
-      }, []);
-      
+    }, []);
+
 
     // Cycle through icons every 1 second, ensuring all 3 show different images
     useEffect(() => {
@@ -129,31 +145,31 @@ export default function About({ className = "" }) {
             setIconIndices((prev) => {
                 // Get available indices (0-4)
                 const available = [0, 1, 2, 3, 4, 5, 6, 7];
-                
+
                 // Function to get next unique indices
                 const getNextIndices = (): [number, number, number] => {
                     const indices: number[] = [];
                     const used = new Set<number>();
-                    
+
                     // First index: random from available
                     let first = available[Math.floor(Math.random() * available.length)];
                     indices.push(first);
                     used.add(first);
-                    
+
                     // Second index: random from remaining
                     const remaining1 = available.filter(i => !used.has(i));
                     let second = remaining1[Math.floor(Math.random() * remaining1.length)];
                     indices.push(second);
                     used.add(second);
-                    
+
                     // Third index: random from remaining
                     const remaining2 = available.filter(i => !used.has(i));
                     let third = remaining2[Math.floor(Math.random() * remaining2.length)];
                     indices.push(third);
-                    
+
                     return [indices[0], indices[1], indices[2]];
                 };
-                
+
                 return getNextIndices();
             });
         }, 800);
@@ -161,7 +177,7 @@ export default function About({ className = "" }) {
         return () => clearInterval(interval);
     }, []);
 
-    return(
+    return (
         <section id="about" className={`relative w-full h-max min-h-screen bg-[#3054e5] font-quinque text-[#f8f8f8] ${className}`}>
             <div className="relative px-[8vw] py-20 w-full h-max flex flex-col">
                 <div className="anim_text w-full flex justify-center text-[1.6vh] mb-8">
@@ -236,8 +252,8 @@ export default function About({ className = "" }) {
                                 className="w-full h-full"
                             />
                         </div>
-                        <span className="block w-full h-max text-center text-[4vh] md:text-[1.7vw]">
-                            <span>Rs. 80,000</span>
+                        <span className="block w-full font-pixel-emulator h-max text-center text-[4vh] md:text-[2.6vw]">
+                            <span>Rs. 85,000+</span>
                         </span>
                     </div>
                 </div>

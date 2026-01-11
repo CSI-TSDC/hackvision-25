@@ -165,7 +165,7 @@ export default function FAQs({ className = "" }) {
         <section
             ref={sectionRef}
             id="faqs"
-            className={`relative w-full bg-[#212529] pt-20 pb-35 text-white overflow-hidden ${className}`}
+            className={`relative w-full bg-[#212529] pt-20 text-white overflow-hidden ${className}`}
         >
             {/* Tetris blocks decoration */}
             <TetrisBlocks />

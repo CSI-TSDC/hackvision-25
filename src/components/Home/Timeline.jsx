@@ -1,5 +1,5 @@
 'use client'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -20,10 +20,38 @@ export default function Timeline() {
   const stripsContainerRef = useRef(null)
   const headingRef = useRef(null)
   const cardsRef = useRef([])
+  const ctxRef = useRef(null)
+
+  // Resize handler to refresh ScrollTrigger
+  useEffect(() => {
+    let resizeTimer
+
+    const handleResize = () => {
+      // Debounce resize events
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        // Refresh all ScrollTrigger instances to recalculate positions
+        ScrollTrigger.refresh(true)
+      }, 250)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // Also handle orientation change for mobile
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => ScrollTrigger.refresh(true), 300)
+    })
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
+      clearTimeout(resizeTimer)
+    }
+  }, [])
 
   useLayoutEffect(() => {
     const timeout = setTimeout(() => {
-      const ctx = gsap.context(() => {
+      ctxRef.current = gsap.context(() => {
         // Strips animation
         const strips = gsap.utils.toArray('.strip')
         strips.forEach((el, i) => {
@@ -54,6 +82,7 @@ export default function Timeline() {
                 trigger: headingRef.current,
                 start: 'top 85%',
                 toggleActions: 'play none none reverse',
+                invalidateOnRefresh: true,
               }
             }
           )
@@ -79,6 +108,7 @@ export default function Timeline() {
                 trigger: card,
                 start: 'top 85%',
                 toggleActions: 'play none none reverse',
+                invalidateOnRefresh: true,
               }
             }
           )
@@ -87,18 +117,32 @@ export default function Timeline() {
         ScrollTrigger.refresh()
       }, sectionRef)
 
-      return () => ctx.revert()
+      return () => ctxRef.current?.revert()
     }, 500) // Increased delay to wait for all above sections to render
 
-    return () => clearTimeout(timeout)
+    return () => {
+      clearTimeout(timeout)
+      ctxRef.current?.revert()
+    }
   }, [])
 
-  const repeat = (text) =>
+  const repeat = (text, className) =>
     Array.from({ length: 50 }).map((_, i) => (
-      <span key={i} className="mx-8 whitespace-nowrap font-bold">
+      <span key={i} className={`whitespace-nowrap font-bold flex items-center ${className}`}>
         {text}
       </span>
     ))
+  const Star = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" className="mx-3">
+      <path
+        fill="currentColor"
+        d="M12 2l2.9 6.1L22 9l-5 4.9L18.2 22 12 18.6 5.8 22 7 13.9 2 9l7.1-.9L12 2z"
+      />
+    </svg>
+  );
+  const Dot = () => (
+    <span className="inline-block w-2 h-2 rounded-full bg-current mx-3" />
+  );
 
   return (
     <section
@@ -110,19 +154,31 @@ export default function Timeline() {
       <div ref={stripsContainerRef} className="relative w-full h-[380px] mb-[25vh] overflow-hidden">
         <div className="w-[150vw] h-[70px] bg-white text-black border-y-4 border-black origin-top-left rotate-3 relative">
           <div className="strip w-full h-full flex items-center justify-center">
-            {repeat('HACKVISION 🔥')}
+            {repeat(
+              <>
+                <span>HACKVISION</span>
+                <Star />
+                <span>CSI COMMITTEE</span>
+                <Star />
+              </>
+            )}
           </div>
         </div>
 
         <div className="absolute top-[25%] w-[150vw] h-[70px] bg-[#d2ff52] text-black border-y-4 border-black origin-top-right -rotate-1">
           <div className="strip w-full h-full flex items-center justify-center">
-            {repeat('CODE • CREATE • DEPLOY')}
+            {repeat('CODE • CREATE • DEPLOY', 'mx-8')}
           </div>
         </div>
 
         <div className="absolute bottom-[20%] w-[150vw] h-[70px] bg-black border-y-4 border-black">
           <div className="strip w-full h-full flex items-center justify-center text-[#d2ff52]">
-            {repeat('CSI COMMITTEE')}
+            {repeat(
+              <>
+                <span>REGISTRATIONS OPEN</span>
+                <Dot />
+              </>
+            )}
           </div>
         </div>
       </div>
