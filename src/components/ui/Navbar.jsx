@@ -42,7 +42,7 @@ export default function Navbar({ className = "" }) {
               background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.9) 100%)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
-              borderBottom: '2px solid rgba(210, 255, 82, 0.3)',
+              borderBottom: '2px solid rgba(0, 180, 216, 0.5)',
               borderTop: '1px solid rgba(255, 255, 255, 0.1)',
             }}
           >
@@ -79,9 +79,8 @@ export default function Navbar({ className = "" }) {
 
           {/* Register Button */}
           <button
-            className='hidden md:flex items-center gap-2 md:text-[0.8vw] text-white hover:text-[#1a1a2e] transition-all duration-300 cursor-pointer px-6 py-2 relative overflow-hidden group'
+            className='hidden md:flex items-center gap-2 md:text-[0.8vw] text-white hover:text-[#1a1a2e] bg-[#00b4d8] transition-all duration-300 cursor-pointer px-6 py-2 relative overflow-hidden group'
             style={{
-              background: 'linear-gradient(135deg, #d2ff52 0%, #a8d935 100%)',
               clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
             }}
           >

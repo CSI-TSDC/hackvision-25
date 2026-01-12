@@ -71,19 +71,19 @@ const Prizes = ({ className = "" }) => {
 
       const ufoLightTrigger = ScrollTrigger.create({
         trigger: ufoContainer,
-        start: 'top top',
+        start: 'top 40%',
         onEnter: () => {
           gsap.to(ufoLight, {
             clipPath: 'inset(0px 0px 0% 0px)',
-            duration: 1.3,
-            ease: 'power3.in', // Smooth interpolation
+            duration: 0.9,
+            ease: 'cubic-bezier(0.7, 0, 0.84, 0)',
           });
         },
         onLeaveBack: () => {
           gsap.to(ufoLight, {
             clipPath: 'inset(0px 0px 100% 0px)',
             duration: 0.6,
-            ease: 'power3.out', // Smooth interpolation
+            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
           });
         },
       });
@@ -92,31 +92,28 @@ const Prizes = ({ className = "" }) => {
 
       const prizesFadeInTrigger = ScrollTrigger.create({
         trigger: ufoContainer,
-        start: 'top top',
+        start: 'top 40%',
         onEnter: () => {
           if (prizesFadeTimeout) {
             clearTimeout(prizesFadeTimeout);
           }
-          // Wait 1.2s after ufo hits top top, then animate opacity to 1
           prizesFadeTimeout = setTimeout(() => {
             gsap.to(prizesWrap, {
               opacity: 1,
               duration: 0.7,
-              ease: 'power3.in',
+              ease: 'cubic-bezier(0.7, 0, 0.84, 0)',
             });
           }, 600);
         },
         onLeaveBack: () => {
-          // Clear timeout immediately if scrolling back up (no delay)
           if (prizesFadeTimeout) {
             clearTimeout(prizesFadeTimeout);
             prizesFadeTimeout = null;
           }
-          // Reverse immediately: animate back to opacity 0 when scrolling back up
           gsap.to(prizesWrap, {
             opacity: 0,
             duration: 0.5,
-            ease: 'power3.out',
+            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
             immediateRender: false,
           });
         },
@@ -139,7 +136,7 @@ const Prizes = ({ className = "" }) => {
               invalidateOnRefresh: true,
             });
             triggers.push(sectionPinTrigger);
-            ScrollTrigger.refresh(); // Refresh after adding new trigger
+            ScrollTrigger.refresh();
           } else {
             console.warn('Tracks section not found for prizes pin trigger');
           }
@@ -153,7 +150,6 @@ const Prizes = ({ className = "" }) => {
       if (prizesFadeTimeout) {
         clearTimeout(prizesFadeTimeout);
       }
-      // Kill any remaining triggers for these elements
       ScrollTrigger.getAll().forEach(st => {
         if (st.trigger === section || st.trigger === ufoContainer || st.trigger === ufoOnly) {
           st.kill();

@@ -1,5 +1,12 @@
 'use client';
-import StarCanvas from "@/components/ui/StarCanvas";
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+
+// Dynamically import StarCanvas with no SSR + loading priority adjustment
+const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-black" />
+});
 
 // Pixel-style CTA Button Component
 const PixelCTAButton = () => {
@@ -16,7 +23,7 @@ const PixelCTAButton = () => {
       {/* Main button */}
       <a
         href="#"
-        className="relative block px-10 py-4 md:px-14 md:py-5 bg-gradient-to-r from-[#d2ff52] via-[#a8e063] to-[#d2ff52] 
+        className="relative block px-10 py-4 md:px-14 md:py-5 bg-linear-to-r bg-[#00b4d8] 
                    text-black font-pixel-emulator text-sm md:text-base tracking-wider
                    transition-all duration-300 ease-out
                    hover:shadow-[0_0_40px_rgba(210,255,82,0.6),0_0_80px_rgba(210,255,82,0.3)]
@@ -65,18 +72,34 @@ const PixelCTAButton = () => {
 export default function Hero() {
   return (
     <>
-      <section id="hero" className="min-h-dvh w-full bg-black relative h-screen flex items-center justify-center">
-        <img
+      <section id="hero" className="h-screen w-full bg-black relative flex items-center justify-center overflow-hidden">
+        <Image
           src="/hero/frame.png"
           alt="Frame"
-          className="w-full h-full absolute top-0 z-2 "
+          width={1920}
+          height={1080}
+          priority
+          className="absolute top-0 left-0 w-full h-full z-2 pointer-events-none"
         />
         <StarCanvas />
-        <img src="/hero/pixel_layer.png" alt="Pixel Layer" className="w-full h-[52.5vh] absolute bottom-0 z-3" />
-        {/* <img src="/assets/home/bg1.png" alt="Background" className="w-full h-full" /> */}
+        <div className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
+          <Image
+            src="/hero/pixel_layer.png"
+            alt="Pixel Layer"
+            width={1920}
+            height={1080}
+            className="object-bottom w-full h-full"
+          />
+        </div>
+
         <div className="absolute top-0 left-0 pt-[2.5vh] tracking-wider flex flex-row pl-[2.2vw] z-5 text-[1.8vh] font-quinque">
-          <div className="w-14 mr-6">
-            <img src="/assets/Logos/csi_logo.png" className="w-full h-full object-contain" alt="" />
+          <div className="w-14 mr-6 relative h-14">
+            <Image
+              src="/assets/Logos/csi_logo.png"
+              alt="CSI Logo"
+              fill
+              className="object-contain"
+            />
           </div>
           <div className="flex flex-col-reverse">
             <span className="font-pixel-emulator text-[2.2vw] leading-tight md:block hidden">CSI Presents</span>
@@ -91,8 +114,14 @@ export default function Hero() {
           </div>
         </div>
         <div className="absolute top-[28%] w-max max-w-[90vw] h-max left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10">
-          <div className="w-[60vw] h-auto mb-4">
-            <img src="/assets/home/hackvision_logo.png" alt="Background" className="w-full h-full" />
+          <div className="w-[60vw] h-[20vh] mb-4 relative">
+            <Image
+              src="/assets/home/hackvision_logo.png"
+              alt="HackVision Logo"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
           <div className="font-pixel-emulator text-[2vh] md:text-[2.8vh] tracking-wide text-center font-bold ml-6">
             <p>24 Hours of Coding, Creativity & Chaos</p>

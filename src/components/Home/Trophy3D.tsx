@@ -33,11 +33,12 @@ function TrophyModel({ modelPath }: { modelPath: string }) {
     clonedScene.position.y = -center.y * scale;
 
     // Add to group
-    groupRef.current.add(clonedScene);
+    const group = groupRef.current;
+    group.add(clonedScene);
 
     return () => {
-      if (groupRef.current && clonedScene) {
-        groupRef.current.remove(clonedScene);
+      if (group && clonedScene) {
+        group.remove(clonedScene);
       }
     };
   }, [scene]);
@@ -101,6 +102,8 @@ const Trophy3D = ({ modelPath }: { modelPath?: string }) => {
       <Canvas
         camera={{ position: [0, 1.5, 5], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
+        dpr={[1, 1.5]}
+        performance={{ min: 0.5 }}
       >
         {/* Lighting */}
         <ambientLight intensity={0.8} />
