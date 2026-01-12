@@ -50,16 +50,15 @@ export default function Timeline() {
       // Debounce resize events
       clearTimeout(resizeTimer)
       resizeTimer = setTimeout(() => {
-        // Refresh all ScrollTrigger instances to recalculate positions
         ScrollTrigger.refresh(true)
-      }, 250)
+      }, 500)
     }
 
     window.addEventListener('resize', handleResize)
 
     // Also handle orientation change for mobile
     window.addEventListener('orientationchange', () => {
-      setTimeout(() => ScrollTrigger.refresh(true), 300)
+      setTimeout(() => ScrollTrigger.refresh(true), 500)
     })
 
     return () => {
