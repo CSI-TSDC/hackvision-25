@@ -582,6 +582,7 @@ export default function Tracks() {
       id="tracks"
       className="relative w-full bg-[#5B2EFF] text-white mt-[100vh] pt-30 pb-[30vh] px-[5vw] z-5 overflow-hidden"
     >
+      <div className="grid-bg"></div>
       {/* Floating particles background */}
       <FloatingParticles />
 
@@ -599,26 +600,28 @@ export default function Tracks() {
 
       {/* Animated Title */}
       <div className="relative w-full flex justify-center mb-[6vh]">
-        <div ref={titleRef} className="relative">
+        <div className="relative w-full flex flex-col items-center justify-center">
           {/* Glitch layers */}
-          <h2
-            className="title-layer absolute text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none text-[#d2ff52] opacity-70"
-            style={{ left: '4px', top: '4px' }}
-          >
-            TRACKS
-          </h2>
-          <h2
-            className="title-layer absolute text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none text-[#FF8C00] opacity-70"
-            style={{ left: '-4px', top: '-4px' }}
-          >
-            TRACKS
-          </h2>
-          <h2
-            className="title-layer relative text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none text-white"
-            style={{ textShadow: '0 0 30px rgba(255,255,255,0.5)' }}
-          >
-            TRACKS
-          </h2>
+          <div ref={titleRef} className='relative'>
+            <h2
+              className="title-layer absolute text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none text-[#d2ff52] opacity-70"
+              style={{ left: '4px', top: '4px' }}
+            >
+              TRACKS
+            </h2>
+            <h2
+              className="title-layer absolute text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none text-[#FF8C00] opacity-70"
+              style={{ left: '-4px', top: '-4px' }}
+            >
+              TRACKS
+            </h2>
+            <h2
+              className="title-layer relative text-[10vw] sm:text-[8vw] font-pixalic tracking-wider font-bold select-none text-white"
+              style={{ textShadow: '0 0 30px rgba(255,255,255,0.5)' }}
+            >
+              TRACKS
+            </h2>
+          </div>
 
           {/* Subtitle */}
           <p className="text-center font-nikea text-white/60 text-lg md:text-xl mt-2 tracking-wide">

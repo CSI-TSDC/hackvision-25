@@ -133,13 +133,14 @@ export default function Footer({ className = "" }) {
 
                         {/* Logo section */}
                         <div className="flex flex-col items-center md:items-start">
-                            <div className="flex items-center mb-4">
-                                {/* Pixel logo */}
-                                <div className="flex gap-0.5 mr-3">
-                                    <div className="w-3 h-3 bg-[#d2ff52]" />
-                                    <div className="flex flex-col gap-0.5">
-                                        <div className="w-3 h-3 bg-[#FF8C00]" />
-                                        <div className="w-3 h-3 bg-[#4ecdc4]" />
+                            <div className="flex items-center mb-4 scale-90 md:scale-100 origin-left">
+                                {/* Logos */}
+                                <div className="flex items-center gap-4 mr-4">
+                                    <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
+                                        <img src="/assets/Logos/csi_logo.webp" className="w-full h-full object-contain" alt="CSI Logo" />
+                                    </div>
+                                    <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
+                                        <img src="/assets/Logos/tsdc_logo.webp" className="w-full h-full object-contain" alt="TSDC Logo" />
                                     </div>
                                 </div>
                                 <span className="font-quinque text-lg tracking-wider">CSI x TSDC</span>
@@ -219,14 +220,16 @@ export default function Footer({ className = "" }) {
                                 </h3>
                                 <div className="flex justify-center sm:justify-start gap-3">
                                     {[
-                                        { icon: '📷', label: 'Instagram' },
-                                        { icon: '🎵', label: 'Discord' },
-                                        { icon: '🐦', label: 'Twitter' },
-                                        { icon: '💼', label: 'LinkedIn' },
+                                        { icon: '📷', label: 'Instagram', link: 'https://instagram.com/csixtsdc' },
+                                        { icon: '🎵', label: 'Discord', link: '#' },
+                                        { icon: '👨‍💻', label: 'GitHub', link: 'https://github.com/orgs/CSI-TSDC' },
+                                        { icon: '💼', label: 'LinkedIn', link: '#' },
                                     ].map((social, i) => (
                                         <a
                                             key={i}
-                                            href="#"
+                                            href={social.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center
                                                        hover:bg-[#d2ff52]/20 hover:border-[#d2ff52]/50 transition-all duration-200
                                                        group"

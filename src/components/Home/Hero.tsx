@@ -92,18 +92,18 @@ export default function Hero() {
           />
         </div>
 
-        <div className="absolute top-0 left-0 pt-[2.5vh] tracking-wider flex flex-row pl-[2.2vw] z-5 text-[1.8vh] font-quinque">
+        <div className="absolute w-[33vw] top-0 left-0 pt-[2.5vh] tracking-wider flex flex-row items-stretch justify-center  pl-[2.2vw] z-5 text-[1.8vh] font-quinque">
           <div className="w-14 mr-6 relative h-14">
             <Image
-              src="/assets/Logos/csi_logo.png"
+              src="/assets/Logos/csi_logo.webp"
               alt="CSI Logo"
               fill
               className="object-contain"
             />
           </div>
-          <div className="flex flex-col-reverse">
-            <span className="font-pixel-emulator text-[2.2vw] leading-tight md:block hidden">CSI Presents</span>
-            <div className=" flex gap-[2px] mb-4">
+          <div className="relative hidden flex-col-reverse justify-between h-auto md:flex">
+            <span className="font-pixel-emulator text-white text-[2.3vh] leading-tigh">CSI Presents</span>
+            <div className=" flex gap-[2px] mb-2">
               {[...Array(10)].map((_, i) => (
                 <span
                   key={i}

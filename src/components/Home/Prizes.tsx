@@ -120,14 +120,13 @@ const Prizes = ({ className = "" }) => {
 
       triggers.push(prizesFadeInTrigger);
 
-      // Only setup tracks pin trigger once, do NOT loop or refresh continually
       const tracksSection = document.getElementById('tracks');
       if (tracksSection) {
         const sectionPinTrigger = ScrollTrigger.create({
           trigger: section,
           start: 'bottom bottom',
           endTrigger: tracksSection,
-          end: 'top top',
+          end: 'top bottom',
           pin: section,
           pinSpacing: false,
           invalidateOnRefresh: true,
@@ -176,7 +175,7 @@ const Prizes = ({ className = "" }) => {
       </div>
       <div
         ref={ufoContainerRef}
-        className="absolute top-0 left-0 w-full h-screen flex flex-col items-center pb-5"
+        className="absolute top-0 left-0 w-full h-screen hidden md:flex flex-col items-center pb-5"
       >
         {/* UFO (natural height, stays at top) */}
         <div
@@ -205,46 +204,48 @@ const Prizes = ({ className = "" }) => {
         >
           <img
             src="/assets/home/Prizes/ufolight2.png"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain object-top"
             alt=""
           />
         </div>
       </div>
-      <div ref={prizesWrapRef} id='prizes_wrap' className='absolute bottom-0 w-full items-center justify-center opacity-0'>
-        <div className="relative z-10 w-full flex flex-row gap-10 px-[8vw]">
-          <div className='flex flex-col w-full h-auto justify-center items-center'>
-            <div className='w-28 h-auto mb-8'>
+      <div ref={prizesWrapRef} id='prizes_wrap' className='absolute bottom-0 md:bottom-0 top-0 md:top-auto w-full flex items-center justify-center opacity-0'>
+        <div className="relative z-10 w-full flex flex-col md:flex-row gap-8 md:gap-10 px-6 md:px-[8vw] justify-center items-center h-full md:h-auto">
+          <div className='flex flex-col w-full h-auto justify-center items-center order-2 md:order-1'>
+            <div className='w-20 md:w-28 h-auto mb-4 md:mb-8'>
               <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
             </div>
             <div className='flex flex-col justify-center items-center'>
-              <span className='text-[3.2vh] font-pixel-emulator'>
+              <span className='text-[2.5vh] md:text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
                 <span>2nd Place</span>
               </span>
-              <span className='text-[1.8vw] font-quinque bstroke text-[#BFC3C7]'>
+              <span className='text-[1.8vh] md:text-[1.8vw] font-quinque bstroke text-[#BFC3C7]'>
                 <span>25,000 RS</span>
               </span>
             </div>
           </div>
-          <div className="flex flex-col w-full items-center justify-center">
-            <div className='flex flex-col justify-center items-center font-quinque'>
-              <span className='text-[3.6vh] font-pixel-emulator bstrokeds'>
+          <div className="flex flex-col w-full items-center justify-center order-1 md:order-2 mb-6 md:mb-0">
+            <div className='flex flex-col justify-center items-center font-quinque mb-4 md:mb-0'>
+              <span className='text-[3vh] md:text-[3.6vh] text-white font-pixel-emulator bstrokeds'>
                 <span>1st Place</span>
               </span>
-              <span className='text-[2.9vh] md:text-[2.2vw] bstroke text-[#D4AF37]'>
+              <span className='text-[2.2vh] md:text-[2.2vw] bstroke text-[#D4AF37]'>
                 <span>50,000 RS</span>
               </span>
             </div>
-            <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' />
+            <div className="w-[40vw] md:w-full max-w-[200px] md:max-w-none">
+              <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' />
+            </div>
           </div>
-          <div className='flex flex-col w-full h-auto justify-center items-center'>
-            <div className='w-28 h-auto mb-8'>
+          <div className='flex flex-col w-full h-auto justify-center items-center order-3'>
+            <div className='w-20 md:w-28 h-auto mb-4 md:mb-8'>
               <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
             </div>
             <div className='flex flex-col justify-center items-center'>
-              <span className='text-[3.2vh] font-pixel-emulator'>
+              <span className='text-[2.5vh] md:text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
                 <span>3rd Place</span>
               </span>
-              <span className='text-[1.8vw] font-quinque bstroke text-[#9C6B3D]'>
+              <span className='text-[1.8vh] md:text-[1.8vw] font-quinque bstroke text-[#9C6B3D]'>
                 <span>15,000 RS</span>
               </span>
             </div>

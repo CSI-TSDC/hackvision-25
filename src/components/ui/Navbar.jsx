@@ -37,7 +37,7 @@ export default function Navbar({ className = "" }) {
 
           {/* Glassmorphic Menu Bar */}
           <div
-            className="hidden md:flex h-full text-[0.8vw] w-[55vw] justify-between items-center pl-[50px] space-x-4 pr-[20px] relative overflow-hidden"
+            className="hidden md:flex h-full text-[0.8vw] w-[55.5vw] justify-between items-center pl-[50px] space-x-4 pr-[20px] relative overflow-hidden"
             style={{
               background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.9) 100%)',
               backdropFilter: 'blur(12px)',
