@@ -32,7 +32,6 @@ const Prizes = ({ className = "" }) => {
     let prizesFadeTimeout: NodeJS.Timeout | null = null;
 
     requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
 
       ufoFadeInTimeline = gsap.timeline({
         scrollTrigger: {
@@ -121,30 +120,37 @@ const Prizes = ({ className = "" }) => {
 
       triggers.push(prizesFadeInTrigger);
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const tracksSection = document.getElementById('tracks');
-
-          if (tracksSection) {
-            const sectionPinTrigger = ScrollTrigger.create({
-              trigger: section,
-              start: 'bottom bottom',
-              endTrigger: tracksSection,
-              end: 'top top',
-              pin: section,
-              pinSpacing: false,
-              invalidateOnRefresh: true,
-            });
-            triggers.push(sectionPinTrigger);
-            ScrollTrigger.refresh();
-          } else {
-            console.warn('Tracks section not found for prizes pin trigger');
-          }
+      // Only setup tracks pin trigger once, do NOT loop or refresh continually
+      const tracksSection = document.getElementById('tracks');
+      if (tracksSection) {
+        const sectionPinTrigger = ScrollTrigger.create({
+          trigger: section,
+          start: 'bottom bottom',
+          endTrigger: tracksSection,
+          end: 'top top',
+          pin: section,
+          pinSpacing: false,
+          invalidateOnRefresh: true,
         });
-      });
+        triggers.push(sectionPinTrigger);
+      }
     });
 
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    // Debounced resize observer
+    let resizeTimer: NodeJS.Timeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(handleResize, 200);
+    };
+
+    window.addEventListener('resize', debouncedResize);
+
     return () => {
+      window.removeEventListener('resize', debouncedResize);
       triggers.forEach(trigger => trigger?.kill());
       ufoFadeInTimeline?.kill();
       if (prizesFadeTimeout) {

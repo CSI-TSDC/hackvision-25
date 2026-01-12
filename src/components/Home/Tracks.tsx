@@ -518,6 +518,7 @@ export default function Tracks() {
     };
 
     let bgPinTrigger: ScrollTrigger | null = null;
+    let observer: IntersectionObserver | null = null;
 
     const start = () => {
       createOffscreenAndTiles();
@@ -537,6 +538,23 @@ export default function Tracks() {
       }
     };
 
+    const stopLoop = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    };
+
+    const handleVisibility = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!rafId && img.complete) {
+            rafId = requestAnimationFrame(loop);
+          }
+        } else {
+          stopLoop();
+        }
+      });
+    };
+
     const handleResize = () => {
       createOffscreenAndTiles();
     };
@@ -544,10 +562,17 @@ export default function Tracks() {
     img.onload = start;
     window.addEventListener('resize', handleResize);
 
+    // Intersection Observer to pause animation when not visible
+    if (sectionElementRef.current) {
+      observer = new IntersectionObserver(handleVisibility, { threshold: 0 });
+      observer.observe(sectionElementRef.current);
+    }
+
     return () => {
       window.removeEventListener('resize', handleResize);
       if (rafId) cancelAnimationFrame(rafId);
       bgPinTrigger?.kill();
+      observer?.disconnect();
     };
   }, []);
 

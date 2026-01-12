@@ -146,17 +146,7 @@ export default function Timeline() {
     }
   }, [])
 
-  const Star = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" className="mx-3">
-      <path
-        fill="currentColor"
-        d="M12 2l2.9 6.1L22 9l-5 4.9L18.2 22 12 18.6 5.8 22 7 13.9 2 9l7.1-.9L12 2z"
-      />
-    </svg>
-  );
-  const Dot = () => (
-    <span className="inline-block w-2 h-2 rounded-full bg-current mx-3" />
-  );
+
 
   const repeat = (text, className) =>
     Array.from({ length: 50 }).map((_, i) => (

@@ -17,7 +17,7 @@ export default function Home() {
       <Prizes className="z-4"></Prizes>
       <Tracks></Tracks>
       <Timeline></Timeline>
-      <Sponsors></Sponsors>
+      {/* <Sponsors></Sponsors> */}
       <FAQs></FAQs>
     </main>
   );
