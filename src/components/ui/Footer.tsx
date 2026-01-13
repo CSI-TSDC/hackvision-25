@@ -133,7 +133,7 @@ export default function Footer({ className = "" }) {
 
                         {/* Logo section */}
                         <div className="flex flex-col items-center md:items-start">
-                            <div className="flex items-center mb-4 scale-90 md:scale-100 origin-left">
+                            <div className="flex flex-col items-start gap-4 mb-4 scale-90 md:scale-100 origin-left">
                                 {/* Logos */}
                                 <div className="flex items-center gap-4 mr-4">
                                     <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
@@ -147,7 +147,7 @@ export default function Footer({ className = "" }) {
                             </div>
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="w-2 h-2 bg-[#d2ff52] animate-pulse" />
-                                <span className="font-pixel-emulator text-xs text-[#d2ff52]">HACKVISION 2025</span>
+                                <span className="font-pixel-emulator text-xs text-[#d2ff52]">HACKVISION 2026</span>
                             </div>
                             <span className="font-nikea text-white/40 text-sm">
                                 © 2025 ALL RIGHTS RESERVED
