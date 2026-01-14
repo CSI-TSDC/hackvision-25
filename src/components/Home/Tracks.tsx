@@ -105,21 +105,25 @@ export default function Tracks() {
   }, [contentOpacity]);
 
   useEffect(() => {
+    if (!stripsContainerRef.current) return;
+
     const ctx = gsap.context(() => {
-      // Strips animation
+      // Strips animation - only when section is visible
       const strips = gsap.utils.toArray('.strip');
+      if (strips.length === 0) return;
+
       strips.forEach((el: any, i: number) => {
         const speed = 100;
         const dir = i % 2 === 0 ? 1 : -1;
         ScrollTrigger.create({
-          trigger: stripsContainerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.5,
-          invalidateOnRefresh: true,
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=120%', // Match the pin duration
+          scrub: 1,
           onUpdate: (self) => {
+            // Loop the animation using modulo
             const xPercent = (self.progress * speed * dir) % 100;
-            gsap.set(el, { xPercent: xPercent });
+            gsap.set(el, { xPercent });
           },
         });
       });
@@ -170,10 +174,14 @@ export default function Tracks() {
 
   const handleImageDoubleClick = (src: string, title: string) => {
     setImageViewer({ src, title });
+    // Disable scroll when viewer is open
+    document.body.style.overflow = 'hidden';
   };
 
   const handleCloseImageViewer = () => {
     setImageViewer(null);
+    // Re-enable scroll
+    document.body.style.overflow = '';
   };
 
   const handleReadmeDoubleClick = () => {
@@ -181,10 +189,14 @@ export default function Tracks() {
       title: 'readme.md',
       content: 'Problem statements for the Offline hackathon will be released a day prior to the hackathon.'
     });
+    // Disable scroll when viewer is open
+    document.body.style.overflow = 'hidden';
   };
 
   const handleCloseTextViewer = () => {
     setTextViewer(null);
+    // Re-enable scroll
+    document.body.style.overflow = '';
   };
 
   return (
@@ -252,14 +264,14 @@ export default function Tracks() {
 
                 {/* Content - only visible when fully revealed */}
                 <div
-                  className="absolute inset-0 p-4 overflow-hidden"
+                  className="absolute inset-0 p-4 overflow-y-auto"
                   style={{ opacity: contentOpacity > 0.95 ? 1 : 0, transition: 'opacity 0.3s' }}
                 >
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {IMAGES.map((img, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-3 cursor-pointer hover:bg-[#1757b7] p-2 rounded transition-colors"
+                        className="flex items-center gap-3 md:cursor-pointer hover:md:bg-[#1757b7] p-2 rounded transition-colors pointer-events-none md:pointer-events-auto"
                         onDoubleClick={() => handleImageDoubleClick(img, TRACK_DATA[index]?.label || `Track ${index + 1}`)}
                       >
                         <div className="w-14 h-14 border-2 border-[#808080] bg-[#c0c0c0] flex items-center justify-center overflow-hidden shrink-0">
@@ -276,7 +288,7 @@ export default function Tracks() {
                     ))}
                     {/* Readme file */}
                     <div
-                      className="flex items-center gap-3 cursor-pointer hover:bg-[#1757b7] p-2 rounded transition-colors"
+                      className="flex items-center gap-3 md:cursor-pointer hover:md:bg-[#1757b7] p-2 rounded transition-colors pointer-events-none md:pointer-events-auto"
                       onDoubleClick={handleReadmeDoubleClick}
                     >
                       <div className="w-14 h-14 border-2 border-[#808080] bg-[#c0c0c0] flex items-center justify-center overflow-hidden shrink-0">

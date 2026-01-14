@@ -180,35 +180,26 @@ export default function About({ className = "" }) {
     return (
         <section id="about" className={`relative w-full h-max min-h-screen bg-[#3054e5] font-quinque text-[#f8f8f8] ${className}`}>
             <div className="relative px-[8vw] py-20 w-full h-max flex flex-col">
-                <div className="anim_text w-full flex justify-center text-[1.6vh] mb-8">
+                <div className="anim_text w-full flex justify-center text-[1.6vh] mb-2 md:mb-8">
                     <span>
                         <span>hosted by</span>
                     </span>
                 </div>
-                <div className="anim_text flex flex-col items-center justify-center font-pixel-emulator text-[3.1vw] leading-snug mb-16">
+                <div className="anim_text flex flex-col items-center justify-center font-pixel-emulator text-[5vw] md:text-[3.1vw] leading-snug mb-4 md:mb-16">
                     <span>
-                        <span className="float-left">CSI Committee of</span>
+                        <span className="float-left text-center">CSI Committee of</span>
                     </span>
                     <span>
-                        <span className="float-left">Thakur Shyamnarayan Degree College</span>
-                    </span>
-                </div>
-                <div id="anim_text" className="anim_text flex text-center flex-col w-full justify-center items-center text-[2.6vh] font-nikea tracking-wide mb-20">
-                    <span>
-                        <span>We invite fellow hackers from around the </span>
-                    </span>
-                    <span>
-                        <span>country to join us for a 24-hour hackathon where</span>
-                    </span>
-                    <span>
-                        <span>creativity, collaboration, and focused </span>
-                    </span>
-                    <span>
-                        <span>building come together.</span>
+                        <span className="float-left text-center">Thakur Shyamnarayan Degree College</span>
                     </span>
                 </div>
-                <div className="relative w-full h-auto flex flex-col md:flex-row md:items-stretch justify-center tracking-wide gap-10">
-                    <div className="relative w-full md:w-2/3 min-w-[350px] text-white h-auto bg-[#121212] rounded-3xl px-5 py-6">
+                <div id="anim_text" className="anim_text flex text-center flex-col w-full justify-center items-center text-[2vh] md:text-[2.6vh] font-nikea tracking-wide mb-8 md:mb-20 px-4">
+                    <span>
+                        <span>We invite fellow hackers from around the country to join us for a 24-hour hackathon where creativity, collaboration, and focused building come together.</span>
+                    </span>
+                </div>
+                <div className="relative w-full h-auto flex flex-col md:flex-row md:items-stretch justify-center tracking-wide gap-6 md:gap-10">
+                    <div className="relative w-full md:w-2/3 text-white h-auto bg-[#121212] rounded-3xl px-5 py-6">
                         <div className="flex flex-col mb-8">
                             <span className="text-[1.9vh] font-pixel-emulator leading-tight mb-4 bg-[#8ac926] text-black w-max p-3 rounded-3xl">
                                 <span>Location:</span>
@@ -240,7 +231,7 @@ export default function About({ className = "" }) {
                             <img className="w-full h-full" src={iconImages[iconIndices[2]]} alt="Icon" />
                         </span>
                     </div>
-                    <div className="w-full md:w-1/3 min-w-[350px] text-white bg-[#FF8C00] px-5 py-6 rounded-3xl h-auto md:h-auto max-h-[60vh] md:max-h-none flex flex-col justify-between">
+                    <div className="w-full md:w-1/3 text-white bg-[#FF8C00] px-5 py-6 rounded-3xl h-auto md:h-auto max-h-[50vh] md:max-h-none flex flex-col justify-between">
                         <div className="w-full h-max flex">
                             <span className="block h-max text-[1.9vh] font-pixel-emulator leading-tight mb-4 text-white bg-black w-max p-3 rounded-3xl">
                                 <span>PRIZE POOL</span>

@@ -230,8 +230,8 @@ export default function FAQs({ className = "" }) {
                                         onClick={() => toggleFAQ(index)}
                                         className="w-full px-6 py-3 flex justify-between items-center text-left"
                                     >
-                                        <span className="font-quinque text-lg md:text-xl text-white pr-4">
-                                            <span className="text-[#d2ff52] mr-3 font-pixel-emulator text-sm">0{index + 1}</span>
+                                        <span className="font-quinque text-sm md:text-lg text-white pr-4">
+                                            <span className="text-[#d2ff52] mr-3 font-pixel-emulator text-xs md:text-sm">0{index + 1}</span>
                                             {faq.question}
                                         </span>
                                         <span className={`

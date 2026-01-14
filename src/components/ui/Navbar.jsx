@@ -25,7 +25,7 @@ export default function Navbar({ className = "" }) {
 
   return (
     <>
-      <nav className={`w-full flex ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[3.5vh]' : 'top-0'} font-quinque h-[9vh] ${isScrolled ? '' : 'mt-[3.5vh]'} pt-[15px] text-sm ${className} justify-between items-stretch pl-[4vw] font-quinque text-[#f8f8f8] ${isScrolled ? 'z-[100]' : 'z-1'}`}>
+      <nav className={`w-full flex ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[3.5vh]' : 'top-0'} font-quinque h-[9vh] ${isScrolled ? '' : 'md:mt-[3.5vh]'} pt-[15px] text-sm ${className} justify-between items-stretch pl-[4vw] font-quinque text-[#f8f8f8] ${isScrolled ? 'z-[100]' : 'z-1'}`}>
 
         {/* Logo */}
         <div className="w-max h-full flex items-center">

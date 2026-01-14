@@ -173,6 +173,28 @@ const Prizes = ({ className = "" }) => {
       <div className='w-full h-screen'>
         <img src="/assets/home/Prizes/prizesbg.png" className='w-full h-full object-cover' alt="" />
       </div>
+
+      {/* Mobile UFO Container - visible on mobile */}
+      <div className="absolute top-0 left-0 w-full h-screen flex md:hidden flex-col items-center">
+        {/* UFO for mobile */}
+        <div className="relative w-[80vw] h-auto shrink-0 mt-4">
+          <img
+            src="/assets/home/Prizes/onlyufo.png"
+            className="w-full h-full object-contain z-2"
+            alt=""
+          />
+        </div>
+        {/* Light beam for mobile */}
+        <div className="relative flex-1 w-full -mt-0.5 overflow-hidden">
+          <img
+            src="/assets/home/Prizes/ufolight2.png"
+            className="w-full h-full object-contain object-top"
+            alt=""
+          />
+        </div>
+      </div>
+
+      {/* Desktop UFO Container */}
       <div
         ref={ufoContainerRef}
         className="absolute top-0 left-0 w-full h-screen hidden md:flex flex-col items-center pb-5"
@@ -209,43 +231,101 @@ const Prizes = ({ className = "" }) => {
           />
         </div>
       </div>
-      <div ref={prizesWrapRef} id='prizes_wrap' className='absolute bottom-0 md:bottom-0 top-0 md:top-auto w-full flex items-center justify-center opacity-0'>
-        <div className="relative z-10 w-full flex flex-col md:flex-row gap-8 md:gap-10 px-6 md:px-[8vw] justify-center items-center h-full md:h-auto">
-          <div className='flex flex-col w-full h-auto justify-center items-center order-2 md:order-1'>
-            <div className='w-20 md:w-28 h-auto mb-4 md:mb-8'>
+
+      {/* Mobile Prizes Layout - matching reference design */}
+      <div className='absolute inset-0 w-full flex md:hidden flex-col items-center justify-end px-4 py-6 gap-4'>
+        {/* Top section - Trophy only */}
+        <div className="w-[180px] h-auto aspect-square shrink-0">
+          <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' className="w-full h-full" />
+        </div>
+
+        {/* Bottom section - Prize boxes */}
+        <div className="w-full flex flex-col gap-2 mt-4">
+          {/* 1st Place Box */}
+          <div className="w-full bg-[#1a3a8a]/80 backdrop-blur-sm border-2 border-[#4a7fff] rounded-lg p-3 flex items-center gap-4">
+            <div className='w-12 h-12 shrink-0'>
+              <img className="w-full h-full object-contain" src="/assets/home/Prizes/gold.gif" alt="Gold" />
+            </div>
+            <div className='flex flex-col'>
+              <span className='text-[1.8vh] text-white font-pixel-emulator'>
+                1st Place
+              </span>
+              <span className='text-[2.2vh] font-quinque text-[#D4AF37]'>
+                50,000 RS
+              </span>
+            </div>
+          </div>
+
+          {/* 2nd Place Box */}
+          <div className="w-full bg-[#3a6adf]/60 backdrop-blur-sm border-2 border-[#6a9fff] rounded-lg p-3 flex items-center gap-4">
+            <div className='w-12 h-12 shrink-0'>
+              <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
+            </div>
+            <div className='flex flex-col'>
+              <span className='text-[1.8vh] text-white font-pixel-emulator'>
+                2nd Place
+              </span>
+              <span className='text-[2.2vh] font-quinque text-[#BFC3C7]'>
+                25,000 RS
+              </span>
+            </div>
+          </div>
+
+          {/* 3rd Place Box */}
+          <div className="w-full bg-[#5a8aff]/50 backdrop-blur-sm border-2 border-[#8ab0ff] rounded-lg p-3 flex items-center gap-4">
+            <div className='w-12 h-12 shrink-0'>
+              <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
+            </div>
+            <div className='flex flex-col'>
+              <span className='text-[1.8vh] text-white font-pixel-emulator'>
+                3rd Place
+              </span>
+              <span className='text-[2.2vh] font-quinque text-[#9C6B3D]'>
+                15,000 RS
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Prizes Layout */}
+      <div ref={prizesWrapRef} id='prizes_wrap' className='absolute bottom-0 w-full hidden md:flex items-center justify-center opacity-0'>
+        <div className="relative z-10 w-full flex flex-row gap-10 px-[8vw] justify-center items-center h-auto">
+          <div className='flex flex-col w-full h-auto justify-center items-center order-1'>
+            <div className='w-28 h-auto mb-8'>
               <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
             </div>
             <div className='flex flex-col justify-center items-center'>
-              <span className='text-[2.5vh] md:text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
+              <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
                 <span>2nd Place</span>
               </span>
-              <span className='text-[1.8vh] md:text-[1.8vw] font-quinque bstroke text-[#BFC3C7]'>
+              <span className='text-[1.8vw] font-quinque bstroke text-[#BFC3C7]'>
                 <span>25,000 RS</span>
               </span>
             </div>
           </div>
-          <div className="flex flex-col w-full items-center justify-center order-1 md:order-2 mb-6 md:mb-0">
-            <div className='flex flex-col justify-center items-center font-quinque mb-4 md:mb-0'>
-              <span className='text-[3vh] md:text-[3.6vh] text-white font-pixel-emulator bstrokeds'>
+          <div className="flex flex-col w-full items-center justify-center order-2">
+            <div className='flex flex-col justify-center items-center font-quinque'>
+              <span className='text-[3.6vh] text-white font-pixel-emulator bstrokeds'>
                 <span>1st Place</span>
               </span>
-              <span className='text-[2.2vh] md:text-[2.2vw] bstroke text-[#D4AF37]'>
+              <span className='text-[2.2vw] bstroke text-[#D4AF37]'>
                 <span>50,000 RS</span>
               </span>
             </div>
-            <div className="w-[40vw] md:w-full max-w-[200px] md:max-w-none">
+            <div className="w-full">
               <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' />
             </div>
           </div>
           <div className='flex flex-col w-full h-auto justify-center items-center order-3'>
-            <div className='w-20 md:w-28 h-auto mb-4 md:mb-8'>
+            <div className='w-28 h-auto mb-8'>
               <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
             </div>
             <div className='flex flex-col justify-center items-center'>
-              <span className='text-[2.5vh] md:text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
+              <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
                 <span>3rd Place</span>
               </span>
-              <span className='text-[1.8vh] md:text-[1.8vw] font-quinque bstroke text-[#9C6B3D]'>
+              <span className='text-[1.8vw] font-quinque bstroke text-[#9C6B3D]'>
                 <span>15,000 RS</span>
               </span>
             </div>

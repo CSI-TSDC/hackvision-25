@@ -8,64 +8,39 @@ const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
   loading: () => <div className="absolute inset-0 bg-black" />
 });
 
-// Pixel-style CTA Button Component
+// 3D Beveled CTA Button Component (Windows 95 style)
 const PixelCTAButton = () => {
   return (
-    <div className="relative group mt-8 cursor-pointer">
-      {/* Glitch layers */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100">
-        <div className="absolute inset-0 bg-[#ff6b6b] translate-x-[2px] translate-y-[-2px]"
-          style={{ clipPath: 'polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px)' }} />
-        <div className="absolute inset-0 bg-[#4ecdc4] translate-x-[-2px] translate-y-[2px]"
-          style={{ clipPath: 'polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px)' }} />
-      </div>
+    <a
+      href="#"
+      className="relative mt-8 cursor-pointer inline-block group"
+    >
+      {/* Outer frame - dark bottom/right edges */}
+      <div className="absolute inset-0 bg-[#808080] translate-x-1 translate-y-1" />
 
-      {/* Main button */}
-      <a
-        href="#"
-        className="relative block px-10 py-4 md:px-14 md:py-5 bg-linear-to-r bg-[#00b4d8] 
-                   text-black font-pixel-emulator text-sm md:text-base tracking-wider
-                   transition-all duration-300 ease-out
-                   hover:shadow-[0_0_40px_rgba(210,255,82,0.6),0_0_80px_rgba(210,255,82,0.3)]
-                   hover:scale-105 active:scale-95
-                   group-hover:animate-pulse"
-        style={{
-          clipPath: 'polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px)',
-          textShadow: '1px 1px 0 rgba(0,0,0,0.1)'
-        }}
-      >
-        {/* Corner pixels */}
-        <div className="absolute top-0 left-0 w-2 h-2 bg-black/20" />
-        <div className="absolute top-0 right-0 w-2 h-2 bg-black/20" />
-        <div className="absolute bottom-0 left-0 w-2 h-2 bg-black/20" />
-        <div className="absolute bottom-0 right-0 w-2 h-2 bg-black/20" />
-
-        {/* Button content */}
-        <span className="relative z-10 flex items-center gap-3">
-          <span className="inline-block w-2 h-2 bg-black animate-ping" />
-          REGISTER NOW
-          <span className="inline-block font-quinque">
-            →
+      {/* Main button container */}
+      <div className="relative bg-[#c0c0c0] border-4 border-t-white border-l-white border-r-[#404040] border-b-[#404040]">
+        {/* Inner container with inverted bevel */}
+        <div className="bg-white border-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white px-8 py-3 md:px-12 md:py-4">
+          <span className="font-pixel-emulator text-black text-sm md:text-base tracking-wider whitespace-nowrap">
+            REGISTER NOW
           </span>
-        </span>
-      </a>
-
-      {/* Pixel border glow */}
-      <div className="absolute -inset-1 opacity-60 blur-sm bg-gradient-to-r from-[#d2ff52] via-[#FF8C00] to-[#d2ff52] -z-10 group-hover:opacity-100 transition-opacity"
-        style={{ clipPath: 'polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px)' }} />
-
-      {/* Floating pixel decorations */}
-      <div className="absolute -left-6 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-        <div className="w-2 h-2 bg-[#d2ff52] animate-bounce" style={{ animationDelay: '0s' }} />
-        <div className="w-2 h-2 bg-[#FF8C00] animate-bounce" style={{ animationDelay: '0.1s' }} />
-        <div className="w-2 h-2 bg-[#4ecdc4] animate-bounce" style={{ animationDelay: '0.2s' }} />
+        </div>
       </div>
-      <div className="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-        <div className="w-2 h-2 bg-[#4ecdc4] animate-bounce" style={{ animationDelay: '0.2s' }} />
-        <div className="w-2 h-2 bg-[#FF8C00] animate-bounce" style={{ animationDelay: '0.1s' }} />
-        <div className="w-2 h-2 bg-[#d2ff52] animate-bounce" style={{ animationDelay: '0s' }} />
-      </div>
-    </div>
+
+      {/* Hover effect */}
+      <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+      {/* Active/pressed state handled by group-active */}
+      <style jsx>{`
+        a:active > div:nth-child(2) {
+          border-color: #404040 #404040 white white;
+        }
+        a:active > div:nth-child(2) > div {
+          border-color: white white #808080 #808080;
+        }
+      `}</style>
+    </a>
   );
 };
 
@@ -73,13 +48,23 @@ export default function Hero() {
   return (
     <>
       <section id="hero" className="h-screen w-full bg-black relative flex items-center justify-center overflow-hidden">
+        {/* Desktop frame */}
         <Image
           src="/hero/frame.png"
           alt="Frame"
           width={1920}
           height={1080}
           priority
-          className="absolute top-0 left-0 w-full h-full z-2 pointer-events-none"
+          className="absolute top-0 left-0 w-full h-full z-2 pointer-events-none hidden md:block"
+        />
+        {/* Mobile frame */}
+        <Image
+          src="/hero/mob_frame.png"
+          alt="Frame"
+          width={375}
+          height={812}
+          priority
+          className="absolute top-0 left-0 w-full h-full z-2 pointer-events-none block md:hidden"
         />
         <StarCanvas />
         <div className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
@@ -123,7 +108,7 @@ export default function Hero() {
               priority
             />
           </div>
-          <div className="font-pixel-emulator text-[2vh] md:text-[2.8vh] tracking-wide text-center font-bold ml-6">
+          <div className="font-pixel-emulator text-[2vh] md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
             <p>24 Hours of Coding, Creativity & Chaos</p>
           </div>
 

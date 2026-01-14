@@ -63,6 +63,8 @@ export default function Timeline() {
   const headingRef = useRef(null)
   const calendarRef = useRef(null)
   const cellsRef = useRef([])
+  const mobileListRef = useRef(null)
+  const mobileItemsRef = useRef([])
   const ctxRef = useRef(null)
 
   // Resize handler to refresh ScrollTrigger
@@ -94,48 +96,65 @@ export default function Timeline() {
         // Heading animation
         if (headingRef.current) {
           gsap.fromTo(headingRef.current,
-            { opacity: 0, y: 50, scale: 0.8 },
+            { opacity: 0, y: 30 },
             {
-              opacity: 1, y: 0, scale: 1,
-              duration: 0.8,
-              ease: 'back.out(1.7)',
+              opacity: 1, y: 0,
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: headingRef.current,
                 start: 'top 85%',
                 toggleActions: 'play none none reverse',
-                invalidateOnRefresh: true,
               }
             }
           )
         }
 
-        // Calendar cells staggered animation
+        // Calendar cells animation - all at once, no stagger for consistency
         const cells = cellsRef.current.filter(Boolean)
-        cells.forEach((cell, i) => {
-          gsap.fromTo(cell,
-            { opacity: 0, scale: 0.8, y: 20 },
+        if (cells.length > 0) {
+          gsap.fromTo(cells,
+            { opacity: 0, y: 15 },
             {
               opacity: 1,
-              scale: 1,
               y: 0,
-              duration: 0.4,
-              delay: i * 0.02,
-              ease: 'back.out(1.5)',
+              duration: 0.5,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: calendarRef.current,
                 start: 'top 80%',
                 toggleActions: 'play none none reverse',
-                invalidateOnRefresh: true,
               }
             }
           )
-        })
+        }
+
+        // Mobile list items animation - slide in from alternating sides
+        const mobileItems = mobileItemsRef.current.filter(Boolean)
+        if (mobileItems.length > 0) {
+          mobileItems.forEach((item, i) => {
+            gsap.fromTo(item,
+              { opacity: 0, x: i % 2 === 0 ? -50 : 50 },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: item,
+                  start: 'top 90%',
+                  toggleActions: 'play none none reverse',
+                }
+              }
+            )
+          })
+        }
 
         ScrollTrigger.refresh()
       }, sectionRef)
 
       return () => ctxRef.current?.revert()
-    }, 500)
+    }, 200)
 
     return () => {
       clearTimeout(timeout)
@@ -150,6 +169,17 @@ export default function Timeline() {
       </span>
     ))
 
+  // Mobile list data - only HackVision dates
+  const mobileListData = [
+    { day: 9, type: 'hackvision', title: 'Registration Opens', icon: '/assets/home/Timeline/pacman theme/6.png' },
+    { day: 14, type: 'occasion', title: 'Makar Sankranti', icon: '/assets/home/Timeline/pacman theme/7.png' },
+    { day: 17, type: 'hackvision', title: 'Registration Closes', icon: '/assets/home/Timeline/pacman theme/6.png' },
+    { day: 20, type: 'hackvision', title: 'Teams Announced', icon: '/assets/home/Timeline/pacman theme/1.png' },
+    { day: 21, type: 'hackvision', title: 'Problems Revealed', icon: '/assets/home/Timeline/pacman theme/4.png' },
+    { day: 22, type: 'hackday', title: 'Hackathon Day 1', icon: '/assets/home/Timeline/pacman theme/6.png' },
+    { day: 23, type: 'hackday', title: 'Hackathon Day 2', icon: '/assets/home/Timeline/pacman theme/1.png' },
+  ]
+
   return (
     <section
       ref={sectionRef}
@@ -161,12 +191,12 @@ export default function Timeline() {
       <div className="pt-8 pb-8 w-full flex flex-col items-center">
         <div ref={headingRef} className="relative z-10 px-[5vw] mb-10">
           <h1
-            className="font-pixel-emulator text-[#1a1a2e] text-[6vw] md:text-[6vw] tracking-wider text-center relative"
+            className="font-pixel-emulator text-[#1a1a2e] text-[10vw] md:text-[6vw] tracking-wider text-center relative"
             style={{
               textShadow: '4px 4px 0px rgba(0,0,0,0.1)',
             }}
           >
-            JANUARY 2026
+            JANUARY<br className="md:hidden" /> 2026
           </h1>
           <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-[#FF6B35]" />
         </div>
@@ -175,8 +205,76 @@ export default function Timeline() {
         </p>
       </div>
 
-      {/* Calendar Grid */}
-      <div ref={calendarRef} className="w-full flex justify-center px-4 md:px-[8vw] pb-20">
+      {/* Mobile List View - visible only on mobile */}
+      <div ref={mobileListRef} className="md:hidden w-full px-6 pb-10">
+        <div className="w-full max-w-md mx-auto flex flex-col gap-3">
+          {mobileListData.map((item, i) => {
+            const isHackvision = item.type === 'hackvision'
+            const isOccasion = item.type === 'occasion'
+            const isHackday = item.type === 'hackday'
+
+            return (
+              <div
+                key={i}
+                ref={el => mobileItemsRef.current[i] = el}
+                className={`
+                  flex items-center justify-between p-4 rounded-lg border-4
+                  ${isHackday
+                    ? 'bg-white border-[#d4cbc0]'
+                    : isHackvision
+                      ? 'bg-[#1a1a2e] border-[#1a1a2e]'
+                      : isOccasion
+                        ? 'bg-white border-[#FF6B35]'
+                        : 'bg-[#e8e0d0] border-[#d4cbc0]'
+                  }
+                `}
+                style={{
+                  boxShadow: '3px 3px 0px 0px rgba(0,0,0,0.1)',
+                }}
+              >
+                {/* Left side - Date + Icon */}
+                <div className="flex items-center gap-3">
+                  <span className={`font-pixel-emulator text-2xl ${isOccasion ? 'text-[#FF6B35]' : isHackvision ? 'text-[#e8e0d0]' : 'text-[#1a1a2e]'}`}>
+                    Jan {item.day}
+                  </span>
+                  {/* Small pacman icon */}
+                  {/* {(isHackvision || isHackday) && (
+                    <img
+                      src="/assets/home/Timeline/pacman theme/6.png"
+                      alt="icon"
+                      className="w-6 h-6 object-contain"
+                      style={{ imageRendering: 'pixelated' }}
+                    />
+                  )} */}
+                </div>
+
+                {/* Right side - Icon and Title */}
+                <div className="flex items-center gap-3">
+                  {item.icon && (
+                    <img
+                      src={item.icon}
+                      alt="icon"
+                      className="w-8 h-8 object-contain"
+                      style={{ imageRendering: 'pixelated' }}
+                    />
+                  )}
+
+                  {item.title && (
+                    <div className={`font-pixel-emulator text-xs leading-tight text-right max-w-[120px] ${isOccasion ? 'text-[#FF6B35]' : isHackvision ? 'text-[#f5f0e6]' : 'text-[#1a1a2e]'}`}>
+                      {item.title.split(' ').map((word, idx) => (
+                        <span key={idx}>{word}<br /></span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Desktop Calendar Grid - hidden on mobile */}
+      <div ref={calendarRef} className="hidden md:flex w-full justify-center px-4 md:px-[8vw] pb-20">
         <div className="w-full max-w-5xl">
           {/* Weekday headers */}
           <div className="grid grid-cols-7 gap-2 mb-4">
@@ -248,7 +346,7 @@ export default function Timeline() {
                     ${isDecorative
                       ? 'bg-[#e8e0d0] border-[#d4cbc0]'
                       : isHackday
-                        ? 'bg-gradient-to-br from-[#FF6B35] to-[#ff8f5a] border-[#1a1a2e] hover:shadow-[0_0_30px_rgba(255,107,53,0.6)] hover:scale-110'
+                        ? 'bg-linear-to-br from-[#FF6B35] to-[#ff8f5a] border-[#1a1a2e] hover:shadow-[0_0_30px_rgba(255,107,53,0.6)] hover:scale-110'
                         : isHackvision
                           ? 'bg-[#1a1a2e] border-[#1a1a2e] hover:shadow-[0_0_20px_rgba(26,26,46,0.5)]'
                           : isOccasion
@@ -323,7 +421,7 @@ export default function Timeline() {
 
                   {/* Special glow effect for hackdays */}
                   {isHackday && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                   )}
                 </div>
               )
@@ -337,7 +435,7 @@ export default function Timeline() {
               <span className="text-[#1a1a2e]/60 font-nikea">HackVision Events</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-gradient-to-br from-[#FF6B35] to-[#ff8f5a] border-2 border-[#1a1a2e]" />
+              <div className="w-4 h-4 bg-linear-to-br from-[#FF6B35] to-[#ff8f5a] border-2 border-[#1a1a2e]" />
               <span className="text-[#1a1a2e]/60 font-nikea">Hackathon Days</span>
             </div>
             <div className="flex items-center gap-2">
