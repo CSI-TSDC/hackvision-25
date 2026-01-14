@@ -201,7 +201,11 @@ export default function Timeline() {
               // Pacman food cell
               if (item.pacmanFood) {
                 return (
-                  <div key={i} className="aspect-square flex items-center justify-center bg-[#e8e0d0] border-2 border-[#d4cbc0]">
+                  <div
+                    key={i}
+                    ref={el => cellsRef.current[i] = el}
+                    className="aspect-square flex items-center justify-center bg-[#e8e0d0] border-2 border-[#d4cbc0]"
+                  >
                     <div className="w-3 h-3 md:w-4 md:h-4 bg-[#FF6B35] rounded-sm" />
                   </div>
                 )
@@ -210,7 +214,11 @@ export default function Timeline() {
               // Pacman cell
               if (item.pacman) {
                 return (
-                  <div key={i} className="aspect-square flex items-center justify-center bg-[#e8e0d0] border-2 border-[#d4cbc0]">
+                  <div
+                    key={i}
+                    ref={el => cellsRef.current[i] = el}
+                    className="aspect-square flex items-center justify-center bg-[#e8e0d0] border-2 border-[#d4cbc0]"
+                  >
                     <img
                       src="/assets/home/Timeline/pacman theme/pacman.png"
                       alt="Pacman"

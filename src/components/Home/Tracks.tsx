@@ -103,22 +103,30 @@ export default function Tracks() {
       ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
     }
   }, [contentOpacity]);
-  const strips = gsap.utils.toArray('.strip');
-  strips.forEach((el: any, i: number) => {
-    const speed = 100;
-    const dir = i % 2 === 0 ? 1 : -1;
-    ScrollTrigger.create({
-      trigger: stripsContainerRef.current,
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: 0.5,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const xPercent = (self.progress * speed * dir) % 100;
-        gsap.set(el, { xPercent: xPercent });
-      },
-    });
-  });
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Strips animation
+      const strips = gsap.utils.toArray('.strip');
+      strips.forEach((el: any, i: number) => {
+        const speed = 100;
+        const dir = i % 2 === 0 ? 1 : -1;
+        ScrollTrigger.create({
+          trigger: stripsContainerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const xPercent = (self.progress * speed * dir) % 100;
+            gsap.set(el, { xPercent: xPercent });
+          },
+        });
+      });
+    }, stripsContainerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
