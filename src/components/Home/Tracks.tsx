@@ -94,8 +94,8 @@ export default function Tracks() {
     // Draw pixels based on opacity (reveals content progressively)
     const pixelsToShow = Math.floor(totalPixels * contentOpacity);
 
-    // Fill entire canvas with dark background color (content background)
-    ctx.fillStyle = '#252526';
+    // Fill entire canvas with black glass-like semi-transparent color
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // Black glass tint
     for (let i = 0; i < pixelsToShow; i++) {
       const pixelIndex = pixelOrder[i];
       const col = pixelIndex % cols;
@@ -103,6 +103,22 @@ export default function Tracks() {
       ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
     }
   }, [contentOpacity]);
+  const strips = gsap.utils.toArray('.strip');
+  strips.forEach((el: any, i: number) => {
+    const speed = 100;
+    const dir = i % 2 === 0 ? 1 : -1;
+    ScrollTrigger.create({
+      trigger: stripsContainerRef.current,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 0.5,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const xPercent = (self.progress * speed * dir) % 100;
+        gsap.set(el, { xPercent: xPercent });
+      },
+    });
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -139,25 +155,6 @@ export default function Tracks() {
       })
         .to(leftHandRef.current, { x: 0, ease: 'none' }, 0)
         .to(rightHandRef.current, { x: 0, ease: 'none' }, 0);
-
-      // Strips animation - linked to container scroll
-      const strips = gsap.utils.toArray('.strip');
-      strips.forEach((el: any, i: number) => {
-        const speed = 200; // Increased speed for better visibility
-        const dir = i % 2 === 0 ? 1 : -1;
-
-        gsap.to(el, {
-          xPercent: dir * speed,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom', // Start when section enters viewport from bottom
-            end: 'bottom top',   // End when section leaves viewport to top
-            scrub: 0.5,
-          }
-        });
-      });
-
     }, containerRef);
 
     return () => ctx.revert();
@@ -207,11 +204,11 @@ export default function Tracks() {
         {/* Always visible window frame with transparent content */}
         <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
           <div
-            className="relative w-[450px] md:w-[550px]"
+            className="relative w-[90vw] md:w-[650px]"
             style={{ fontFamily: '"MS Sans Serif", Arial, sans-serif' }}
           >
             {/* Window frame - always visible */}
-            <div className="border-2 border-[#c0c0c0] bg-transparent">
+            <div className="border-2 border-[#c0c0c0] bg-transparent rounded-lg shadow-2xl overflow-hidden">
               {/* Title bar */}
               <div className="flex items-center justify-between px-2 py-1 bg-[#000080]">
                 <span className="text-white text-sm font-bold tracking-wide">TRACKS.EXE</span>
@@ -225,9 +222,19 @@ export default function Tracks() {
               {/* Content area - transparent background, pixels fill in */}
               <div
                 ref={contentRef}
-                className="relative h-[350px] md:h-[400px] border-t-2 border-[#808080]"
+                className="relative h-[60vh] md:h-[500px] border-t-2 border-[#808080]"
                 style={{ pointerEvents: contentOpacity > 0.9 ? 'auto' : 'none' }}
               >
+                {/* Glassmorphism layer - fades in with animation */}
+                <div
+                  className="absolute inset-0 backdrop-blur-md bg-black/50"
+                  style={{
+                    opacity: contentOpacity,
+                    visibility: contentOpacity > 0.01 ? 'visible' : 'hidden',
+                    transition: 'opacity 0.1s'
+                  }}
+                />
+
                 {/* Canvas for pixel fill effect */}
                 <canvas
                   ref={canvasRef}
@@ -244,7 +251,7 @@ export default function Tracks() {
                     {IMAGES.map((img, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-3 cursor-pointer hover:bg-[#000080]/30 p-2 rounded transition-colors"
+                        className="flex items-center gap-3 cursor-pointer hover:bg-[#1757b7] p-2 rounded transition-colors"
                         onDoubleClick={() => handleImageDoubleClick(img, TRACK_DATA[index]?.label || `Track ${index + 1}`)}
                       >
                         <div className="w-14 h-14 border-2 border-[#808080] bg-[#c0c0c0] flex items-center justify-center overflow-hidden shrink-0">
@@ -261,7 +268,7 @@ export default function Tracks() {
                     ))}
                     {/* Readme file */}
                     <div
-                      className="flex items-center gap-3 cursor-pointer hover:bg-[#000080]/30 p-2 rounded transition-colors"
+                      className="flex items-center gap-3 cursor-pointer hover:bg-[#1757b7] p-2 rounded transition-colors"
                       onDoubleClick={handleReadmeDoubleClick}
                     >
                       <div className="w-14 h-14 border-2 border-[#808080] bg-[#c0c0c0] flex items-center justify-center overflow-hidden shrink-0">
@@ -331,7 +338,6 @@ export default function Tracks() {
           </div>
         )}
       </div>
-
       {/* Animated Strips */}
       <div ref={stripsContainerRef} className="relative w-full h-[380px] overflow-hidden z-40 pointer-events-none">
         <div className="w-[150vw] h-[70px] bg-white text-black border-y-4 border-black origin-top-left rotate-3 relative">
@@ -347,14 +353,14 @@ export default function Tracks() {
           </div>
         </div>
 
-        <div className="absolute top-[25%] w-[150vw] h-[70px] bg-[#d2ff52] -translate-x-[20px] text-black border-y-4 border-black origin-top-right -rotate-4">
+        <div className="absolute top-[25%] w-[150vw] h-[70px] bg-[#FF6B35] -translate-x-[20px] text-black border-y-4 border-black origin-top-right -rotate-4">
           <div className="strip w-full h-full flex items-center justify-center">
             {repeat('CODE • CREATE • DEPLOY', 'mx-8')}
           </div>
         </div>
 
         <div className="absolute bottom-0 w-[150vw] h-[70px] bg-black border-y-4 border-black">
-          <div className="strip w-full h-full flex items-center justify-center text-[#d2ff52]">
+          <div className="strip w-full h-full flex items-center justify-center text-[#FF6B35]">
             {repeat(
               <>
                 <span>REGISTRATIONS OPEN</span>
