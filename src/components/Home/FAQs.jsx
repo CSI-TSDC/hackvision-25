@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import TetrisBackground from '../ui/TetrisBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -167,8 +168,8 @@ export default function FAQs({ className = "" }) {
             id="faqs"
             className={`relative w-full bg-[#212529] pt-20 text-white overflow-hidden ${className}`}
         >
-            {/* Tetris blocks decoration */}
-            <TetrisBlocks />
+            {/* Animated Tetris background */}
+            <TetrisBackground speed={100} maxPieces={4} unitSize={35} mobileUnitSize={25} className="opacity-30" />
 
             {/* Grid background */}
             <div

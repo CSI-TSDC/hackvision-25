@@ -195,11 +195,38 @@ export default function About({ className = "" }) {
                 </div>
                 <div id="anim_text" className="anim_text flex text-center flex-col w-full justify-center items-center text-[2vh] md:text-[2.6vh] font-nikea tracking-wide mb-8 md:mb-20 px-4">
                     <span>
-                        <span>We invite fellow hackers from around the country to join us for a 24-hour hackathon where creativity, collaboration, and focused building come together.</span>
+                        <span className="md:hidden">Join us for a 24-hour hackathon where creativity and building come together.</span>
+                        <span className="hidden md:inline">We invite fellow hackers from around the country to join us for a 24-hour hackathon where creativity, collaboration, and focused building come together.</span>
                     </span>
                 </div>
-                <div className="relative w-full h-auto flex flex-col md:flex-row md:items-stretch justify-center tracking-wide gap-6 md:gap-10">
-                    <div className="relative w-full md:w-2/3 text-white h-auto bg-[#121212] rounded-3xl px-5 py-6">
+                <div className="relative w-full h-auto flex flex-col md:flex-row md:items-stretch justify-center tracking-wide gap-4 md:gap-10">
+
+                    {/* Mobile: Separate Cards */}
+                    <div className="md:hidden flex flex-col gap-4 w-full">
+                        {/* Location Card */}
+                        <div className="w-full text-white bg-[#121212] rounded-3xl px-5 py-6 border border-[#8ac926]">
+                            <span className="block text-[1.9vh] font-pixel-emulator leading-tight mb-4 bg-[#8ac926] text-black w-max px-4 py-2 rounded-full">
+                                <span>LOCATION:</span>
+                            </span>
+                            <span className="block text-[1.6vh] font-pixel-emulator leading-relaxed uppercase">
+                                <span>Thakur Shyamnarayan Degree College, 90 Feet Rd, Kandivali, Thakur Complex, Kandivali East, Mumbai, Maharashtra 400101</span>
+                            </span>
+                        </div>
+
+                        {/* Date & Time Card */}
+                        <div className="w-full text-white bg-[#121212] rounded-3xl px-5 py-6 border border-[#8ac926]">
+                            <span className="block text-[1.9vh] font-pixel-emulator leading-tight mb-4 bg-[#8ac926] text-black w-max px-4 py-2 rounded-full">
+                                <span>DATE & TIME:</span>
+                            </span>
+                            <div className="flex flex-col gap-1 text-[1.6vh] font-pixel-emulator uppercase">
+                                <span>21st January, 2025</span>
+                                <span>Starts at 10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Desktop: Combined Card (Original) */}
+                    <div className="hidden md:flex relative w-full md:w-2/3 text-white h-auto bg-[#121212] rounded-3xl px-5 py-6 flex-col">
                         <div className="flex flex-col mb-8">
                             <span className="text-[1.9vh] font-pixel-emulator leading-tight mb-4 bg-[#8ac926] text-black w-max p-3 rounded-3xl">
                                 <span>Location:</span>

@@ -57,16 +57,36 @@ const Prizes = ({ className = "" }) => {
 
       triggers.push(ufoFadeInTimeline.scrollTrigger!);
 
-      const ufoPinTrigger = ScrollTrigger.create({
-        trigger: ufoContainer,
-        start: 'top top',
-        endTrigger: section,
-        end: 'bottom bottom',
-        pin: ufoContainer,
-        pinSpacing: true,
-        invalidateOnRefresh: true,
+      // Desktop-only pinning using ScrollTrigger.matchMedia
+      ScrollTrigger.matchMedia({
+        // Desktop
+        "(min-width: 768px)": function () {
+          const ufoPinTrigger = ScrollTrigger.create({
+            trigger: ufoContainer,
+            start: 'top top',
+            endTrigger: section,
+            end: 'bottom bottom',
+            pin: ufoContainer,
+            pinSpacing: true,
+            invalidateOnRefresh: true,
+          });
+          triggers.push(ufoPinTrigger);
+
+          const tracksSection = document.getElementById('tracks');
+          if (tracksSection) {
+            const sectionPinTrigger = ScrollTrigger.create({
+              trigger: section,
+              start: 'bottom bottom',
+              endTrigger: tracksSection,
+              end: 'top bottom',
+              pin: section,
+              pinSpacing: false,
+              invalidateOnRefresh: true,
+            });
+            triggers.push(sectionPinTrigger);
+          }
+        },
       });
-      triggers.push(ufoPinTrigger);
 
       const ufoLightTrigger = ScrollTrigger.create({
         trigger: ufoContainer,
@@ -119,20 +139,6 @@ const Prizes = ({ className = "" }) => {
       });
 
       triggers.push(prizesFadeInTrigger);
-
-      const tracksSection = document.getElementById('tracks');
-      if (tracksSection) {
-        const sectionPinTrigger = ScrollTrigger.create({
-          trigger: section,
-          start: 'bottom bottom',
-          endTrigger: tracksSection,
-          end: 'top bottom',
-          pin: section,
-          pinSpacing: false,
-          invalidateOnRefresh: true,
-        });
-        triggers.push(sectionPinTrigger);
-      }
     });
 
     const handleResize = () => {
@@ -235,7 +241,7 @@ const Prizes = ({ className = "" }) => {
       {/* Mobile Prizes Layout - matching reference design */}
       <div className='absolute inset-0 w-full flex md:hidden flex-col items-center justify-end px-4 py-6 gap-4'>
         {/* Top section - Trophy only */}
-        <div className="w-[180px] h-auto aspect-square shrink-0">
+        <div className="w-[220px] h-auto aspect-square shrink-0">
           <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' className="w-full h-full" />
         </div>
 
