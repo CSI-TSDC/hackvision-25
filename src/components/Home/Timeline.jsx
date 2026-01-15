@@ -7,12 +7,12 @@ gsap.registerPlugin(ScrollTrigger)
 
 // Pacman theme images for decoration
 const DECORATIVE_DAYS = {
-  13: '/assets/home/Timeline/pacman theme/6.png',
+  5: '/assets/home/Timeline/pacman theme/6.png',
   8: '/assets/home/Timeline/pacman theme/5.png',
-  10: '/assets/home/Timeline/pacman theme/1.png',
-  5: '/assets/home/Timeline/pacman theme/7.png',
-  16: '/assets/home/Timeline/pacman theme/2.png',
-  18: '/assets/home/Timeline/pacman theme/3.png',
+  12: '/assets/home/Timeline/pacman theme/1.png',
+  13: '/assets/home/Timeline/pacman theme/2.png',
+  16: '/assets/home/Timeline/pacman theme/3.png',
+  17: '/assets/home/Timeline/pacman theme/7.png',
   24: '/assets/home/Timeline/pacman theme/4.png',
   31: '/assets/home/Timeline/pacman theme/8.png',
 }
@@ -24,15 +24,15 @@ const calendarData = [
   // Week 2
   { day: 5, type: 'decorative' }, { day: 6, type: 'normal' }, { day: 7, type: 'normal' }, { day: 8, type: 'decorative' },
   { day: 9, type: 'hackvision', title: 'Registration Opens', subtitle: 'PPT Round Begins', icon: '🎮' },
-  { day: 10, type: 'decorative' }, { day: 11, type: 'normal' },
+  { day: 10, type: 'normal' }, { day: 11, type: 'normal' },
   // Week 3
-  { day: 12, type: 'normal' }, { day: 13, type: 'decorative' },
+  { day: 12, type: 'decorative' }, { day: 13, type: 'decorative' },
   { day: 14, type: 'occasion', title: 'Makar Sankranti' },
   { day: 15, type: 'normal' }, { day: 16, type: 'decorative' },
-  { day: 17, type: 'hackvision', title: 'Registration Closes', subtitle: 'PPT Round Ends', icon: '⏰' },
-  { day: 18, type: 'decorative' },
+  { day: 17, type: 'decorative' },
+  { day: 18, type: 'normal' },
   // Week 4
-  { day: 19, type: 'normal' },
+  { day: 19, type: 'hackvision', title: 'Registration Closes', subtitle: 'PPT Round Ends', icon: '⏰' },
   { day: 20, type: 'hackvision', title: 'Teams Announced', icon: '🏆' },
   { day: 21, type: 'hackvision', title: 'Problems Revealed', icon: '💡' },
   { day: 22, type: 'hackday', title: 'Hackathon Day 1', subtitle: 'Let the hacking begin!', icon: '🚀' },
@@ -184,7 +184,7 @@ export default function Timeline() {
     <section
       ref={sectionRef}
       id="timeline"
-      className="relative overflow-hidden w-full min-h-screen bg-[#f5f0e6] pb-20"
+      className="relative overflow-hidden w-full min-h-screen bg-[#f5f0e6] py-20"
     >
 
       {/* Timeline Header */}

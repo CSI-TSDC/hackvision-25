@@ -359,7 +359,7 @@ export default function Tracks() {
         )}
       </div>
       {/* Animated Strips */}
-      <div ref={stripsContainerRef} className="relative w-full h-[250px] md:h-[380px] overflow-hidden z-40 pointer-events-none">
+      <div ref={stripsContainerRef} className="relative w-full h-[250px] md:h-[330px] overflow-hidden z-40 pointer-events-none">
         <div className="w-[150vw] h-[45px] md:h-[70px] bg-white text-black border-y-2 md:border-y-4 border-black origin-top-left rotate-3 relative">
           <div className="strip w-full h-full flex items-center justify-center text-xs md:text-base">
             {repeat(
@@ -373,7 +373,7 @@ export default function Tracks() {
           </div>
         </div>
 
-        <div className="absolute top-[20%] md:top-[25%] w-[150vw] h-[45px] md:h-[70px] bg-[#FF6B35] -translate-x-[20px] text-black border-y-2 md:border-y-4 border-black origin-top-right -rotate-4">
+        <div className="absolute top-[20%] md:top-[25%] w-[150vw] h-[45px] md:h-[70px] bg-[#FF6B35] -translate-x-[15px] text-black border-y-2 md:border-y-4 border-black origin-top-right -rotate-3">
           <div className="strip w-full h-full flex items-center justify-center text-xs md:text-base">
             {repeat('CODE • CREATE • DEPLOY', 'mx-8')}
           </div>

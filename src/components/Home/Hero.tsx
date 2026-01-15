@@ -8,38 +8,35 @@ const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
   loading: () => <div className="absolute inset-0 bg-black" />
 });
 
-// 3D Beveled CTA Button Component (Windows 95 style)
+// Pixelated CTA Button with jagged retro pixel edges (blue variant)
 const PixelCTAButton = () => {
   return (
     <a
       href="#"
       className="relative mt-8 cursor-pointer inline-block group"
     >
-      {/* Outer frame - dark bottom/right edges */}
-      <div className="absolute inset-0 bg-[#808080] translate-x-1 translate-y-1" />
-
-      {/* Main button container */}
-      <div className="relative bg-[#c0c0c0] border-4 border-t-white border-l-white border-r-[#404040] border-b-[#404040]">
-        {/* Inner container with inverted bevel */}
-        <div className="bg-white border-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white px-8 py-3 md:px-12 md:py-4">
-          <span className="font-pixel-emulator text-black text-sm md:text-base tracking-wider whitespace-nowrap">
-            REGISTER NOW
-          </span>
-        </div>
+      {/* Outer pixel border layer */}
+      <div className="relative">
+        {/* Main button with pixel styling */}
+        <button className="relative px-8 py-3 bg-[#1a1a2e] text-white font-pixel-emulator text-base md:text-lg
+          border-4 border-[#3b82f6]
+          shadow-[4px_4px_0_#1e40af,-4px_-4px_0_#60a5fa]
+          hover:shadow-[6px_6px_0_#1e40af,-6px_-6px_0_#60a5fa]
+          active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#1e40af,-2px_-2px_0_#60a5fa]
+          transition-all duration-100
+          before:absolute before:inset-[-8px] before:border-2 before:border-[#3b82f6]/50
+          after:absolute after:top-0 after:left-0 after:w-full after:h-full after:border-2 after:border-[#93c5fd]/30
+          [clip-path:polygon(0_8px,8px_8px,8px_0,calc(100%-8px)_0,calc(100%-8px)_8px,100%_8px,100%_calc(100%-8px),calc(100%-8px)_calc(100%-8px),calc(100%-8px)_100%,8px_100%,8px_calc(100%-8px),0_calc(100%-8px))]
+          flex items-center gap-3">
+          <span className="text-[#60a5fa] text-xl">▶</span>
+          <span className="tracking-wider">Press start</span>
+        </button>
+        {/* Corner pixel accents */}
+        <div className="absolute -top-1 -left-1 w-2 h-2 bg-[#3b82f6]"></div>
+        <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#3b82f6]"></div>
+        <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-[#3b82f6]"></div>
+        <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-[#3b82f6]"></div>
       </div>
-
-      {/* Hover effect */}
-      <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-      {/* Active/pressed state handled by group-active */}
-      <style jsx>{`
-        a:active > div:nth-child(2) {
-          border-color: #404040 #404040 white white;
-        }
-        a:active > div:nth-child(2) > div {
-          border-color: white white #808080 #808080;
-        }
-      `}</style>
     </a>
   );
 };
