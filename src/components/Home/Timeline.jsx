@@ -274,7 +274,7 @@ export default function Timeline() {
       </div>
 
       {/* Desktop Calendar Grid - hidden on mobile */}
-      <div ref={calendarRef} className="hidden md:flex w-full justify-center px-4 md:px-[8vw] pb-20">
+      <div ref={calendarRef} className="hidden md:flex w-full justify-center px-4 md:px-[8vw]">
         <div className="w-full max-w-5xl">
           {/* Weekday headers */}
           <div className="grid grid-cols-7 gap-2 mb-4">

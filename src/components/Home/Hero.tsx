@@ -12,31 +12,17 @@ const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
 const PixelCTAButton = () => {
   return (
     <a
-      href="#"
+      target='_blank'
+      rel='noopener noreferrer'
+      href="https://unstop.com/o/8YEQtVf?lb=xk26YO1e&utm_medium=Share&utm_source=abhadho42350&utm_campaign=Online_coding_challenge"
       className="relative mt-8 cursor-pointer inline-block group"
     >
-      {/* Outer pixel border layer */}
-      <div className="relative">
-        {/* Main button with pixel styling */}
-        <button className="relative px-8 py-3 bg-[#1a1a2e] text-white font-pixel-emulator text-base md:text-lg
-          border-4 border-[#3b82f6]
-          shadow-[4px_4px_0_#1e40af,-4px_-4px_0_#60a5fa]
-          hover:shadow-[6px_6px_0_#1e40af,-6px_-6px_0_#60a5fa]
-          active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#1e40af,-2px_-2px_0_#60a5fa]
-          transition-all duration-100
-          before:absolute before:inset-[-8px] before:border-2 before:border-[#3b82f6]/50
-          after:absolute after:top-0 after:left-0 after:w-full after:h-full after:border-2 after:border-[#93c5fd]/30
-          [clip-path:polygon(0_8px,8px_8px,8px_0,calc(100%-8px)_0,calc(100%-8px)_8px,100%_8px,100%_calc(100%-8px),calc(100%-8px)_calc(100%-8px),calc(100%-8px)_100%,8px_100%,8px_calc(100%-8px),0_calc(100%-8px))]
-          flex items-center gap-3">
-          <span className="text-[#60a5fa] text-xl">▶</span>
-          <span className="tracking-wider">Press start</span>
-        </button>
-        {/* Corner pixel accents */}
-        <div className="absolute -top-1 -left-1 w-2 h-2 bg-[#3b82f6]"></div>
-        <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#3b82f6]"></div>
-        <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-[#3b82f6]"></div>
-        <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-[#3b82f6]"></div>
+      <div className="absolute -translate-y-3 active:-translate-y-1.5 w-[30vh] h-[8vh] md:w-[20vw] p-1.5 bg-white ctaclip z-2">
+        <div className="relative w-full h-full bg-blue-600 ctaclip flex items-center justify-center">
+          <span className="font-pixel-emulator text-white text-[2.3vh] leading-tigh">Register Now</span>
+        </div>
       </div>
+      <div className="w-[30vh] h-[8vh] md:w-[20vw] bg-blue-600 ctaclip scale-98"></div>
     </a>
   );
 };
@@ -105,7 +91,7 @@ export default function Hero() {
               priority
             />
           </div>
-          <div className="font-pixel-emulator text-[2vh] md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
+          <div className="font-pixel-emulator text-[2vh] mb-6 md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
             <p>24 Hours of Coding, Creativity & Chaos</p>
           </div>
 

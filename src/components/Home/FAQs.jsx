@@ -2,23 +2,21 @@
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import TetrisBackground from '../ui/TetrisBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Tetris block shapes for decoration
 const TetrisBlocks = () => {
     const blocks = [
         // L-piece
-        { type: 'L', left: 3, top: 15, color: '#FF8C00', rotation: 0 },
+        { type: 'L', left: 30, top: 30, color: '#FF8C00', rotation: 0 },
         // T-piece  
-        { type: 'T', left: 88, top: 25, color: '#d2ff52', rotation: 90 },
+        { type: 'T', left: 80, top: 40, color: '#d2ff52', rotation: 90 },
         // Square
         { type: 'O', left: 5, top: 55, color: '#4ecdc4', rotation: 0 },
         // Line
         { type: 'I', left: 92, top: 65, color: '#ff6b6b', rotation: 0 },
         // S-piece
-        { type: 'S', left: 8, top: 85, color: '#9b59b6', rotation: 45 },
+        { type: 'S', left: 8, top: 85, color: '#9b59b6', rotation: 0 },
     ];
 
     return (
@@ -166,10 +164,12 @@ export default function FAQs({ className = "" }) {
         <section
             ref={sectionRef}
             id="faqs"
-            className={`relative w-full bg-[#212529] pt-20 text-white overflow-hidden ${className}`}
+            className={`relative w-full bg-[#212529] pt-[45vh] pb-20 text-white overflow-hidden ${className}`}
         >
-            {/* Animated Tetris background */}
-            <TetrisBackground speed={100} maxPieces={4} unitSize={35} mobileUnitSize={25} className="opacity-30" />
+            <div className="absolute top-0 left-0 w-full h-max bg-[#212529] overflow-hidden">
+                <img src="/assets/home/Sponsors/transition2.png" className='w-full h-max' alt="" />
+            </div>
+            <TetrisBlocks />
 
             {/* Grid background */}
             <div
@@ -236,7 +236,7 @@ export default function FAQs({ className = "" }) {
                                             {faq.question}
                                         </span>
                                         <span className={`
-                                            font-pixel-emulator text-2xl flex-shrink-0 transition-all duration-300
+                                            font-pixel-emulator text-2xl shrink-0 transition-all duration-300
                                             ${openIndex === index ? 'text-[#d2ff52] rotate-45' : 'text-white/50'}
                                         `}>
                                             +
@@ -265,24 +265,9 @@ export default function FAQs({ className = "" }) {
                             STILL HAVE QUESTIONS?
                         </p>
                         <p className="font-nikea text-white/60 text-base mt-2">
-                            Reach out to us on Discord or Email!
+                            Reach out to us via <a className='text-[#d2ff52]' href="mailto:csi1019@tsdcmumbai.in">Email</a>!
                         </p>
                     </div>
-                </div>
-            </div>
-
-            {/* Divider - Tetris line clear effect */}
-            <div className="relative h-16 flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#d2ff52] to-transparent" />
-                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#d2ff52] to-transparent animate-pulse" style={{ top: '40%' }} />
-                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#d2ff52] to-transparent" style={{ top: '60%' }} />
-
-                {/* Center decoration */}
-                <div className="relative z-10 flex items-center gap-2 bg-[#1a1a2e] px-4">
-                    <div className="w-3 h-3 bg-[#d2ff52]" />
-                    <div className="w-3 h-3 bg-[#FF8C00]" />
-                    <div className="w-3 h-3 bg-[#4ecdc4]" />
-                    <div className="w-3 h-3 bg-[#ff6b6b]" />
                 </div>
             </div>
         </section>

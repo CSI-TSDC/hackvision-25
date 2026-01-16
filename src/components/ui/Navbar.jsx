@@ -84,21 +84,22 @@ export default function Navbar({ className = "" }) {
               clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
             }}
           >
-            {/* Hover overlay */}
-            <span
-              className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-            />
+            <a className='w-full' target='_blank' rel='noopener noreferrer' href="https://unstop.com/o/8YEQtVf?lb=xk26YO1e&utm_medium=Share&utm_source=abhadho42350&utm_campaign=Online_coding_challenge">
+              {/* Hover overlay */}
+              <span
+                className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+              />
 
-            {/* Pixel effect top-left */}
-            <span className="absolute top-0 left-0 w-2 h-2 bg-[#1a1a2e] opacity-30" />
+              {/* Pixel effect top-left */}
+              <span className="absolute top-0 left-0 w-2 h-2 bg-[#1a1a2e] opacity-30" />
 
-            {/* Button content */}
-            <span className="relative z-10 font-pixel-emulator text-[#1a1a2e] tracking-widest text-[0.9vw]">REGISTER</span>
+              {/* Button content */}
+              <span className="relative z-10 font-pixel-emulator text-[#1a1a2e] tracking-widest text-[0.9vw]">REGISTER</span>
 
-            {/* Arrow icon */}
-            <span className="relative z-10 text-[#1a1a2e] group-hover:translate-x-1 transition-transform duration-200">→</span>
+              {/* Arrow icon */}
+              <span className="relative z-10 text-[#1a1a2e] group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
           </button>
-
           {/* Mobile Menu Button */}
           <button
             className="md:hidden flex items-center justify-center w-10 h-10 text-white z-[101] relative mr-2"
@@ -154,8 +155,10 @@ export default function Navbar({ className = "" }) {
                 }}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span className="absolute top-0 left-0 w-2 h-2 bg-[#1a1a2e] opacity-30" />
-                REGISTER NOW
+                <a target='_blank' rel='noopener noreferrer' href="https://unstop.com/o/8YEQtVf?lb=xk26YO1e&utm_medium=Share&utm_source=abhadho42350&utm_campaign=Online_coding_challenge">
+                  <span className="absolute top-0 left-0 w-2 h-2 bg-[#1a1a2e] opacity-30" />
+                  REGISTER NOW
+                </a>
               </button>
             </div>
           </div>

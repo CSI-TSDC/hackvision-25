@@ -108,23 +108,22 @@ export default function Tracks() {
     if (!stripsContainerRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Strips animation - only when section is visible
       const strips = gsap.utils.toArray('.strip');
       if (strips.length === 0) return;
 
       strips.forEach((el: any, i: number) => {
-        const speed = 100;
         const dir = i % 2 === 0 ? 1 : -1;
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: 'top top',
-          end: '+=120%', // Match the pin duration
-          scrub: 1,
-          onUpdate: (self) => {
-            // Loop the animation using modulo
-            const xPercent = (self.progress * speed * dir) % 100;
-            gsap.set(el, { xPercent });
-          },
+        const duration = 20 + i * 5; // Varied speeds for visual interest
+
+        // Set initial position
+        gsap.set(el, { xPercent: dir === 1 ? 0 : -50 });
+
+        // Continuous infinite loop animation
+        gsap.to(el, {
+          xPercent: dir === 1 ? -50 : 0,
+          duration: duration,
+          ease: 'none',
+          repeat: -1,
         });
       });
     }, stripsContainerRef);
