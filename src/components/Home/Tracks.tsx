@@ -202,7 +202,7 @@ export default function Tracks() {
     <section
       ref={containerRef}
       id="tracks"
-      className="relative w-full min-h-screen bg-[#1757b7] text-white md:mt-[100vh] flex flex-col justify-between items-center z-5 overflow-hidden">
+      className="relative w-full min-h-screen bg-[#1757b7] text-white flex flex-col justify-between items-center z-5 overflow-hidden">
       <div className="relative w-full h-screen flex flex-row justify-between items-center">
         <div className='grid-bg'></div>
 

@@ -276,7 +276,6 @@ export default function About({ className = "" }) {
                     </div>
                 </div>
             </div>
-            <img src="/assets/home/About/transition1.png" className="w-full h-full object-cover" alt="Transition" width={1000} height={1000} />
         </section>
     )
 }

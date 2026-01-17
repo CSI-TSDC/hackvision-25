@@ -159,9 +159,9 @@ export default function Footer({ className = "" }) {
 
                         {/* Logo section */}
                         <div className="flex flex-col items-center md:items-start">
-                            <div className="flex flex-col items-start gap-4 mb-4 scale-90 md:scale-100 origin-left">
+                            <div className="flex flex-col  items-center md:items-start gap-4 mb-4 scale-90 md:scale-100 origin-left">
                                 {/* Logos */}
-                                <div className="flex items-center gap-4 mr-4">
+                                <div className="flex items-center gap-4 md:mr-4">
                                     <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
                                         <img src="/assets/Logos/csi_logo.webp" className="w-full h-full object-contain" alt="CSI Logo" />
                                     </div>

@@ -22,15 +22,17 @@ function TrophyModel({ modelPath }: { modelPath: string }) {
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
 
-    // Scale to make trophy height approximately 2.6 units (balanced size)
-    const targetHeight = 2.6;
+    // Scale to make trophy larger and fill canvas better
+    const targetHeight = 2.8;
     const scale = targetHeight / size.y;
     clonedScene.scale.setScalar(scale);
 
-    // Center the model
+    // Position the model at the bottom of canvas (trophy base at y=0)
     clonedScene.position.x = -center.x * scale;
     clonedScene.position.z = -center.z * scale;
-    clonedScene.position.y = -center.y * scale;
+    // Move trophy so its bottom edge is at y = -2 (bottom of view)
+    const scaledBox = new THREE.Box3().setFromObject(clonedScene);
+    clonedScene.position.y = -scaledBox.min.y - 2;
 
     // Add to group
     const group = groupRef.current;
@@ -100,7 +102,7 @@ const Trophy3D = ({ modelPath, className = "w-full h-[45vh]" }: { modelPath?: st
   return (
     <div className={`${className} relative`}>
       <Canvas
-        camera={{ position: [0, 1.5, 6], fov: 45 }}
+        camera={{ position: [0, 0.5, 3], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}

@@ -174,7 +174,7 @@ export default function Sponsors() {
                     <div className="relative w-max font-pixel-emulator">
                         <span className="block text-[8vw] md:text-[7vw] pb-2 text-blue-600
                         drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
-                            OUR SPONSORS
+                            OUR PARTNERS
                         </span>
                         {/* Underline */}
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-1 bg-blue-600 opacity-60" />

@@ -124,7 +124,7 @@ export default function FAQs({ className = "" }) {
         },
         {
             question: "Do I need to pay to participate?",
-            answer: "Absolutely not! HackVision is completely FREE to attend. We provide food, swag, mentorship, and an amazing venue. Just bring your laptop and creativity!"
+            answer: "First Round (PPT Round) is free to participate in. If shortlisted, there's a nominal fee of ₹1000 per team for the On-site Round."
         },
         {
             question: "What should I bring to the event?",
@@ -164,7 +164,7 @@ export default function FAQs({ className = "" }) {
         <section
             ref={sectionRef}
             id="faqs"
-            className={`relative w-full bg-[#212529] pt-[45vh] pb-20 text-white overflow-hidden ${className}`}
+            className={`relative w-full bg-[#212529] pt-[20vh] md:pt-[45vh] pb-20 text-white overflow-hidden ${className}`}
         >
             <div className="absolute top-0 left-0 w-full h-max bg-[#212529] overflow-hidden">
                 <img src="/assets/home/Sponsors/transition2.png" className='w-full h-max' alt="" />
