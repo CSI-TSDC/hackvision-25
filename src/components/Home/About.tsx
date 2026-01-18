@@ -10,14 +10,14 @@ export default function About({ className = "" }) {
 
     // Array of 5 images
     const iconImages = [
-        '/assets/home/About/icons/img1.png',
-        '/assets/home/About/icons/img2.png',
-        '/assets/home/About/icons/img3.png',
-        '/assets/home/About/icons/img4.png',
-        '/assets/home/About/icons/img5.png',
-        '/assets/home/About/icons/img6.png',
-        '/assets/home/About/icons/img7.png',
-        '/assets/home/About/icons/img8.png',
+        '/assets/home/About/icons/img1.webp',
+        '/assets/home/About/icons/img2.webp',
+        '/assets/home/About/icons/img3.webp',
+        '/assets/home/About/icons/img4.webp',
+        '/assets/home/About/icons/img5.webp',
+        '/assets/home/About/icons/img6.webp',
+        '/assets/home/About/icons/img7.webp',
+        '/assets/home/About/icons/img8.webp',
     ];
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function About({ className = "" }) {
         if (!ctx) return;
 
         const img = new Image();
-        img.src = "/assets/home/About/trophy.png";
+        img.src = "/assets/home/About/trophy.webp";
 
         img.onload = () => {
             const rect = canvas.getBoundingClientRect();
@@ -248,14 +248,14 @@ export default function About({ className = "" }) {
                         </div>
                     </div>
                     <div className="relative h-auto hidden md:flex flex-col justify-around space-y-3">
-                        <span className="block relative w-14 h-auto">
-                            <img className="w-full h-full" src={iconImages[iconIndices[0]]} alt="Icon" />
+                        <span className="block relative w-14 h-14">
+                            <NextImage className="w-full h-full object-contain" src={iconImages[iconIndices[0]]} width={56} height={56} alt="Icon" unoptimized />
                         </span>
-                        <span className="block relative w-14 h-auto">
-                            <img className="w-full h-full" src={iconImages[iconIndices[1]]} alt="Icon" />
+                        <span className="block relative w-14 h-14">
+                            <NextImage className="w-full h-full object-contain" src={iconImages[iconIndices[1]]} width={56} height={56} alt="Icon" unoptimized />
                         </span>
-                        <span className="block relative w-14 h-auto">
-                            <img className="w-full h-full" src={iconImages[iconIndices[2]]} alt="Icon" />
+                        <span className="block relative w-14 h-14">
+                            <NextImage className="w-full h-full object-contain" src={iconImages[iconIndices[2]]} width={56} height={56} alt="Icon" unoptimized />
                         </span>
                     </div>
                     <div className="w-full md:w-1/3 text-white bg-[#FF8C00] px-5 py-6 rounded-3xl h-auto md:h-auto max-h-[50vh] md:max-h-none flex flex-col justify-between">

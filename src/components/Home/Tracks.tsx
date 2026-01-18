@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -19,11 +20,11 @@ const Dot = () => (
 );
 
 const IMAGES = [
-  '/assets/home/Tracks/webdev.png',
-  '/assets/home/Tracks/aiml.png',
-  '/assets/home/Tracks/cybersec.png',
-  '/assets/home/Tracks/blockchain.png',
-  '/assets/home/Tracks/campus.png',
+  '/assets/home/Tracks/webdev.webp',
+  '/assets/home/Tracks/aiml.webp',
+  '/assets/home/Tracks/cybersec.webp',
+  '/assets/home/Tracks/blockchain.webp',
+  '/assets/home/Tracks/campus.webp',
 ];
 
 const TRACK_DATA = [
@@ -171,7 +172,11 @@ export default function Tracks() {
         onLeaveBack: closeAllWindows,
       });
 
-      // Animate hands coming together
+      // Animate hands coming together with rotation
+      // Set initial rotation values - both start at 7deg
+      gsap.set(leftHandRef.current, { rotation: 7 });
+      gsap.set(rightHandRef.current, { rotation: 7 });
+
       gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -191,8 +196,8 @@ export default function Tracks() {
           }
         }
       })
-        .to(leftHandRef.current, { x: 0, ease: 'none' }, 0)
-        .to(rightHandRef.current, { x: 0, ease: 'none' }, 0);
+        .to(leftHandRef.current, { x: 0, rotation: 0, ease: 'none' }, 0)
+        .to(rightHandRef.current, { x: 0, rotation: 0, ease: 'none' }, 0);
     }, containerRef);
 
     return () => ctx.revert();
@@ -234,17 +239,21 @@ export default function Tracks() {
         <div className='grid-bg'></div>
 
         {/* Hands */}
-        <img
+        <Image
           ref={leftHandRef}
-          className="w-[45vw] mix-blend-color-dodge -translate-x-[30%] z-20"
-          src="/assets/home/Tracks/lefthand.png"
-          alt=""
+          className="w-[45vw] mix-blend-color-dodge -translate-x-[30%] -rotate-10 z-20"
+          src="/assets/home/Tracks/lefthand.webp"
+          width={800}
+          height={800}
+          alt="Left Hand"
         />
-        <img
+        <Image
           ref={rightHandRef}
-          className="w-[45vw] mix-blend-color-dodge translate-x-[30%] z-20"
-          src="/assets/home/Tracks/righthand.png"
-          alt=""
+          className="w-[45vw] mix-blend-color-dodge translate-x-[30%] rotate-10 z-20"
+          src="/assets/home/Tracks/righthand.webp"
+          width={800}
+          height={800}
+          alt="Right Hand"
         />
 
         {/* Always visible window frame with transparent content */}
@@ -301,10 +310,13 @@ export default function Tracks() {
                         onDoubleClick={() => handleImageDoubleClick(img, TRACK_DATA[index]?.label || `Track ${index + 1}`)}
                       >
                         <div className="w-14 h-14 border-2 border-[#808080] bg-[#c0c0c0] flex items-center justify-center overflow-hidden shrink-0">
-                          <img
+                          <Image
                             src={img}
                             alt={TRACK_DATA[index]?.label || `Track ${index + 1}`}
+                            width={56}
+                            height={56}
                             className="w-full h-full object-cover"
+                            unoptimized
                           />
                         </div>
                         <span className="text-[11px] leading-tight text-white font-pixel-emulator">
@@ -349,10 +361,13 @@ export default function Tracks() {
                 </button>
               </div>
               <div className="p-2 bg-white border-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white m-1">
-                <img
+                <Image
                   src={imageViewer.src}
                   alt={imageViewer.title}
+                  width={500}
+                  height={400}
                   className="w-full h-auto max-h-[50vh] object-contain"
+                  unoptimized
                 />
               </div>
             </div>

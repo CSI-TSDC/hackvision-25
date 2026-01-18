@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 // Tetris block shapes for decoration (similar to FAQ section)
 const TetrisBlocks = () => {
     const blocks = [
@@ -163,10 +165,10 @@ export default function Footer({ className = "" }) {
                                 {/* Logos */}
                                 <div className="flex items-center gap-4 md:mr-4">
                                     <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
-                                        <img src="/assets/Logos/csi_logo.webp" className="w-full h-full object-contain" alt="CSI Logo" />
+                                        <Image src="/assets/Logos/csi_logo.webp" width={48} height={48} className="w-full h-full object-contain" alt="CSI Logo" />
                                     </div>
                                     <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
-                                        <img src="/assets/Logos/tsdc_logo.webp" className="w-full h-full object-contain" alt="TSDC Logo" />
+                                        <Image src="/assets/Logos/tsdc_logo.webp" width={48} height={48} className="w-full h-full object-contain" alt="TSDC Logo" />
                                     </div>
                                 </div>
                                 <span className="font-quinque text-lg tracking-wider">CSI x TSDC</span>

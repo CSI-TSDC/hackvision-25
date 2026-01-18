@@ -38,11 +38,11 @@ function PodiumModel({ modelPath, color = '#FFD700' }: PodiumModelProps) {
         const scale = targetHeight / size.y;
         clone.scale.setScalar(scale);
 
-        // Center the model
         clone.position.x = -center.x * scale;
         clone.position.z = -center.z * scale;
-        clone.position.y = -center.y * scale;
-        // TIP: Add an offset to y here to move podium up/down, e.g., + 0.5
+
+        const scaledBox = new THREE.Box3().setFromObject(clone);
+        clone.position.y = -scaledBox.max.y + 1.5;
 
         return clone;
     }, [obj, color]);
@@ -50,11 +50,6 @@ function PodiumModel({ modelPath, color = '#FFD700' }: PodiumModelProps) {
     return (
         <group ref={groupRef}>
             <primitive object={clonedObj} />
-            {/* Shadow/platform effect at the bottom */}
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3.1, 0]}>
-                <circleGeometry args={[1.2, 32]} />
-                <meshBasicMaterial color="#000000" opacity={0.4} transparent />
-            </mesh>
         </group>
     );
 }
@@ -90,7 +85,7 @@ const Podium3D = ({
                 // CAMERA SETTINGS:
                 // position: [x, y, z] -> [Horizontal, Vertical, Zoom/Distance]
                 // fov: Field of View (zoom level)
-                camera={{ position: [0, .5, 3], fov: 50 }}
+                camera={{ position: [0, 0.5, 3], fov: 50 }}
                 gl={{ antialias: true, alpha: true }}
                 dpr={[1, 1.5]}
                 performance={{ min: 0.5 }}

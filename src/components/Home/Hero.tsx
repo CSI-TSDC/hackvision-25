@@ -1,6 +1,11 @@
 'use client';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Dynamically import StarCanvas with no SSR + loading priority adjustment
 const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
@@ -28,11 +33,38 @@ const PixelCTAButton = () => {
 };
 
 export default function Hero() {
+  // Parallax effect for frame2 only
+  useEffect(() => {
+    const frame2 = document.getElementById('frame2');
+
+    if (frame2) {
+      gsap.to(frame2, {
+        yPercent: -20, // Enhanced parallax effect
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.5,
+        },
+      });
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === document.getElementById('hero')) {
+          st.kill();
+        }
+      });
+    };
+  }, []);
+
   return (
     <>
       <section id="hero" className="h-screen w-full bg-black relative flex items-center justify-center overflow-hidden">
         {/* Desktop frame */}
         <Image
+          id='frame1'
           src="/hero/frame.png"
           alt="Frame"
           width={1920}
@@ -50,17 +82,18 @@ export default function Hero() {
           className="absolute top-0 left-0 w-full h-full z-2 pointer-events-none block md:hidden"
         />
         <StarCanvas />
-        <div className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
+        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
           <Image
             src="/hero/pixel_layer.png"
             alt="Pixel Layer"
             width={1920}
             height={1080}
-            className="object-bottom w-full h-full"
+            className="object-bottom w-full h-full z-5"
           />
+          <div className='w-full h-1/2 bg-[#3054e5]'></div>
         </div>
 
-        <div className="absolute w-[33vw] top-0 left-0 pt-[2.5vh] tracking-wider flex flex-row items-stretch justify-center  pl-[2.2vw] z-5 text-[1.8vh] font-quinque">
+        <div className="absolute w-[33vw] top-0 left-0 pt-[2.5vh] tracking-wider hidden md:flex flex-row items-stretch justify-center  pl-[2.2vw] z-5 text-[1.8vh] font-quinque">
           <div className="w-14 mr-6 relative h-14">
             <Image
               src="/assets/Logos/csi_logo.webp"
@@ -82,9 +115,9 @@ export default function Hero() {
           </div>
         </div>
         <div className="absolute top-[28%] w-max max-w-[90vw] h-max left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10">
-          <div className="w-[60vw] h-[20vh] mb-4 relative">
+          <div className="w-[85vw] h-[20vh] md:w-[60vw] md:h-[20vh] mb-4 relative">
             <Image
-              src="/assets/home/hackvision_logo.png"
+              src="/assets/Logos/hackvision_logo.webp"
               alt="HackVision Logo"
               fill
               className="object-contain"

@@ -7,7 +7,7 @@ import Image from "next/image";
 gsap.registerPlugin(ScrollTrigger);
 
 // Pixel Sponsor Card Component
-const PixelSponsorCard = ({ number, logo, alt, size, title }: { number: number; logo: string; alt: string; size: string; title: string }) => {
+const PixelSponsorCard = ({ number, logo, alt, size, title, companyName }: { number: number; logo: string; alt: string; size: string; title: string; companyName: string }) => {
     return (
         <div className="relative h-[40vh] flex flex-col justify-center p-4 aspect-3/4 sponsorclip bg-blue-600">
             <div className="relative sponsor-im-clip w-full h-[60%] pt-[50px] bg-[#f5f0e6]">
@@ -37,7 +37,10 @@ const PixelSponsorCard = ({ number, logo, alt, size, title }: { number: number; 
                 </div>
             </div>
             <div className="w-full h-auto flex-1">
-                <div className="w-full h-full flex items-center justify-center px-2">
+                <div className="w-full h-full flex flex-col items-center justify-center px-2 gap-1">
+                    <span className="text-white/70 font-pixel-emulator text-center text-[1.2vh] md:text-[1.4vh] mb-3 leading-tight">
+                        {companyName}
+                    </span>
                     <span className="text-white font-nikea text-center text-[2vh] md:text-[2.5vh] lg:text-[3vh] leading-tight">
                         {title}
                     </span>
@@ -100,10 +103,24 @@ export default function Sponsors() {
     const titleRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement>(null);
 
-    const sponsors = [
-        { number: 1, logo: "/assets/home/Sponsors/unstop.png", alt: "Unstop", size: "w-[20vh] md:w-[10vw] h-auto", title: "Title Sponsor" },
-        { number: 2, logo: "/assets/home/Sponsors/unstop.png", alt: "Sponsor 2", size: "w-[20vh] md:w-[10vw] h-auto", title: "Gold Sponsor" },
-        { number: 3, logo: "/assets/home/Sponsors/unstop.png", alt: "Sponsor 3", size: "w-[20vh] md:w-[10vw] h-auto", title: "Silver Sponsor" },
+    // Sponsor Data Configuration
+    const SPONSOR_CATEGORIES = [
+        {
+            title: "Platform Partner",
+            folder: "Platform Partner",
+            sponsors: [
+                { file: "unstop.png", name: "Unstop" }
+            ]
+        },
+        {
+            title: "Bronze Partner",
+            folder: "Bronze Partner",
+            sponsors: [
+                { file: "navan_ai.png", name: "Navan AI" },
+                { file: "dotxyz.png", name: ".xyz" },
+                { file: "vighnolearn.png", name: "Vighno Learn" }
+            ]
+        }
     ];
 
     useEffect(() => {
@@ -137,7 +154,7 @@ export default function Sponsors() {
                         y: 0,
                         rotateY: 0,
                         duration: 0.8,
-                        stagger: 0,
+                        stagger: 0.1,
                         ease: "power3.out",
                         scrollTrigger: {
                             trigger: cardsRef.current,
@@ -153,8 +170,9 @@ export default function Sponsors() {
     }, []);
 
     return (
-        <section ref={sectionRef} id='sponsors' className="relative min-h-screen bg-[#f5f0e6] text-black overflow-hidden">
+        <section ref={sectionRef} id='partners' className="relative min-h-screen bg-[#f5f0e6] text-black overflow-hidden">
             <div className="relative h-max pt-20 pb-40 px-[5vw]">
+                {/* Decorative Pixels */}
                 <FloatingPixel className="bg-[#e8e337] top-[15%] left-[10%] rotate-12" delay={0} />
                 <FloatingPixel className="bg-[#4fd1c5] top-[25%] right-[15%] -rotate-6" delay={0.5} />
                 <FloatingPixel className="bg-[#d53f8c] bottom-[30%] left-[8%] rotate-45" delay={1} />
@@ -168,43 +186,52 @@ export default function Sponsors() {
                 </div>
 
                 {/* Enhanced Title Section */}
-                <div ref={titleRef} className="relative w-full h-max flex flex-col items-center justify-center mb-8">
-
-                    {/* Main Title */}
+                <div ref={titleRef} className="relative w-full h-max flex flex-col items-center justify-center mb-16">
                     <div className="relative w-max font-pixel-emulator">
-                        <span className="block text-[8vw] md:text-[7vw] pb-2 text-blue-600
-                        drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
+                        <span className="block text-[8vw] md:text-[7vw] pb-2 text-blue-600 drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
                             OUR PARTNERS
                         </span>
-                        {/* Underline */}
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-1 bg-blue-600 opacity-60" />
                     </div>
-
-                    {/* Subtitle */}
                     <p className="mt-4 text-[#555] font-pixel-emulator text-[2vw] md:text-[1vw] tracking-widest uppercase">
                         Thanks to our amazing sponsors
                     </p>
                 </div>
 
-                {/* Sponsor Cards Grid with Hover Effects */}
-                <div ref={cardsRef} className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 mt-15 md:gap-12 px-4">
-                    {sponsors.map((sponsor, index) => (
-                        <div
-                            key={sponsor.number}
-                            className="sponsor-card-wrapper transform transition-all duration-300 ease-out
-                            cursor-pointer group"
-                        >
-                            <PixelSponsorCard
-                                number={sponsor.number}
-                                logo={sponsor.logo}
-                                alt={sponsor.alt}
-                                size={sponsor.size}
-                                title={sponsor.title}
-                            />
+                {/* Sponsor Cards Groups */}
+                <div ref={cardsRef} className="relative z-10 flex flex-col gap-16 px-4">
+                    {SPONSOR_CATEGORIES.map((category, catIndex) => (
+                        <div key={catIndex} className="w-full flex flex-col items-center gap-8">
+                            {/* Mobile divider - only visible on mobile, between categories */}
+                            {catIndex > 0 && (
+                                <div className="flex md:hidden items-center gap-2 w-full max-w-xs -mt-4 mb-2">
+                                    <div className="flex-1 h-px bg-blue-600/30" />
+                                    <div className="w-1.5 h-1.5 bg-blue-600/50 rotate-45" />
+                                    <div className="flex-1 h-px bg-blue-600/30" />
+                                </div>
+                            )}
+                            {/* Category Row */}
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 flex-wrap max-w-7xl mx-auto">
+                                {category.sponsors.map((sponsor, index) => (
+                                    <div
+                                        key={`${category.folder}-${index}`}
+                                        className="sponsor-card-wrapper transform transition-all duration-300 ease-out cursor-pointer group"
+                                    >
+                                        <PixelSponsorCard
+                                            number={index + 1}
+                                            logo={`/assets/home/Sponsors/${category.folder}/${sponsor.file}`}
+                                            alt={sponsor.name}
+                                            size="w-[20vh] md:w-[10vw] h-auto"
+                                            title={category.title}
+                                            companyName={sponsor.name}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
         </section>
-    )
+    );
 }

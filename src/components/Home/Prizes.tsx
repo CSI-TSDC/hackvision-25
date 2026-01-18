@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Trophy3D from './Trophy3D';
@@ -11,6 +12,8 @@ const Prizes = ({ className = "" }) => {
   const prizesWrapRef = useRef<HTMLDivElement | null>(null);
   const podiumsRef = useRef<(HTMLDivElement | null)[]>([]);
   const infosRef = useRef<(HTMLDivElement | null)[]>([]);
+  const mobileRef = useRef<HTMLDivElement | null>(null);
+  const parallaxTextRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -29,7 +32,7 @@ const Prizes = ({ className = "" }) => {
     requestAnimationFrame(() => {
       const prizesFadeInTrigger = ScrollTrigger.create({
         trigger: prizesWrap,
-        start: 'top 50%',
+        start: 'top 70%',
         onEnter: () => {
           // Staggered animation - podiums slide up first (slower)
           const tl = gsap.timeline();
@@ -39,7 +42,7 @@ const Prizes = ({ className = "" }) => {
             duration: 0.8,
             stagger: 0.15,
             ease: 'power2.out',
-            delay: 0.2,
+            delay: 0.1,
           })
             // Then trophy and info fade in after
             .to(infos, {
@@ -58,6 +61,20 @@ const Prizes = ({ className = "" }) => {
 
       triggers.push(prizesFadeInTrigger);
 
+      // Parallax effect on PRIZES text - moves slower for depth effect
+      if (parallaxTextRef.current) {
+        gsap.to(parallaxTextRef.current, {
+          yPercent: -30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.5,
+          },
+        });
+      }
+
       // Desktop-only pinning
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": function () {
@@ -73,6 +90,32 @@ const Prizes = ({ className = "" }) => {
               invalidateOnRefresh: true,
             });
             triggers.push(sectionPinTrigger);
+          }
+        },
+        // Mobile-only fade in animation
+        "(max-width: 767px)": function () {
+          if (mobileRef.current) {
+            gsap.set(mobileRef.current, { opacity: 0, y: 30 });
+            const mobileTrigger = ScrollTrigger.create({
+              trigger: section,
+              start: 'top 60%',
+              onEnter: () => {
+                gsap.to(mobileRef.current, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: 'power2.out',
+                });
+              },
+              onLeaveBack: () => {
+                gsap.to(mobileRef.current, {
+                  opacity: 0,
+                  y: 30,
+                  duration: 0.4,
+                });
+              },
+            });
+            triggers.push(mobileTrigger);
           }
         },
       });
@@ -108,15 +151,15 @@ const Prizes = ({ className = "" }) => {
       className={`w-full relative 
          ${className} flex flex-col h-max overflow-hidden z-4`}
     >
-      <img src="/assets/home/About/transition1.png" className="absolute w-full h-max object-cover z-4" alt="Transition" width={1000} height={1000} />
+      <Image src="/assets/home/About/transition1.webp" width={1920} height={200} className="absolute w-full h-max object-cover z-4" alt="Transition" />
       <div className='relative w-full h-[70vh] md:h-max z-3'>
-        <img src="/assets/home/Prizes/prizesbg-1.png" className='w-full h-full md:h-max relative object-cover object-top' alt="" />
+        <Image src="/assets/home/Prizes/prizesbg-1.webp" width={1920} height={1080} className='w-full h-full md:h-max relative object-cover object-top' alt="Prizes Background" />
         <div className='absolute bottom-0 w-full h-max hidden md:flex items-center justify-center'>
           <div ref={prizesWrapRef} className="relative z-10 w-full flex flex-row gap-10 px-[8vw] translate-y-10 justify-center items-end h-auto">
             <div className='flex flex-col w-full h-auto justify-center items-center order-1'>
               <div ref={el => { infosRef.current[0] = el; }} className='flex flex-col-reverse gap-12 justify-center items-center'>
                 <div className='w-28 h-auto mb-8'>
-                  <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
+                  <Image className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" width={112} height={112} alt="Silver" unoptimized />
                 </div>
                 <div className='flex flex-col gap-2 items-center'>
                   <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
@@ -151,7 +194,7 @@ const Prizes = ({ className = "" }) => {
 
               <div ref={el => { infosRef.current[3] = el; }} className='flex flex-col-reverse gap-12 justify-center items-center'>
                 <div className='w-28 h-auto mb-8'>
-                  <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
+                  <Image className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" width={112} height={112} alt="Bronze" unoptimized />
                 </div>
                 <div className='flex flex-col gap-2 items-center'>
                   <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
@@ -169,33 +212,33 @@ const Prizes = ({ className = "" }) => {
             </div>
           </div>
         </div>
-        <div className='absolute opacity-60 bottom-0 w-full flex justify-center text-[13vw]/[14vw] shadow-2xl font-quinque'>
+        <div ref={parallaxTextRef} className='absolute opacity-60 bottom-0 w-full flex justify-center text-[13vw]/[14vw] shadow-2xl font-quinque'>
           <span>PRIZES</span>
         </div>
       </div>
       <div className='relative w-full h-[30vh] md:h-max z-2'>
-        <img src="/assets/home/Prizes/prizesbg-2.png" className='w-full h-full md:h-max relative object-cover object-bottom' alt="" />
+        <Image src="/assets/home/Prizes/prizesbg-2.webp" width={1920} height={600} className='w-full h-full md:h-max relative object-cover object-bottom' alt="Prizes Background" />
       </div>
 
-      {/* Mobile Prizes Layout - centered */}
-      <div ref={prizesWrapRef} className='absolute inset-0 w-full flex md:hidden flex-col items-center justify-center px-4 py-6 gap-4'>
+      {/* Mobile Prizes Layout - with fade in animation */}
+      <div ref={mobileRef} className='absolute inset-0 w-full flex md:hidden flex-col items-center justify-center px-4 py-6 gap-4 z-8'>
         {/* Top section - Trophy only */}
-        <div className="w-[220px] h-auto aspect-square shrink-0">
+        <div className="w-[180px] h-auto aspect-square shrink-0">
           <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' className="w-full h-full" />
         </div>
 
         {/* Bottom section - Prize boxes */}
-        <div className="w-full max-w-md flex flex-col gap-2 mt-4">
+        <div className="w-full max-w-md flex flex-col gap-2 mt-2">
           {/* 1st Place Box */}
           <div className="w-full bg-[#1a3a8a]/80 backdrop-blur-sm border-2 border-[#4a7fff] rounded-lg p-3 flex items-center gap-4">
-            <div className='w-12 h-12 shrink-0'>
-              <img className="w-full h-full object-contain" src="/assets/home/Prizes/gold.gif" alt="Gold" />
+            <div className='w-10 h-10 shrink-0'>
+              <Image className="w-full h-full object-contain" src="/assets/home/Prizes/gold.gif" width={40} height={40} alt="Gold" unoptimized />
             </div>
             <div className='flex flex-col'>
-              <span className='text-[1.8vh] text-white font-pixel-emulator'>
+              <span className='text-sm text-white font-pixel-emulator'>
                 1st Place
               </span>
-              <span className='text-[2.2vh] font-quinque text-[#D4AF37]'>
+              <span className='text-base font-quinque text-[#D4AF37]'>
                 50,000 RS
               </span>
             </div>
@@ -203,14 +246,14 @@ const Prizes = ({ className = "" }) => {
 
           {/* 2nd Place Box */}
           <div className="w-full bg-[#3a6adf]/60 backdrop-blur-sm border-2 border-[#6a9fff] rounded-lg p-3 flex items-center gap-4">
-            <div className='w-12 h-12 shrink-0'>
-              <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
+            <div className='w-10 h-10 shrink-0'>
+              <Image className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" width={40} height={40} alt="Silver" unoptimized />
             </div>
             <div className='flex flex-col'>
-              <span className='text-[1.8vh] text-white font-pixel-emulator'>
+              <span className='text-sm text-white font-pixel-emulator'>
                 2nd Place
               </span>
-              <span className='text-[2.2vh] font-quinque bstrokeds text-[#BFC3C7]'>
+              <span className='text-base font-quinque text-[#BFC3C7]'>
                 25,000 RS
               </span>
             </div>
@@ -218,14 +261,14 @@ const Prizes = ({ className = "" }) => {
 
           {/* 3rd Place Box */}
           <div className="w-full bg-[#5a8aff]/50 backdrop-blur-sm border-2 border-[#8ab0ff] rounded-lg p-3 flex items-center gap-4">
-            <div className='w-12 h-12 shrink-0'>
-              <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
+            <div className='w-10 h-10 shrink-0'>
+              <Image className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" width={40} height={40} alt="Bronze" unoptimized />
             </div>
             <div className='flex flex-col'>
-              <span className='text-[1.8vh] text-white font-pixel-emulator'>
+              <span className='text-sm text-white font-pixel-emulator'>
                 3rd Place
               </span>
-              <span className='text-[2.2vh] font-quinque text-[#9C6B3D]'>
+              <span className='text-base font-quinque text-[#9C6B3D]'>
                 15,000 RS
               </span>
             </div>

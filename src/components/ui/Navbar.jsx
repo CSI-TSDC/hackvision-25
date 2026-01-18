@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Navbar({ className = "" }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,16 +21,25 @@ export default function Navbar({ className = "" }) {
     { label: 'Prizes', href: '#prizes' },
     { label: 'Tracks', href: '#tracks' },
     { label: 'Timeline', href: '#timeline' },
-    { label: 'Sponsors', href: '#sponsors' },
+    { label: 'Partners', href: '#partners' },
   ];
 
   return (
     <>
-      <nav className={`w-full flex ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[3.5vh]' : 'top-0'} font-quinque h-[9vh] ${isScrolled ? '' : 'md:mt-[3.5vh]'} pt-[15px] text-sm ${className} justify-between items-stretch pl-[4vw] font-quinque text-[#f8f8f8] ${isScrolled ? 'z-[100]' : 'z-1'}`}>
+      <nav
+        className={`w-full flex ${isScrolled ? 'fixed' : 'fixed md:absolute'} ${isScrolled ? 'top-[3.5vh]' : 'top-0'} font-quinque h-[9vh] ${isScrolled ? '' : 'md:mt-[3.5vh]'} pt-[15px] text-sm ${className} justify-between items-stretch pl-[4vw] font-quinque text-[#f8f8f8] ${isScrolled ? 'z-[100]' : 'z-99 md:z-1'} transition-all duration-300`}
+        style={{
+          background: isMobileMenuOpen
+            ? 'linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%)'
+            : 'transparent',
+          backdropFilter: isMobileMenuOpen ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: isMobileMenuOpen ? 'blur(12px)' : 'none',
+        }}
+      >
 
         {/* Logo */}
         <div className="w-max h-full flex items-center">
-          <img src="/assets/home/hackvision_logo.png" className="w-48" alt="HackVision" />
+          <Image src="/assets/Logos/hackvision_logo.webp" width={192} height={48} className="w-48" alt="HackVision" />
         </div>
 
         {/* Desktop Menu Container */}
@@ -37,7 +47,7 @@ export default function Navbar({ className = "" }) {
 
           {/* Glassmorphic Menu Bar */}
           <div
-            className="hidden md:flex h-full text-[0.8vw] w-[55.5vw] justify-between items-center pl-[50px] space-x-4 pr-[20px] relative overflow-hidden"
+            className="hidden md:flex h-full text-[0.8vw] w-[57vw] justify-between items-center pl-[50px] space-x-4 pr-[20px] relative overflow-hidden"
             style={{
               background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.9) 100%)',
               backdropFilter: 'blur(12px)',

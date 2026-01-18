@@ -1,5 +1,6 @@
 'use client'
 import { useLayoutEffect, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -7,14 +8,14 @@ gsap.registerPlugin(ScrollTrigger)
 
 // Pacman theme images for decoration
 const DECORATIVE_DAYS = {
-  5: '/assets/home/Timeline/pacman theme/6.png',
-  8: '/assets/home/Timeline/pacman theme/5.png',
-  12: '/assets/home/Timeline/pacman theme/1.png',
-  13: '/assets/home/Timeline/pacman theme/2.png',
-  16: '/assets/home/Timeline/pacman theme/3.png',
-  17: '/assets/home/Timeline/pacman theme/7.png',
-  24: '/assets/home/Timeline/pacman theme/4.png',
-  31: '/assets/home/Timeline/pacman theme/8.png',
+  5: '/assets/home/Timeline/pacman theme/6.webp',
+  8: '/assets/home/Timeline/pacman theme/5.webp',
+  12: '/assets/home/Timeline/pacman theme/1.webp',
+  13: '/assets/home/Timeline/pacman theme/2.webp',
+  16: '/assets/home/Timeline/pacman theme/3.webp',
+  17: '/assets/home/Timeline/pacman theme/7.webp',
+  24: '/assets/home/Timeline/pacman theme/4.webp',
+  31: '/assets/home/Timeline/pacman theme/8.webp',
 }
 
 const calendarData = [
@@ -171,13 +172,13 @@ export default function Timeline() {
 
   // Mobile list data - only HackVision dates
   const mobileListData = [
-    { day: 9, type: 'hackvision', title: 'Registration Opens', icon: '/assets/home/Timeline/pacman theme/6.png' },
-    { day: 14, type: 'occasion', title: 'Makar Sankranti', icon: '/assets/home/Timeline/pacman theme/7.png' },
-    { day: 17, type: 'hackvision', title: 'Registration Closes', icon: '/assets/home/Timeline/pacman theme/6.png' },
-    { day: 20, type: 'hackvision', title: 'Teams Announced', icon: '/assets/home/Timeline/pacman theme/1.png' },
-    { day: 21, type: 'hackvision', title: 'Problems Revealed', icon: '/assets/home/Timeline/pacman theme/4.png' },
-    { day: 22, type: 'hackday', title: 'Hackathon Day 1', icon: '/assets/home/Timeline/pacman theme/6.png' },
-    { day: 23, type: 'hackday', title: 'Hackathon Day 2', icon: '/assets/home/Timeline/pacman theme/1.png' },
+    { day: 9, type: 'hackvision', title: 'Registration Opens', icon: '/assets/home/Timeline/pacman theme/6.webp' },
+    { day: 14, type: 'occasion', title: 'Makar Sankranti', icon: '/assets/home/Timeline/pacman theme/7.webp' },
+    { day: 17, type: 'hackvision', title: 'Registration Closes', icon: '/assets/home/Timeline/pacman theme/6.webp' },
+    { day: 20, type: 'hackvision', title: 'Teams Announced', icon: '/assets/home/Timeline/pacman theme/1.webp' },
+    { day: 21, type: 'hackvision', title: 'Problems Revealed', icon: '/assets/home/Timeline/pacman theme/4.webp' },
+    { day: 22, type: 'hackday', title: 'Hackathon Day 1', icon: '/assets/home/Timeline/pacman theme/6.webp' },
+    { day: 23, type: 'hackday', title: 'Hackathon Day 2', icon: '/assets/home/Timeline/pacman theme/1.webp' },
   ]
 
   return (
@@ -251,9 +252,11 @@ export default function Timeline() {
                 {/* Right side - Icon and Title */}
                 <div className="flex items-center gap-3">
                   {item.icon && (
-                    <img
+                    <Image
                       src={item.icon}
                       alt="icon"
+                      width={32}
+                      height={32}
                       className="w-8 h-8 object-contain"
                       style={{ imageRendering: 'pixelated' }}
                     />
@@ -317,9 +320,11 @@ export default function Timeline() {
                     ref={el => cellsRef.current[i] = el}
                     className="aspect-square flex items-center justify-center bg-[#e8e0d0] border-2 border-[#d4cbc0]"
                   >
-                    <img
-                      src="/assets/home/Timeline/pacman theme/pacman.png"
+                    <Image
+                      src="/assets/home/Timeline/pacman theme/pacman.webp"
                       alt="Pacman"
+                      width={56}
+                      height={56}
                       className="w-10 h-10 md:w-14 md:h-14 object-contain"
                       style={{ transform: 'scaleX(-1)', imageRendering: 'pixelated' }}
                     />
@@ -361,9 +366,11 @@ export default function Timeline() {
                   {/* Decorative image - no date */}
                   {isDecorative && decorativeImg && (
                     <div className="w-full h-full flex items-center justify-center">
-                      <img
+                      <Image
                         src={decorativeImg}
                         alt="decoration"
+                        width={56}
+                        height={56}
                         className="w-10 h-10 md:w-14 md:h-14 object-contain"
                         style={{ imageRendering: 'pixelated' }}
                       />
