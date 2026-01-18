@@ -102,7 +102,7 @@ const Trophy3D = ({ modelPath, className = "w-full h-[45vh]" }: { modelPath?: st
   return (
     <div className={`${className} relative`}>
       <Canvas
-        camera={{ position: [0, 0.5, 3], fov: 50 }}
+        camera={{ position: [0, -1.5, 5], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}

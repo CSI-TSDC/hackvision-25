@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import LenisProvider from "@/components/utils/LenisProvider";
 
 export const metadata: Metadata = {
   title: "Hackvision",
@@ -18,9 +19,11 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        <Navbar className={""} />
-        {children}
-        <Footer></Footer>
+        <LenisProvider>
+          <Navbar className={""} />
+          {children}
+          <Footer></Footer>
+        </LenisProvider>
       </body>
     </html>
   );

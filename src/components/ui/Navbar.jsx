@@ -64,6 +64,15 @@ export default function Navbar({ className = "" }) {
               <a
                 key={i}
                 href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const lenis = window.__lenis;
+                  if (lenis) {
+                    lenis.scrollTo(link.href, { duration: 1.2 });
+                  } else {
+                    document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 className="relative group hover:text-[#d2ff52] transition-all duration-300 cursor-pointer py-2"
               >
                 <span className="relative z-10 font-pixel-emulator tracking-wider text-[1.3vw]">{link.label.toUpperCase()}</span>
@@ -139,7 +148,16 @@ export default function Navbar({ className = "" }) {
                   key={i}
                   href={link.href}
                   className="flex items-center gap-3 py-3 text-white hover:text-[#d2ff52] transition-colors duration-200 cursor-pointer border-b border-white/5"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    const lenis = window.__lenis;
+                    if (lenis) {
+                      lenis.scrollTo(link.href, { duration: 1.2 });
+                    } else {
+                      document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
                 >
                   <span className="w-2 h-2 bg-[#d2ff52] opacity-60" />
                   <span className="font-pixel-emulator tracking-wider text-sm">{link.label.toUpperCase()}</span>

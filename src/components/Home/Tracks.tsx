@@ -104,8 +104,12 @@ export default function Tracks() {
     }
   }, [contentOpacity]);
 
+  // Strips animation with scroll velocity acceleration
   useEffect(() => {
     if (!stripsContainerRef.current) return;
+
+    // Keep track of strip positions for manual update
+    const stripPositions: { el: any; dir: number; pos: number; baseSpeed: number }[] = [];
 
     const ctx = gsap.context(() => {
       const strips = gsap.utils.toArray('.strip');
@@ -113,22 +117,45 @@ export default function Tracks() {
 
       strips.forEach((el: any, i: number) => {
         const dir = i % 2 === 0 ? 1 : -1;
-        const duration = 20 + i * 5; // Varied speeds for visual interest
+        const baseSpeed = 0.02 + i * 0.005; // Base speed per frame
 
         // Set initial position
         gsap.set(el, { xPercent: dir === 1 ? 0 : -50 });
-
-        // Continuous infinite loop animation
-        gsap.to(el, {
-          xPercent: dir === 1 ? -50 : 0,
-          duration: duration,
-          ease: 'none',
-          repeat: -1,
-        });
+        stripPositions.push({ el, dir, pos: dir === 1 ? 0 : -50, baseSpeed });
       });
     }, stripsContainerRef);
 
-    return () => ctx.revert();
+    // Animation loop that adds scroll velocity
+    let animationFrame: number;
+    const animate = () => {
+      const lenis = (window as any).__lenis;
+      const scrollVelocity = lenis ? Math.abs(lenis.velocity) * 0.05 : 0;
+
+      stripPositions.forEach((strip) => {
+        // Base speed + scroll velocity boost
+        const totalSpeed = strip.baseSpeed + scrollVelocity;
+
+        // Update position
+        if (strip.dir === 1) {
+          strip.pos -= totalSpeed;
+          if (strip.pos <= -50) strip.pos = 0;
+        } else {
+          strip.pos += totalSpeed;
+          if (strip.pos >= 0) strip.pos = -50;
+        }
+
+        gsap.set(strip.el, { xPercent: strip.pos });
+      });
+
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      ctx.revert();
+    };
   }, []);
 
   useEffect(() => {

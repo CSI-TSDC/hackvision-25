@@ -9,36 +9,50 @@ gsap.registerPlugin(ScrollTrigger);
 const Prizes = ({ className = "" }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const prizesWrapRef = useRef<HTMLDivElement | null>(null);
+  const podiumsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const infosRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const section = sectionRef.current;
     const prizesWrap = prizesWrapRef.current;
+    const podiums = podiumsRef.current.filter(Boolean);
+    const infos = infosRef.current.filter(Boolean);
 
     if (!section || !prizesWrap) return;
 
-    gsap.set(prizesWrap, { opacity: 0, y: 30 });
+    // Initial states
+    gsap.set(podiums, { y: 100, opacity: 0 });
+    gsap.set(infos, { opacity: 0, y: -20 });
 
     let triggers: ScrollTrigger[] = [];
 
     requestAnimationFrame(() => {
       const prizesFadeInTrigger = ScrollTrigger.create({
-        trigger: section,
-        start: 'top 60%',
+        trigger: prizesWrap,
+        start: 'top 50%',
         onEnter: () => {
-          gsap.to(prizesWrap, {
-            opacity: 1,
+          // Staggered animation - podiums slide up first (slower)
+          const tl = gsap.timeline();
+          tl.to(podiums, {
             y: 0,
+            opacity: 1,
             duration: 0.8,
+            stagger: 0.15,
             ease: 'power2.out',
-          });
+            delay: 0.2,
+          })
+            // Then trophy and info fade in after
+            .to(infos, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              stagger: 0.1,
+              ease: 'power2.out',
+            }, '-=0.3');
         },
         onLeaveBack: () => {
-          gsap.to(prizesWrap, {
-            opacity: 0,
-            y: 30,
-            duration: 0.5,
-            ease: 'power2.in',
-          });
+          gsap.to(podiums, { y: 100, opacity: 0, duration: 0.3 });
+          gsap.to(infos, { opacity: 0, y: -20, duration: 0.3 });
         },
       });
 
@@ -98,25 +112,27 @@ const Prizes = ({ className = "" }) => {
       <div className='relative w-full h-[70vh] md:h-max z-3'>
         <img src="/assets/home/Prizes/prizesbg-1.png" className='w-full h-full md:h-max relative object-cover object-top' alt="" />
         <div className='absolute bottom-0 w-full h-max hidden md:flex items-center justify-center'>
-          <div ref={prizesWrapRef} className="relative z-10 w-full flex flex-row gap-10 px-[8vw] justify-center items-center h-auto">
+          <div ref={prizesWrapRef} className="relative z-10 w-full flex flex-row gap-10 px-[8vw] translate-y-10 justify-center items-end h-auto">
             <div className='flex flex-col w-full h-auto justify-center items-center order-1'>
-              <div className='w-28 h-auto mb-8'>
-                <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
+              <div ref={el => { infosRef.current[0] = el; }} className='flex flex-col-reverse gap-12 justify-center items-center'>
+                <div className='w-28 h-auto mb-8'>
+                  <img className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" alt="Silver" />
+                </div>
+                <div className='flex flex-col gap-2 items-center'>
+                  <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
+                    <span>2nd Place</span>
+                  </span>
+                  <span className='text-[1.8vw] font-quinque bstrokeds text-[#BFC3C7]'>
+                    <span>25,000 RS</span>
+                  </span>
+                </div>
               </div>
-              <div className='flex flex-col justify-center items-center'>
-                <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
-                  <span>2nd Place</span>
-                </span>
-                <span className='text-[1.8vw] font-quinque bstrokeds text-[#BFC3C7]'>
-                  <span>25,000 RS</span>
-                </span>
-              </div>
-              <div className='w-full h-[25vh]'>
+              <div ref={el => { podiumsRef.current[0] = el; }} className='w-full h-[25vh]'>
                 <Podium3D color='#BFC3C7' className='w-full h-full' />
               </div>
             </div>
             <div className="flex flex-col w-full items-center justify-center order-2">
-              <div className='flex flex-col justify-center items-center font-quinque'>
+              <div ref={el => { infosRef.current[1] = el; }} className='flex flex-col justify-center items-center font-quinque'>
                 <span className='text-[3.6vh] text-white font-pixel-emulator bstrokeds'>
                   <span>1st Place</span>
                 </span>
@@ -124,32 +140,36 @@ const Prizes = ({ className = "" }) => {
                   <span>50,000 RS</span>
                 </span>
               </div>
-              <div className="w-full max-w-md h-[30vh]">
+              <div ref={el => { infosRef.current[2] = el; }} className="w-full max-w-md h-[30vh]">
                 <Trophy3D modelPath='/assets/home/Prizes/trophy.glb' className='w-full h-full' />
               </div>
-              <div className='w-full h-[30vh]'>
+              <div ref={el => { podiumsRef.current[1] = el; }} className='w-full h-[30vh]'>
                 <Podium3D color='#D4AF37' className='w-full h-full' />
               </div>
             </div>
             <div className='flex flex-col w-full h-auto justify-center items-center order-3'>
-              <div className='w-28 h-auto mb-8'>
-                <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
+
+              <div ref={el => { infosRef.current[3] = el; }} className='flex flex-col-reverse gap-12 justify-center items-center'>
+                <div className='w-28 h-auto mb-8'>
+                  <img className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" alt="Bronze" />
+                </div>
+                <div className='flex flex-col gap-2 items-center'>
+                  <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
+                    <span>3rd Place</span>
+                  </span>
+                  <span className='text-[1.8vw] font-quinque bstrokeds text-[#9C6B3D]'>
+                    <span>15,000 RS</span>
+                  </span>
+                </div>
+
               </div>
-              <div className='flex flex-col justify-center items-center'>
-                <span className='text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
-                  <span>3rd Place</span>
-                </span>
-                <span className='text-[1.8vw] font-quinque bstrokeds text-[#9C6B3D]'>
-                  <span>15,000 RS</span>
-                </span>
-              </div>
-              <div className='w-full h-[20vh]'>
+              <div ref={el => { podiumsRef.current[2] = el; }} className='w-full h-[25vh]'>
                 <Podium3D color='#9C6B3D' className='w-full h-full' />
               </div>
             </div>
           </div>
         </div>
-        <div className='absolute opacity-60 bottom-0 w-full flex justify-center text-[13vw]/[13.7vw] shadow-2xl font-quinque'>
+        <div className='absolute opacity-60 bottom-0 w-full flex justify-center text-[13vw]/[14vw] shadow-2xl font-quinque'>
           <span>PRIZES</span>
         </div>
       </div>
