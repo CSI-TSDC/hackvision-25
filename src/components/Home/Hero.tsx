@@ -81,14 +81,23 @@ export default function Hero() {
           priority
           className="absolute top-0 left-0 w-full h-full z-2 pointer-events-none block md:hidden"
         />
+
         <StarCanvas />
-        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
+        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] hidden md:block z-3 pointer-events-none">
           <Image
             src="/hero/pixel_layer.png"
             alt="Pixel Layer"
             width={1920}
             height={1080}
-            className="object-bottom w-full h-full z-5"
+            className="object-bottom w-full h-full z-5 hidden md:landscape:block lg:block"
+          />
+          <Image
+            src="/hero/tab_pixel.png"
+            alt="Frame"
+            width={1536}
+            height={2048}
+            priority
+            className="object-bottom w-full h-full z-5 hidden md:portrait:block lg:hidden"
           />
           <div className='w-full h-1/2 bg-[#3054e5]'></div>
         </div>
