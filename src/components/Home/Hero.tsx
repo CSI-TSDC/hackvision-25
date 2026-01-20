@@ -141,12 +141,51 @@ export default function Hero() {
               priority
             />
           </div>
-          <div className="font-pixel-emulator text-white text-[2vh] mb-6 md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
+          <div className="font-pixel-emulator text-white text-[2vh] mb-10 md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
             <p>24 Hours of Coding, Creativity & Chaos</p>
           </div>
 
-          {/* Pixel-style CTA Button */}
-          <PixelCTAButton />
+          {/* Pixel-style CTA Buttons */}
+          <div className="flex flex-col-reverse items-center md:flex-row-reverse gap-8">
+            {/* Long button - Problem Statements */}
+            <a
+              href="https://docs.google.com/document/d/1XTSru9dEsbVjpeD36SmxH1yrmUBp_te1OvnIsQFLRes/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative group cursor-pointer w-full md:w-[50vh]"
+            >
+              <div className="relative bg-amber-50 cta-button p-1.5 h-[7vh] z-10 -translate-y-3">
+                <div className="w-full h-full px-2 md:px-4 flex justify-center items-center bg-blue-600 group-hover:bg-yellow-400 cta-button text-white group-hover:text-black transition-colors duration-200">
+                  <p className="text-[1.3vh] md:text-[1.6vh] font-quinque whitespace-nowrap">
+                    View Problem Statements <span className='inline-block -ml-2'>→</span>
+                  </p>
+                </div>
+              </div>
+              <div className="top-0 left-0 w-full h-full absolute z-0 cta-button bg-blue-900 group-hover:bg-yellow-900 transition-colors duration-200" />
+            </a>
+
+            {/* Short button - View Tracks */}
+            <div
+              className="relative group cursor-pointer w-[25vh] md:w-[32vh]"
+              onClick={() => {
+                const tracksSection = document.getElementById('tracks');
+                if (tracksSection) {
+                  const rect = tracksSection.getBoundingClientRect();
+                  const scrollTarget = window.scrollY + rect.bottom - window.innerHeight;
+                  window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+                }
+              }}
+            >
+              <div className="relative bg-amber-50 cta-button p-1.5 h-[7vh] z-10 -translate-y-3">
+                <div className="w-full h-full flex justify-center items-center bg-blue-600 group-hover:bg-yellow-400 cta-button text-white group-hover:text-black transition-colors duration-200">
+                  <p className="text-[1.4vh] md:text-[1.8vh] font-quinque whitespace-nowrap">
+                    View Tracks
+                  </p>
+                </div>
+              </div>
+              <div className="top-0 left-0 w-full h-full absolute z-0 cta-button bg-blue-900 group-hover:bg-yellow-900 transition-colors duration-200" />
+            </div>
+          </div>
         </div>
       </section>
     </>

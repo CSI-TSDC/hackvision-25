@@ -71,10 +71,22 @@ export default function Navbar({ className = "" }) {
                 onClick={(e) => {
                   e.preventDefault();
                   const lenis = window.__lenis;
-                  if (lenis) {
+                  const target = document.querySelector(link.href);
+
+                  if (link.href === '#tracks' && target) {
+                    // Scroll so the bottom of tracks section aligns with viewport bottom
+                    const targetRect = target.getBoundingClientRect();
+                    const offset = -(window.innerHeight - targetRect.height);
+                    if (lenis) {
+                      lenis.scrollTo(link.href, { duration: 1.2, offset });
+                    } else {
+                      const scrollPosition = window.scrollY + targetRect.top + targetRect.height - window.innerHeight;
+                      window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+                    }
+                  } else if (lenis) {
                     lenis.scrollTo(link.href, { duration: 1.2 });
                   } else {
-                    document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                    target?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
                 className="relative group hover:text-[#d2ff52] transition-all duration-300 cursor-pointer py-2"
@@ -169,10 +181,22 @@ export default function Navbar({ className = "" }) {
                     e.preventDefault();
                     setIsMobileMenuOpen(false);
                     const lenis = window.__lenis;
-                    if (lenis) {
+                    const target = document.querySelector(link.href);
+
+                    if (link.href === '#tracks' && target) {
+                      // Scroll so the bottom of tracks section aligns with viewport bottom
+                      const targetRect = target.getBoundingClientRect();
+                      const offset = -(window.innerHeight - targetRect.height);
+                      if (lenis) {
+                        lenis.scrollTo(link.href, { duration: 1.2, offset });
+                      } else {
+                        const scrollPosition = window.scrollY + targetRect.top + targetRect.height - window.innerHeight;
+                        window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+                      }
+                    } else if (lenis) {
                       lenis.scrollTo(link.href, { duration: 1.2 });
                     } else {
-                      document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                      target?.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
                 >

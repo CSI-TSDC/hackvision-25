@@ -212,7 +212,7 @@ export default function Sponsors() {
 
                 {/* Sponsor Cards - All sponsors in rows of max 3 */}
                 <div ref={cardsRef} className="relative z-10 px-4">
-                    <div className="flex flex-wrap justify-center gap-4 md:gap-6 max-w-4xl mx-auto">
+                    <div className="flex flex-wrap justify-center gap-4 md:gap-6 max-w-6xl mx-auto">
                         {SPONSOR_CATEGORIES.flatMap((category, catIndex) =>
                             category.sponsors.map((sponsor, index) => (
                                 <div
