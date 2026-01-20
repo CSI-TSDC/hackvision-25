@@ -83,13 +83,21 @@ export default function Hero() {
         />
 
         <StarCanvas />
-        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] hidden md:block z-3 pointer-events-none">
+        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
           <Image
             src="/hero/pixel_layer.png"
             alt="Pixel Layer"
             width={1920}
             height={1080}
             className="object-bottom w-full h-full z-5 hidden md:landscape:block lg:block"
+          />
+          <Image
+            src="/hero/mob_pixel.png"
+            alt="Frame"
+            width={375}
+            height={812}
+            priority
+            className="object-bottom w-full h-full z-5 md:hidden"
           />
           <Image
             src="/hero/tab_pixel.png"
@@ -133,7 +141,7 @@ export default function Hero() {
               priority
             />
           </div>
-          <div className="font-pixel-emulator text-[2vh] mb-6 md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
+          <div className="font-pixel-emulator text-white text-[2vh] mb-6 md:text-[2.8vh] tracking-wide text-center font-bold md:ml-6">
             <p>24 Hours of Coding, Creativity & Chaos</p>
           </div>
 

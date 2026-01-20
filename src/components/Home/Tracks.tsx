@@ -160,31 +160,33 @@ export default function Tracks() {
   }, []);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const ctx = gsap.context(() => {
-      // Pin the section
       ScrollTrigger.create({
-        trigger: containerRef.current,
+        trigger: container,
         start: "top top",
         end: "+=120%",
         pin: true,
         pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
         onLeave: closeAllWindows,
         onLeaveBack: closeAllWindows,
       });
 
-      // Animate hands coming together with rotation
-      // Set initial rotation values - both start at 7deg
       gsap.set(leftHandRef.current, { rotation: 7 });
       gsap.set(rightHandRef.current, { rotation: 7 });
 
       gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: container,
           start: "top top",
           end: "+=100%",
-          scrub: true,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
-            // Start filling pixels when hands start getting close (after 50%)
             if (self.progress > 0.5) {
               const revealStart = 0.5;
               const revealEnd = 1;
@@ -198,20 +200,18 @@ export default function Tracks() {
       })
         .to(leftHandRef.current, { x: 0, rotation: 0, ease: 'none' }, 0)
         .to(rightHandRef.current, { x: 0, rotation: 0, ease: 'none' }, 0);
-    }, containerRef);
+    }, container);
 
     return () => ctx.revert();
   }, [closeAllWindows]);
 
   const handleImageDoubleClick = (src: string, title: string) => {
     setImageViewer({ src, title });
-    // Disable scroll when viewer is open
     document.body.style.overflow = 'hidden';
   };
 
   const handleCloseImageViewer = () => {
     setImageViewer(null);
-    // Re-enable scroll
     document.body.style.overflow = '';
   };
 
@@ -220,13 +220,11 @@ export default function Tracks() {
       title: 'readme.md',
       content: 'Problem statements for the Offline hackathon will be released a day prior to the hackathon.'
     });
-    // Disable scroll when viewer is open
     document.body.style.overflow = 'hidden';
   };
 
   const handleCloseTextViewer = () => {
     setTextViewer(null);
-    // Re-enable scroll
     document.body.style.overflow = '';
   };
 

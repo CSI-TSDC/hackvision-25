@@ -75,24 +75,8 @@ const Prizes = ({ className = "" }) => {
         });
       }
 
-      // Desktop-only pinning
+      // Mobile-only fade in animation
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": function () {
-          const tracksSection = document.getElementById('tracks');
-          if (tracksSection) {
-            const sectionPinTrigger = ScrollTrigger.create({
-              trigger: section,
-              start: 'bottom bottom',
-              endTrigger: tracksSection,
-              end: 'top bottom',
-              pin: section,
-              pinSpacing: false,
-              invalidateOnRefresh: true,
-            });
-            triggers.push(sectionPinTrigger);
-          }
-        },
-        // Mobile-only fade in animation
         "(max-width: 767px)": function () {
           if (mobileRef.current) {
             gsap.set(mobileRef.current, { opacity: 0, y: 30 });
@@ -153,7 +137,7 @@ const Prizes = ({ className = "" }) => {
     >
       <Image src="/assets/home/About/transition1.webp" width={1920} height={200} className="absolute w-full h-max object-cover z-4" alt="Transition" />
       <div className='relative w-full h-[70vh] md:h-max z-3'>
-        <Image src="/assets/home/Prizes/prizesbg-1.webp" width={1920} height={1080} className='w-full h-full md:h-max relative object-cover object-top' alt="Prizes Background" />
+        <Image src="/assets/home/Prizes/prizesbg-1.webp" width={1920} priority height={1080} className='w-full h-full md:h-max relative object-cover object-top' alt="Prizes Background" />
         <div className='absolute bottom-0 w-full h-max hidden md:flex items-center justify-center'>
           <div ref={prizesWrapRef} className="relative z-10 w-full max-w-[95vw] lg:max-w-[85vw] flex flex-row gap-4 lg:gap-10 px-[2vw] lg:px-[8vw] translate-y-10 justify-center items-end h-auto">
             <div className='flex flex-col w-[28vw] lg:w-full h-auto justify-center items-center order-1'>
@@ -179,7 +163,7 @@ const Prizes = ({ className = "" }) => {
                 <span className='text-[2.8vh] lg:text-[3.6vh] text-white font-pixel-emulator bstrokeds'>
                   <span>1st Place</span>
                 </span>
-                <span className='text-[2.5vw] lg:text-[2.2vw] bstrokeds text-[#D4AF37]'>
+                <span className='w-max text-[2vw] lg:text-[2vw] bstrokeds text-[#D4AF37]'>
                   <span>50,000 RS</span>
                 </span>
               </div>
@@ -217,7 +201,7 @@ const Prizes = ({ className = "" }) => {
         </div>
       </div>
       <div className='relative w-full h-[30vh] md:h-max z-2'>
-        <Image src="/assets/home/Prizes/prizesbg-2.webp" width={1920} height={600} className='w-full h-full md:h-max relative object-cover object-bottom' alt="Prizes Background" />
+        <Image src="/assets/home/Prizes/prizesbg-2.webp" priority width={1920} height={600} className='w-full h-full md:h-max relative object-cover object-bottom' alt="Prizes Background" />
       </div>
 
       {/* Mobile Prizes Layout - with fade in animation */}

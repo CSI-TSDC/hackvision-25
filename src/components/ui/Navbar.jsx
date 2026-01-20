@@ -27,27 +27,21 @@ export default function Navbar({ className = "" }) {
   return (
     <>
       <nav
-        className={`w-full flex ${isScrolled ? 'fixed' : 'fixed md:absolute'} ${isScrolled ? 'top-[3.5vh]' : 'top-0'} font-quinque h-[9vh] ${isScrolled ? '' : 'md:mt-[3.5vh]'} pt-[15px] text-sm ${className} justify-between items-stretch pl-[4vw] font-quinque text-[#f8f8f8] ${isScrolled ? 'z-[100]' : 'z-99 md:z-1'} transition-all duration-300`}
+        className={`w-full flex fixed font-quinque h-[9vh] md:pt-[15px] text-sm ${className} justify-between items-stretch md:pl-[4vw] text-[#f8f8f8] transition-all duration-300 ${isScrolled ? 'top-[3.5vh] z-[100]' : 'md:absolute top-0 md:mt-[3.5vh] z-99 md:z-1'}`}
         style={{
-          background: isMobileMenuOpen
-            ? 'linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%)'
-            : 'transparent',
-          backdropFilter: isMobileMenuOpen ? 'blur(12px)' : 'none',
-          WebkitBackdropFilter: isMobileMenuOpen ? 'blur(12px)' : 'none',
+          background: 'transparent',
         }}
       >
 
-        {/* Logo */}
-        <div className="w-max h-full flex items-center">
+        <div className="hidden md:flex w-max h-full items-center">
           <Image src="/assets/Logos/hackvision_logo.webp" width={192} height={48} className="w-48" alt="HackVision" />
         </div>
 
-        {/* Desktop Menu Container */}
-        <div id="nav" className="flex flex-1 w-auto justify-end h-full">
+        <div id="nav" className="hidden md:flex flex-1 w-auto justify-end h-full">
 
           {/* Glassmorphic Menu Bar */}
           <div
-            className="hidden md:flex h-full text-[0.8vw] w-[57vw] justify-between items-center pl-[50px] space-x-4 pr-[20px] relative overflow-hidden"
+            className="flex h-full text-[0.8vw] w-[57vw] justify-between items-center pl-[50px] space-x-4 pr-[20px] relative overflow-hidden"
             style={{
               background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.9) 100%)',
               backdropFilter: 'blur(12px)',
@@ -98,30 +92,43 @@ export default function Navbar({ className = "" }) {
 
           {/* Register Button */}
           <button
-            className='hidden md:flex items-center gap-2 md:text-[0.8vw] text-white hover:text-[#1a1a2e] bg-[#00b4d8] transition-all duration-300 cursor-pointer px-6 py-2 relative overflow-hidden group'
+            className='flex items-center gap-2 md:text-[0.8vw] text-white hover:text-[#1a1a2e] bg-[#00b4d8] transition-all duration-300 cursor-pointer px-6 py-2 relative overflow-hidden group'
             style={{
               clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
             }}
           >
             <a className='w-full' target='_blank' rel='noopener noreferrer' href="https://unstop.com/o/8YEQtVf?lb=xk26YO1e&utm_medium=Share&utm_source=abhadho42350&utm_campaign=Online_coding_challenge">
               {/* Hover overlay */}
-              <span
-                className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-              />
-
+              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
               {/* Pixel effect top-left */}
               <span className="absolute top-0 left-0 w-2 h-2 bg-[#1a1a2e] opacity-30" />
-
               {/* Button content */}
               <span className="relative z-10 font-pixel-emulator text-[#1a1a2e] tracking-widest text-[0.9vw]">REGISTER</span>
-
               {/* Arrow icon */}
               <span className="relative z-10 text-[#1a1a2e] group-hover:translate-x-1 transition-transform duration-200">→</span>
             </a>
           </button>
+        </div>
+
+        <div
+          className="md:hidden flex w-full h-full items-center justify-between px-[4vw]"
+          style={{
+            background: isMobileMenuOpen
+              ? 'linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%)'
+              : 'transparent',
+            backdropFilter: isMobileMenuOpen ? 'blur(12px)' : 'none',
+            WebkitBackdropFilter: isMobileMenuOpen ? 'blur(12px)' : 'none',
+            borderBottom: isMobileMenuOpen ? '2px solid rgba(0, 180, 216, 0.5)' : 'none',
+          }}
+        >
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Image src="/assets/Logos/hackvision_logo.webp" width={160} height={40} className="w-36" alt="HackVision" />
+          </div>
+
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden flex items-center justify-center w-10 h-10 text-white z-[101] relative mr-2"
+            className="flex items-center justify-center w-10 h-10 text-white z-[101] relative"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -134,10 +141,10 @@ export default function Navbar({ className = "" }) {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
           <div
-            className={`md:hidden ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[calc(3.5vh+9vh+15px)]' : 'top-full'} left-0 right-0 w-full shadow-lg z-[99]`}
+            className={`md:hidden ${isScrolled ? 'fixed' : 'absolute'} ${isScrolled ? 'top-[calc(3.5vh+9vh)]' : 'top-full'} left-0 right-0 w-full shadow-lg z-[99]`}
             style={{
               background: 'linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%)',
               backdropFilter: 'blur(12px)',
