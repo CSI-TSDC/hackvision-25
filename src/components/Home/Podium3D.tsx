@@ -4,6 +4,8 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import * as THREE from 'three';
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 interface PodiumModelProps {
     modelPath: string;
     color?: string;
@@ -11,7 +13,7 @@ interface PodiumModelProps {
 
 // Component for loading the OBJ model
 function PodiumModel({ modelPath, color = '#FFD700' }: PodiumModelProps) {
-    const obj = useLoader(OBJLoader, modelPath);
+    const obj = useLoader(OBJLoader, `${BASE_PATH}${modelPath}`);
     const groupRef = useRef<THREE.Group>(null);
 
     const clonedObj = useMemo(() => {

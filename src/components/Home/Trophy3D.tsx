@@ -4,9 +4,11 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 // Component for loading a 3D model
 function TrophyModel({ modelPath }: { modelPath: string }) {
-  const { scene } = useGLTF(modelPath);
+  const { scene } = useGLTF(`${BASE_PATH}${modelPath}`);
   const groupRef = useRef<THREE.Group>(null);
   const modelRef = useRef<THREE.Object3D | null>(null);
 
