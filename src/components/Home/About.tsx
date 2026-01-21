@@ -222,7 +222,7 @@ export default function About({ className = "" }) {
                             </span>
                             <div className="flex flex-col gap-1 text-[1.6vh] font-pixel-emulator uppercase">
                                 <span>21st January, 2025</span>
-                                <span>Starts at 10:00 AM</span>
+                                <span>Starts at 8:00 AM</span>
                             </div>
                         </div>
                     </div>
