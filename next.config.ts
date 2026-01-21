@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
-  basePath: "/hackvision",      // Add this - handles routing
+  basePath: "/hackvision",
   assetPrefix: "/hackvision",   // Handles static assets
   trailingSlash: true,
 };
