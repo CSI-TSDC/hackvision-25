@@ -7,13 +7,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Dynamically import StarCanvas with no SSR + loading priority adjustment
 const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-black" />
 });
 
-// Pixelated CTA Button with jagged retro pixel edges (blue variant)
 const PixelCTAButton = () => {
   return (
     <a
@@ -83,7 +81,7 @@ export default function Hero() {
         />
 
         <StarCanvas />
-        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none">
+        <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none hidden md:block">
           <Image
             src="/hero/pixel_layer.png"
             alt="Pixel Layer"
@@ -154,7 +152,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="relative group cursor-pointer w-full md:w-[50vh]"
             >
-              <div className="relative bg-amber-50 cta-button p-1.5 h-[7vh] z-10 -translate-y-3">
+              <div className="relative bg-amber-50 cta-button p-1.5 h-[7vh] z-10 -translate-y-3 group-hover:-translate-y-2">
                 <div className="w-full h-full px-2 md:px-4 flex justify-center items-center bg-blue-600 group-hover:bg-yellow-400 cta-button text-white group-hover:text-black transition-colors duration-200">
                   <p className="text-[1.3vh] md:text-[1.6vh] font-quinque whitespace-nowrap">
                     View Problem Statements <span className='inline-block -ml-2'>→</span>
@@ -164,27 +162,22 @@ export default function Hero() {
               <div className="top-0 left-0 w-full h-full absolute z-0 cta-button bg-blue-900 group-hover:bg-yellow-900 transition-colors duration-200" />
             </a>
 
-            {/* Short button - View Tracks */}
-            <div
+            {/* Short button - Register Now */}
+            <a
+              href="https://unstop.com/hackathons/hackvision-thakur-shyamnarayan-degree-college-mumbai-maharashtra-1620837"
+              target="_blank"
+              rel="noopener noreferrer"
               className="relative group cursor-pointer w-[25vh] md:w-[32vh]"
-              onClick={() => {
-                const tracksSection = document.getElementById('tracks');
-                if (tracksSection) {
-                  const rect = tracksSection.getBoundingClientRect();
-                  const scrollTarget = window.scrollY + rect.bottom - window.innerHeight;
-                  window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
-                }
-              }}
             >
-              <div className="relative bg-amber-50 cta-button p-1.5 h-[7vh] z-10 -translate-y-3">
+              <div className="relative bg-amber-50 cta-button p-1.5 h-[7vh] z-10 -translate-y-3 group-hover:-translate-y-2">
                 <div className="w-full h-full flex justify-center items-center bg-blue-600 group-hover:bg-yellow-400 cta-button text-white group-hover:text-black transition-colors duration-200">
                   <p className="text-[1.4vh] md:text-[1.8vh] font-quinque whitespace-nowrap">
-                    View Tracks
+                    Register Now!
                   </p>
                 </div>
               </div>
               <div className="top-0 left-0 w-full h-full absolute z-0 cta-button bg-blue-900 group-hover:bg-yellow-900 transition-colors duration-200" />
-            </div>
+            </a>
           </div>
         </div>
       </section>
