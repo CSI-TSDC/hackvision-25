@@ -187,7 +187,7 @@ const Prizes = ({ className = "" }) => {
                     <span>3rd Place</span>
                   </span>
                   <span className='text-[2vw] lg:text-[1.8vw] font-quinque bstrokeds text-[#9C6B3D]'>
-                    <span>15,000 RS</span>
+                    <span>10,000 RS</span>
                   </span>
                 </div>
 

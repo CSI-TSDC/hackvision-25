@@ -180,7 +180,7 @@ export default function Footer({ className = "" }) {
                                 <span className="font-pixel-emulator text-xs text-[#d2ff52]">HACKVISION 2026</span>
                             </div>
                             <span className="font-nikea text-white/40 text-sm">
-                                © 2025 ALL RIGHTS RESERVED
+                                © 6 ALL RIGHTS RESERVED
                             </span>
                         </div>
 

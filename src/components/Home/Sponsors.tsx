@@ -208,7 +208,7 @@ export default function Sponsors() {
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-1 bg-blue-600 opacity-60" />
                     </div>
                     <p className="mt-4 text-[#555] font-pixel-emulator text-[2vw] md:text-[1vw] tracking-widest uppercase">
-                        Thanks to our amazing sponsors
+                        Thanks to our amazing partners.
                     </p>
                 </div>
 
