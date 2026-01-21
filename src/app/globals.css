@@ -43,9 +43,7 @@ html.lenis body {
   }
 }
 
-body {
-  cursor: url('/cursor.png'), auto;
-}
+/* Custom cursor is applied via CursorProvider component to support assetPrefix */
 
 *,
 *::before,
@@ -56,30 +54,6 @@ body {
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@font-face {
-  font-family: 'Quinque';
-  src: url('/assets/Fonts/Quinque/Quinquefive-8OV1g.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pixel Emulator';
-  src: url('/assets/Fonts/Pixel Emulator/PixelEmulator-xq08.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nikea';
-  src: url('/assets/Fonts/Nikea/NIKEA.otf') format('opentype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Pixalic";
-  src: url('/assets/Fonts/italic.ttf') format('truetype');
-  font-display: swap;
 }
 
 @theme inline {
@@ -103,19 +77,19 @@ body {
 }
 
 .font-quinque {
-  font-family: 'Quinque', sans-serif;
+  font-family: var(--font-quinque), sans-serif;
 }
 
 .font-pixel-emulator {
-  font-family: 'Pixel Emulator', sans-serif;
+  font-family: var(--font-pixel-emulator), sans-serif;
 }
 
 .font-nikea {
-  font-family: 'Nikea', sans-serif;
+  font-family: var(--font-nikea), sans-serif;
 }
 
 .font-pixalic {
-  font-family: 'Pixalic';
+  font-family: var(--font-pixalic);
 }
 
 .arrow {
