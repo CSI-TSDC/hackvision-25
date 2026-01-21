@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: "/hackvision",
   assetPrefix: "/hackvision",
+  // NO basePath
 };
 
 export default nextConfig;
