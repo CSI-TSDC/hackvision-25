@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 // Tetris block shapes for decoration (similar to FAQ section)
 const TetrisBlocks = () => {
     const blocks = [
@@ -165,10 +167,10 @@ export default function Footer({ className = "" }) {
                                 {/* Logos */}
                                 <div className="flex items-center gap-4 md:mr-4">
                                     <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
-                                        <Image src="/assets/Logos/csi_logo.webp" width={48} height={48} className="w-full h-full object-contain" alt="CSI Logo" />
+                                        <Image src={`${BASE_PATH}/assets/Logos/csi_logo.webp`} width={48} height={48} className="w-full h-full object-contain" alt="CSI Logo" />
                                     </div>
                                     <div className="w-12 h-12 relative grayscale hover:grayscale-0 transition-all duration-300">
-                                        <Image src="/assets/Logos/tsdc_logo.webp" width={48} height={48} className="w-full h-full object-contain" alt="TSDC Logo" />
+                                        <Image src={`${BASE_PATH}/assets/Logos/tsdc_logo.webp`} width={48} height={48} className="w-full h-full object-contain" alt="TSDC Logo" />
                                     </div>
                                 </div>
                                 <span className="font-quinque text-lg tracking-wider">CSI x TSDC</span>

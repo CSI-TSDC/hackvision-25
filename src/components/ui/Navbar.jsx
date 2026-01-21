@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export default function Navbar({ className = "" }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +36,7 @@ export default function Navbar({ className = "" }) {
       >
 
         <div className="hidden md:flex w-max h-full items-center">
-          <Image src="/assets/Logos/hackvision_logo.webp" width={192} height={48} className="w-48" alt="HackVision" />
+          <Image src={`${BASE_PATH}/assets/Logos/hackvision_logo.webp`} width={192} height={48} className="w-48" alt="HackVision" />
         </div>
 
         <div id="nav" className="hidden md:flex flex-1 w-auto justify-end h-full">
@@ -135,7 +137,7 @@ export default function Navbar({ className = "" }) {
         >
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Image src="/assets/Logos/hackvision_logo.webp" width={160} height={40} className="w-36" alt="HackVision" />
+            <Image src={`${BASE_PATH}/assets/Logos/hackvision_logo.webp`} width={160} height={40} className="w-36" alt="HackVision" />
           </div>
 
           {/* Mobile Menu Button */}

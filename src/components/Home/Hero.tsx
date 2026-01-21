@@ -7,6 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const StarCanvas = dynamic(() => import("@/components/ui/StarCanvas"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-black" />
@@ -63,7 +65,7 @@ export default function Hero() {
         {/* Desktop frame */}
         <Image
           id='frame1'
-          src="/hero/frame.png"
+          src={`${BASE_PATH}/hero/frame.png`}
           alt="Frame"
           width={1920}
           height={1080}
@@ -72,7 +74,7 @@ export default function Hero() {
         />
         {/* Mobile frame */}
         <Image
-          src="/hero/mob_frame.png"
+          src={`${BASE_PATH}/hero/mob_frame.png`}
           alt="Frame"
           width={375}
           height={812}
@@ -83,14 +85,14 @@ export default function Hero() {
         <StarCanvas />
         <div id='frame2' className="absolute bottom-0 w-full h-[52.5vh] z-3 pointer-events-none hidden md:block">
           <Image
-            src="/hero/pixel_layer.png"
+            src={`${BASE_PATH}/hero/pixel_layer.png`}
             alt="Pixel Layer"
             width={1920}
             height={1080}
             className="object-bottom w-full h-full z-5 hidden md:landscape:block lg:block"
           />
           <Image
-            src="/hero/mob_pixel.png"
+            src={`${BASE_PATH}/hero/mob_pixel.png`}
             alt="Frame"
             width={375}
             height={812}
@@ -98,7 +100,7 @@ export default function Hero() {
             className="object-bottom w-full h-full z-5 md:hidden"
           />
           <Image
-            src="/hero/tab_pixel.png"
+            src={`${BASE_PATH}/hero/tab_pixel.png`}
             alt="Frame"
             width={1536}
             height={2048}
@@ -111,7 +113,7 @@ export default function Hero() {
         <div className="absolute w-[33vw] top-0 left-0 pt-[2.5vh] tracking-wider hidden md:flex flex-row items-stretch justify-center  pl-[2.2vw] z-5 text-[1.8vh] font-quinque">
           <div className="w-14 mr-6 relative h-14">
             <Image
-              src="/assets/Logos/csi_logo.webp"
+              src={`${BASE_PATH}/assets/Logos/csi_logo.webp`}
               alt="CSI Logo"
               fill
               className="object-contain"
@@ -132,7 +134,7 @@ export default function Hero() {
         <div className="absolute top-[28%] w-max max-w-[90vw] h-max left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10">
           <div className="w-[85vw] h-[20vh] md:w-[60vw] md:h-[20vh] mb-4 relative">
             <Image
-              src="/assets/Logos/hackvision_logo.webp"
+              src={`${BASE_PATH}/assets/Logos/hackvision_logo.webp`}
               alt="HackVision Logo"
               fill
               className="object-contain"

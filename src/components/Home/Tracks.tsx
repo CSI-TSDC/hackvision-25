@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const Star = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" className="mx-3">
     <path
@@ -20,11 +22,11 @@ const Dot = () => (
 );
 
 const IMAGES = [
-  '/assets/home/Tracks/webdev.webp',
-  '/assets/home/Tracks/aiml.webp',
-  '/assets/home/Tracks/cybersec.webp',
-  '/assets/home/Tracks/blockchain.webp',
-  '/assets/home/Tracks/campus.webp',
+  `${BASE_PATH}/assets/home/Tracks/webdev.webp`,
+  `${BASE_PATH}/assets/home/Tracks/aiml.webp`,
+  `${BASE_PATH}/assets/home/Tracks/cybersec.webp`,
+  `${BASE_PATH}/assets/home/Tracks/blockchain.webp`,
+  `${BASE_PATH}/assets/home/Tracks/campus.webp`,
 ];
 
 const TRACK_DATA = [
@@ -240,7 +242,7 @@ export default function Tracks() {
         <Image
           ref={leftHandRef}
           className="w-[45vw] mix-blend-color-dodge -translate-x-[30%] -rotate-10 z-20"
-          src="/assets/home/Tracks/lefthand.webp"
+          src={`${BASE_PATH}/assets/home/Tracks/lefthand.webp`}
           width={800}
           height={800}
           alt="Left Hand"
@@ -248,7 +250,7 @@ export default function Tracks() {
         <Image
           ref={rightHandRef}
           className="w-[45vw] mix-blend-color-dodge translate-x-[30%] rotate-10 z-20"
-          src="/assets/home/Tracks/righthand.webp"
+          src={`${BASE_PATH}/assets/home/Tracks/righthand.webp`}
           width={800}
           height={800}
           alt="Right Hand"

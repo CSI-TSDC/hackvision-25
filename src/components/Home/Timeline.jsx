@@ -6,16 +6,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 // Pacman theme images for decoration
 const DECORATIVE_DAYS = {
-  5: '/assets/home/Timeline/pacman theme/6.webp',
-  8: '/assets/home/Timeline/pacman theme/5.webp',
-  12: '/assets/home/Timeline/pacman theme/1.webp',
-  13: '/assets/home/Timeline/pacman theme/2.webp',
-  16: '/assets/home/Timeline/pacman theme/3.webp',
-  17: '/assets/home/Timeline/pacman theme/7.webp',
-  24: '/assets/home/Timeline/pacman theme/4.webp',
-  31: '/assets/home/Timeline/pacman theme/8.webp',
+  5: `${BASE_PATH}/assets/home/Timeline/pacman theme/6.webp`,
+  8: `${BASE_PATH}/assets/home/Timeline/pacman theme/5.webp`,
+  12: `${BASE_PATH}/assets/home/Timeline/pacman theme/1.webp`,
+  13: `${BASE_PATH}/assets/home/Timeline/pacman theme/2.webp`,
+  16: `${BASE_PATH}/assets/home/Timeline/pacman theme/3.webp`,
+  17: `${BASE_PATH}/assets/home/Timeline/pacman theme/7.webp`,
+  24: `${BASE_PATH}/assets/home/Timeline/pacman theme/4.webp`,
+  31: `${BASE_PATH}/assets/home/Timeline/pacman theme/8.webp`,
 }
 
 const calendarData = [
@@ -172,13 +174,13 @@ export default function Timeline() {
 
   // Mobile list data - only HackVision dates
   const mobileListData = [
-    { day: 9, type: 'hackvision', title: 'Registration Opens', icon: '/assets/home/Timeline/pacman theme/6.webp' },
-    { day: 14, type: 'occasion', title: 'Makar Sankranti', icon: '/assets/home/Timeline/pacman theme/7.webp' },
-    { day: 17, type: 'hackvision', title: 'Registration Closes', icon: '/assets/home/Timeline/pacman theme/6.webp' },
-    { day: 20, type: 'hackvision', title: 'Teams Announced', icon: '/assets/home/Timeline/pacman theme/1.webp' },
-    { day: 21, type: 'hackvision', title: 'Problems Revealed', icon: '/assets/home/Timeline/pacman theme/4.webp' },
-    { day: 22, type: 'hackday', title: 'Hackathon Day 1', icon: '/assets/home/Timeline/pacman theme/6.webp' },
-    { day: 23, type: 'hackday', title: 'Hackathon Day 2', icon: '/assets/home/Timeline/pacman theme/1.webp' },
+    { day: 9, type: 'hackvision', title: 'Registration Opens', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/6.webp` },
+    { day: 14, type: 'occasion', title: 'Makar Sankranti', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/7.webp` },
+    { day: 17, type: 'hackvision', title: 'Registration Closes', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/6.webp` },
+    { day: 20, type: 'hackvision', title: 'Teams Announced', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/1.webp` },
+    { day: 21, type: 'hackvision', title: 'Problems Revealed', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/4.webp` },
+    { day: 22, type: 'hackday', title: 'Hackathon Day 1', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/6.webp` },
+    { day: 23, type: 'hackday', title: 'Hackathon Day 2', icon: `${BASE_PATH}/assets/home/Timeline/pacman theme/1.webp` },
   ]
 
   return (
@@ -321,7 +323,7 @@ export default function Timeline() {
                     className="aspect-square flex items-center justify-center bg-[#e8e0d0] border-2 border-[#d4cbc0]"
                   >
                     <Image
-                      src="/assets/home/Timeline/pacman theme/pacman.webp"
+                      src={`${BASE_PATH}/assets/home/Timeline/pacman theme/pacman.webp`}
                       alt="Pacman"
                       width={56}
                       height={56}

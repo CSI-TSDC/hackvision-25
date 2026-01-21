@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const TetrisBlocks = () => {
     const blocks = [
         // L-piece
@@ -168,7 +170,7 @@ export default function FAQs({ className = "" }) {
             className={`relative w-full bg-[#212529] pt-[20vh] md:pt-[45vh] pb-20 text-white overflow-hidden ${className}`}
         >
             <div className="absolute top-0 left-0 w-full h-max bg-[#212529] overflow-hidden">
-                <Image src="/assets/home/Sponsors/transition2.webp" width={1920} height={200} className='w-full h-max' alt="Transition" />
+                <Image src={`${BASE_PATH}/assets/home/Sponsors/transition2.webp`} width={1920} height={200} className='w-full h-max' alt="Transition" />
             </div>
             <TetrisBlocks />
 

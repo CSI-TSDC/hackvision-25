@@ -6,6 +6,8 @@ import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 // Pixel Sponsor Card Component
 const PixelSponsorCard = ({ number, logo, alt, size, title, companyName }: { number: number; logo: string; alt: string; size: string; title: string; companyName: string }) => {
     return (
@@ -221,7 +223,7 @@ export default function Sponsors() {
                                 >
                                     <PixelSponsorCard
                                         number={catIndex * 10 + index + 1}
-                                        logo={`/assets/home/Sponsors/${category.folder}/${sponsor.file}`}
+                                        logo={`${BASE_PATH}/assets/home/Sponsors/${category.folder}/${sponsor.file}`}
                                         alt={sponsor.name}
                                         size="w-[20vh] md:w-[10vw] h-auto"
                                         title={category.title}

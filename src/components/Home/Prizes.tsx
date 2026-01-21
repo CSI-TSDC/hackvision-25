@@ -7,6 +7,8 @@ import Trophy3D from './Trophy3D';
 import Podium3D from './Podium3D';
 gsap.registerPlugin(ScrollTrigger);
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const Prizes = ({ className = "" }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const prizesWrapRef = useRef<HTMLDivElement | null>(null);
@@ -135,15 +137,15 @@ const Prizes = ({ className = "" }) => {
       className={`w-full relative 
          ${className} flex flex-col h-max overflow-hidden z-4`}
     >
-      <Image src="/assets/home/About/transition1.webp" width={1920} height={200} className="absolute w-full h-max object-cover z-4" alt="Transition" />
+      <Image src={`${BASE_PATH}/assets/home/About/transition1.webp`} width={1920} height={200} className="absolute w-full h-max object-cover z-4" alt="Transition" />
       <div className='relative w-full h-[70vh] md:h-max z-3'>
-        <Image src="/assets/home/Prizes/prizesbg-1.webp" width={1920} priority height={1080} className='w-full h-full md:h-max relative object-cover object-top' alt="Prizes Background" />
+        <Image src={`${BASE_PATH}/assets/home/Prizes/prizesbg-1.webp`} width={1920} priority height={1080} className='w-full h-full md:h-max relative object-cover object-top' alt="Prizes Background" />
         <div className='absolute bottom-0 w-full h-max hidden md:flex items-center justify-center'>
           <div ref={prizesWrapRef} className="relative z-10 w-full max-w-[95vw] lg:max-w-[85vw] flex flex-row gap-4 lg:gap-10 px-[2vw] lg:px-[8vw] translate-y-10 justify-center items-end h-auto">
             <div className='flex flex-col w-[28vw] lg:w-full h-auto justify-center items-center order-1'>
               <div ref={el => { infosRef.current[0] = el; }} className='flex flex-col-reverse gap-6 lg:gap-12 justify-center items-center'>
                 <div className='w-20 lg:w-28 h-auto mb-4 lg:mb-8'>
-                  <Image className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" width={112} height={112} alt="Silver" unoptimized />
+                  <Image className="w-full h-full object-contain" src={`${BASE_PATH}/assets/home/Prizes/silver.gif`} width={112} height={112} alt="Silver" unoptimized />
                 </div>
                 <div className='flex flex-col gap-1 lg:gap-2 items-center'>
                   <span className='text-[2.5vh] lg:text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
@@ -178,7 +180,7 @@ const Prizes = ({ className = "" }) => {
 
               <div ref={el => { infosRef.current[3] = el; }} className='flex flex-col-reverse gap-6 lg:gap-12 justify-center items-center'>
                 <div className='w-20 lg:w-28 h-auto mb-4 lg:mb-8'>
-                  <Image className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" width={112} height={112} alt="Bronze" unoptimized />
+                  <Image className="w-full h-full object-contain" src={`${BASE_PATH}/assets/home/Prizes/bronze.gif`} width={112} height={112} alt="Bronze" unoptimized />
                 </div>
                 <div className='flex flex-col gap-1 lg:gap-2 items-center'>
                   <span className='text-[2.5vh] lg:text-[3.2vh] bstrokeds text-white font-pixel-emulator'>
@@ -201,7 +203,7 @@ const Prizes = ({ className = "" }) => {
         </div>
       </div>
       <div className='relative w-full h-[30vh] md:h-max z-2'>
-        <Image src="/assets/home/Prizes/prizesbg-2.webp" priority width={1920} height={600} className='w-full h-full md:h-max relative object-cover object-bottom' alt="Prizes Background" />
+        <Image src={`${BASE_PATH}/assets/home/Prizes/prizesbg-2.webp`} priority width={1920} height={600} className='w-full h-full md:h-max relative object-cover object-bottom' alt="Prizes Background" />
       </div>
 
       {/* Mobile Prizes Layout - with fade in animation */}
@@ -216,7 +218,7 @@ const Prizes = ({ className = "" }) => {
           {/* 1st Place Box */}
           <div className="w-full bg-[#1a3a8a]/80 backdrop-blur-sm border-2 border-[#4a7fff] rounded-lg p-3 flex items-center gap-4">
             <div className='w-10 h-10 shrink-0'>
-              <Image className="w-full h-full object-contain" src="/assets/home/Prizes/gold.gif" width={40} height={40} alt="Gold" unoptimized />
+              <Image className="w-full h-full object-contain" src={`${BASE_PATH}/assets/home/Prizes/gold.gif`} width={40} height={40} alt="Gold" unoptimized />
             </div>
             <div className='flex flex-col'>
               <span className='text-sm text-white font-pixel-emulator'>
@@ -231,7 +233,7 @@ const Prizes = ({ className = "" }) => {
           {/* 2nd Place Box */}
           <div className="w-full bg-[#3a6adf]/60 backdrop-blur-sm border-2 border-[#6a9fff] rounded-lg p-3 flex items-center gap-4">
             <div className='w-10 h-10 shrink-0'>
-              <Image className="w-full h-full object-contain" src="/assets/home/Prizes/silver.gif" width={40} height={40} alt="Silver" unoptimized />
+              <Image className="w-full h-full object-contain" src={`${BASE_PATH}/assets/home/Prizes/silver.gif`} width={40} height={40} alt="Silver" unoptimized />
             </div>
             <div className='flex flex-col'>
               <span className='text-sm text-white font-pixel-emulator'>
@@ -246,7 +248,7 @@ const Prizes = ({ className = "" }) => {
           {/* 3rd Place Box */}
           <div className="w-full bg-[#5a8aff]/50 backdrop-blur-sm border-2 border-[#8ab0ff] rounded-lg p-3 flex items-center gap-4">
             <div className='w-10 h-10 shrink-0'>
-              <Image className="w-full h-full object-contain" src="/assets/home/Prizes/bronze.gif" width={40} height={40} alt="Bronze" unoptimized />
+              <Image className="w-full h-full object-contain" src={`${BASE_PATH}/assets/home/Prizes/bronze.gif`} width={40} height={40} alt="Bronze" unoptimized />
             </div>
             <div className='flex flex-col'>
               <span className='text-sm text-white font-pixel-emulator'>

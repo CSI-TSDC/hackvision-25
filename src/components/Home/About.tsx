@@ -4,20 +4,22 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import NextImage from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 export default function About({ className = "" }) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [iconIndices, setIconIndices] = useState<[number, number, number]>([0, 1, 2]);
 
     // Array of 5 images
     const iconImages = [
-        '/assets/home/About/icons/img1.webp',
-        '/assets/home/About/icons/img2.webp',
-        '/assets/home/About/icons/img3.webp',
-        '/assets/home/About/icons/img4.webp',
-        '/assets/home/About/icons/img5.webp',
-        '/assets/home/About/icons/img6.webp',
-        '/assets/home/About/icons/img7.webp',
-        '/assets/home/About/icons/img8.webp',
+        `${BASE_PATH}/assets/home/About/icons/img1.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img2.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img3.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img4.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img5.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img6.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img7.webp`,
+        `${BASE_PATH}/assets/home/About/icons/img8.webp`,
     ];
 
     useEffect(() => {
@@ -28,7 +30,7 @@ export default function About({ className = "" }) {
         if (!ctx) return;
 
         const img = new Image();
-        img.src = "/assets/home/About/trophy.webp";
+        img.src = `${BASE_PATH}/assets/home/About/trophy.webp`;
 
         img.onload = () => {
             const rect = canvas.getBoundingClientRect();
